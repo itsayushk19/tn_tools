@@ -1,43 +1,50 @@
-import 'styles/globals.scss'
-import 'styles/Header.scss'
-import 'styles/pageLayout.scss'
-import 'styles/Archieve.scss'
-import '@fortawesome/fontawesome-free/css/all.min.css'
-import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google'
-import { useState, useEffect } from 'react'
-import Router from 'next/router'
-import TopLoadingBar from 'react-top-loading-bar'
-import Script from 'next/script'
+import 'styles/globals.scss';
+import 'styles/Header.scss';
+import 'styles/pageLayout.scss';
+import 'styles/Archieve.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Router from 'next/router';
+import TopLoadingBar from 'react-top-loading-bar';
+import Script from 'next/script';
+import MobileErrorPage from './MobileError';
 
-const space = Space_Grotesk({ subsets: ['latin'] })
-const manrope = Manrope({ subsets: ['latin'] })
-const pt_mono = PT_Mono({ subsets: ['latin'], weight: ['400'] })
-
+const space = Space_Grotesk({ subsets: ['latin'] });
+const manrope = Manrope({ subsets: ['latin'] });
+const pt_mono = PT_Mono({ subsets: ['latin'], weight: ['400'] });
 
 export default function App({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false)
-  const [progress, setProgress] = useState(0)
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const start = () => {
-      setLoading(true)
-      setProgress(0)
-    }
+      setLoading(true);
+      setProgress(0);
+    };
     const done = () => {
-      setLoading(false)
-      setProgress(100)
-    }
+      setLoading(false);
+      setProgress(100);
+    };
 
-    Router.events.on('routeChangeStart', start)
-    Router.events.on('routeChangeComplete', done)
-    Router.events.on('routeChangeError', done)
+    Router.events.on('routeChangeStart', start);
+    Router.events.on('routeChangeComplete', done);
+    Router.events.on('routeChangeError', done);
 
     return () => {
-      Router.events.off('routeChangeStart', start)
-      Router.events.off('routeChangeComplete', done)
-      Router.events.off('routeChangeError', done)
-    }
-  }, [])
+      Router.events.off('routeChangeStart', start);
+      Router.events.off('routeChangeComplete', done);
+      Router.events.off('routeChangeError', done);
+    };
+  }, []);
+
+  const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+
+  if (isMobileDevice) {
+    return <MobileErrorPage />;
+  }
 
   return (
     <>
