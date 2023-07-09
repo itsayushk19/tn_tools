@@ -2,7 +2,7 @@ import ArchieveLayout from "components/layouts/Archieve";
 import {getCategory, getAllToolsCategorized } from "/utils/tools";
 import Header from "components/site/Header";
 import Image from "next/image";
-import slugify from "slugify";
+import Head from "next/head"
 import ToolsSVG from "public/icons/tools/tools.svg";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
@@ -38,6 +38,10 @@ export default function AllCategories({
 
   return (
     <>
+    <Head>
+      <title>Free WebTools By TechNeg | Coding, Hashing & Encryption, Converters & More!</title>
+      <meta name="description" content="Discover a collection of free web tools that can simplify your development workflow. From code minifiers and validators to image compressors and color pickers, our website offers a variety of handy tools to enhance your web development experience." />
+    </Head>
       <Header categorizedTools={categorizedTools} />
       <main className="archieve_container">
         <div className="archieve_hero hero_1">

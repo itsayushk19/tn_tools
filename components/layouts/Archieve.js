@@ -4,6 +4,7 @@ import slugify from "slugify";
 import Banner from "public/vercel.svg";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import Script from "next/script";
 
 export default function ArchieveLayout({
   children,
@@ -72,20 +73,27 @@ export default function ArchieveLayout({
           </div>
         </div>
         <div className="archieve_banner banner_1">
-          <script
-            async
+          <Script
+            id="adsense-script"
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8723963383146816"
+            strategy="afterInteractive"
             crossorigin="anonymous"
-          ></script>
+          />
           <ins
-            class="adsbygoogle"
-            style="display:block"
+            className="adsbygoogle"
+            style={{ display: "block" }}
             data-ad-client="ca-pub-8723963383146816"
             data-ad-slot="9405526505"
             data-ad-format="auto"
             data-full-width-responsive="true"
-          ></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          />
+          <Script
+            id="adsense-script-push"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `(adsbygoogle = window.adsbygoogle || []).push({});`,
+            }}
+          />
         </div>
         <div id="toolbox" className="archieve_collection">
           <div className="collection_titlebar">
@@ -158,22 +166,7 @@ export default function ArchieveLayout({
             ))}
           </div>
         </div>
-        <div className="archieve_banner banner_2">
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8723963383146816"
-            crossorigin="anonymous"
-          ></script>
-          <ins
-            class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-8723963383146816"
-            data-ad-slot="8659937962"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <div className="archieve_banner banner_2"></div>
         <div className="archieve_hero hero_2">
           <div className="hero_inner">
             <div className="hero_left">
