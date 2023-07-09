@@ -1,0 +1,116 @@
+@import "variables";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  margin: 0px;
+  padding: 0px;
+  scroll-behavior: smooth;
+}
+
+main {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &[title]:hover:after {
+    content: attr(title);
+    padding: 5px;
+    color: #fff;
+    font-size: $fontSizes-1;
+    background-color: $colors-violet9;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: $zIndices-max;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: $fontSizes-8;
+}
+
+h2 {
+  font-size: $fontSizes-7;
+}
+
+h3 {
+  font-size: $fontSizes-6;
+}
+
+h4 {
+  font-size: $fontSizes-5;
+}
+
+h5 {
+  font-size: $fontSizes-5;
+}
+
+ul {
+  padding-left: $space-5;
+
+  li {
+    list-style-type: circle;
+    padding: $space-1;
+  }
+}
+
+ol {
+  padding-left: $space-5;
+
+  li {
+    list-style-type: upper-roman;
+    padding: $space-1;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background: $colors-violet5;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $colors-violet8;
+  border-radius: $radii-pill;
+  cursor: pointer;
+}
+
+::-moz-selection {
+  color: white;
+  background: $colors-violet9;
+}
+
+::selection {
+  color: white;
+  background: $colors-violet9;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px antiquewhite inset !important;
+}

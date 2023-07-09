@@ -1,0 +1,103 @@
+@import 'grid';
+@import 'styles/variables';
+
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
+.form__field{
+    border: 1px solid $colors-gray6;
+    border-radius: $radii-2;
+    box-sizing: border-box;
+    padding: $space-3;
+    resize: none;
+    font-size: $fontSizes-3;
+    color: rgb(38, 39, 75);
+    font-weight: 400;
+    outline: none;
+    width: 100%;
+    color: $colors-text;
+    padding: $space-6 $space-5;
+    background: white;
+    transition: border-color 0.2s;
+  
+    &::placeholder {
+      color: transparent;
+    }
+  
+    &:placeholder-shown ~ .form__label {
+      font-size: $fontSizes-3;
+      color: rgb(115, 115, 143);
+      cursor: text;
+      top: $space-5;
+    }
+}
+
+.form_field_large{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+}
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+}
+.form__label {
+  position: absolute;
+  top: $space-2;
+  display: block;
+  transition: 0.2s;
+  font-size: $fontSizes-1;
+  padding: $space-3 $space-5; 
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: $space-2;
+    display: block;
+    transition: 0.2s;
+    font-size: $fontSizes-1;
+  }
+  padding-bottom: 6px;  
+  font-weight: 400;
+  border: 2px solid $colors-violet8;
+}
+
+.form__field.readonly:focus{
+  ~ .form__label{
+    top: $space-5;
+    font-size: $fontSizes-3;
+  }
+  border: 1px solid $colors-gray6;
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
+}
+
+.savedPercentile, .tn_button{
+  transition: 0.3s ease;
+}
+
+.dropZone{
+  width: 90%;
+  margin: 0% 10%;
+  height: 30vh;
+  border: 2px dashed $colors-violet10;
+  box-shadow: $colors-violet5 0px 2px 3px;
+  transition: 0.3s ease-in-out;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $colors-violet3;
+  cursor: pointer;
+
+  &:hover{
+    box-shadow: $colors-violet3 0px 8px 24px;
+  }
+}
+

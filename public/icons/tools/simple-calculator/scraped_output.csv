@@ -1,0 +1,64 @@
+ID,URL,Title,Meta Description,Meta Keywords,Tags,Summary,Text,Top Image
+1,https://wccftech.com/pirate-bay-sold/,The Pirate Bay sold for US$ 7.8 million,,,Industry,"In a rather interesting development today, a Swedish software company Global Gaming Factory X AB just announced that it has acquired The Pirate Bay website, for a sum of 60 million SEK (USD 7.8 million).
+This news has also been confirmed by The Pirate Bay.
+While for its loyal users, it marks the end of an era.
+But what is still left to be seen is how the change in ownership shall affect The Pirate Bay, its clout over the file sharing industry and its users.
+Click here [pdf] to read the press release from Global Gaming Factory X AB.","In a rather interesting development today, a Swedish software company Global Gaming Factory X AB just announced that it has acquired The Pirate Bay website, for a sum of 60 million SEK (USD 7.8 million). This news has also been confirmed by The Pirate Bay.
+
+While for its loyal users, it marks the end of an era. But what is still left to be seen is how the change in ownership shall affect The Pirate Bay, its clout over the file sharing industry and its users.
+
+Click here [pdf] to read the press release from Global Gaming Factory X AB.",https://cdn.wccftech.com/wp-content/uploads/2022/12/cover-home-1.jpg
+3,https://wccftech.com/so-what-have-we-done-so-far/,"So, what have we done, so far?",,,General,"Here is a concise update on the work that we've done on our new front-end, as of yet.
+vBulletin login module is now being called on to WP front, in order to allow users to sign up and sign in, right here - at the frontend.
+We're now using a rating system for our reviews.
+We've also implemented a comment rating system.
+Most of the work on the visuals of the site is already complete, along with its assorted customizations.","Here is a concise update on the work that we've done on our new front-end, as of yet.
+
+vBulletin user-table integrated with that of wordpress (WP - from now on), hence allowing forum users to post comments (using their own ids) and to 'vote' on reviews.
+
+vBulletin login module is now being called on to WP front, in order to allow users to sign up and sign in, right here - at the frontend.
+
+We're now using a rating system for our reviews. It consists of two parts; the first shall show you our own rating of a particular product, whilst the second rating module will take into account your (user) votes in order to rate a particular article that has been reviewed by us.
+
+We've also implemented a comment rating system. You can now rate comments under each posted article, review or news item.
+
+A featured items gallery shall show you our top five featured news items, reviews and articles.
+
+SEO work is complete.
+
+Most of the work on the visuals of the site is already complete, along with its assorted customizations. The reason you're not seeing it is because of a lack of content. As soon as we've got a few reviews injected in to the dbase, we'll show you the 'true' front-end of Wccftech.com
+
+And not to forget, I'm thankful to Sohail Abid (@selfexile on twitter) for his excellent work at enhancing site functionality and putting different aspects of the UI together. I've to say that even thinking about Pakistani web developers and designers left a bad taste in my mouth, considering the amount of crap that we've been put through in the last few months at the hands of several local developers / designers.
+
+But this guy did, what he said that he'd do - within a single day. Props to you, my friend.
+
+As for you; users, we still have got a lot of ground to cover. So stay put and enjoy the ride. 😉",https://cdn.wccftech.com/wp-content/uploads/2022/12/cover-home-1.jpg
+4,https://wccftech.com/wccftech-facing-malware-attack/,Wccftech facing a malware attack,,,General,"Wccftech.com is currently facing a very harsh malware attack, which is manifesting in different infections even after manual cleaning of the code has taken place.
+So kindly, bear with us, as we're working hard to recover the forum, and rest of the website's sections.
+Keep watching this space for further information.","Wccftech.com is currently facing a very harsh malware attack, which is manifesting in different infections even after manual cleaning of the code has taken place. So kindly, bear with us, as we're working hard to recover the forum, and rest of the website's sections.
+
+Keep watching this space for further information.",https://cdn.wccftech.com/wp-content/uploads/2022/12/cover-home-1.jpg
+5,https://wccftech.com/apple-offers-full-refund-grieved-iphone-4-users/,Apple offers full refund to ‘grieved’ iPhone 4 users,,,Mobile,"While Steve Jobs gave no clear indication of how Apple plans on taking care of hardware aspects of the antenna(gate?)
+problem, with iPhone 4.
+He played really smart by offering anyone with an iPhone 4, to apply for a free case in order to get rid of falling 3G signals.
+And just in case that does not work for you, you can still return an 'undamaged' iPhone 4 back to Apple and get a full refund within 30 days of return of the item.","While Steve Jobs gave no clear indication of how Apple plans on taking care of hardware aspects of the antenna(gate?) problem, with iPhone 4. He played really smart by offering anyone with an iPhone 4, to apply for a free case in order to get rid of falling 3G signals.
+
+And just in case that does not work for you, you can still return an 'undamaged' iPhone 4 back to Apple and get a full refund within 30 days of return of the item.",https://cdn.wccftech.com/wp-content/uploads/2010/07/gdgt-iphone-4-event_013-300x199.jpg
+6,https://wccftech.com/video-iphone-4-fully-jailbroken/,First video of the iPhone 4 fully jailbroken,,,Mobile,"Uptil now the iPhone 4 jailbreak has been mentioned many times by many hackers though all we get are some pictures or confirmations regarding jailbreaking tool releases.
+Saurik (Jay Freeman) who is the creator of Cydia has now shown an actual video of a jailbroken iPhone4.
+In this video, which is basically an interview of Saurik on Make it Work, there is a brief glimpse of a jailbroken iPhone 4.","Uptil now the iPhone 4 jailbreak has been mentioned many times by many hackers though all we get are some pictures or confirmations regarding jailbreaking tool releases.
+
+Saurik (Jay Freeman) who is the creator of Cydia has now shown an actual video of a jailbroken iPhone4. In this video, which is basically an interview of Saurik on Make it Work, there is a brief glimpse of a jailbroken iPhone 4.
+
+Source",https://cdn.wccftech.com/wp-content/uploads/2022/12/cover-home-1.jpg
+7,https://wccftech.com/nvidia-gf106-based-reference-pcbs-drawing-revealed/,Nvidia GF106 Based Reference PCB’s drawing revealed.,,,Hardware,"Picture's of what is supposed to be the Refrence PCB of Nvidia's upcoming GF106 Architecture based card have been revelaed which had been published at PCinlife forum.
+According to some the PCB will be of Nvidia's Upcoming mainstream card, The GTS 450.
+This news has also come two days after Nvidia revealed it was redying the GTS 450 GPU.
+The six memory chips on the cards show that the card may turn out to be 192-bit but the lock down of tww of the chips can make it 128-Bit.
+However the details about the card will be released till end of August.","Picture's of what is supposed to be the Refrence PCB of Nvidia's upcoming GF106 Architecture based card have been revelaed which had been published at PCinlife forum. According to some the PCB will be of Nvidia's Upcoming mainstream card, The GTS 450. This news has also come two days after Nvidia revealed it was redying the GTS 450 GPU.
+
+As compared to the GF104 Architecture, GF106 has a square chip and the PCB reveals a six memory chip configuration and a 3+1 Phase power design, Along with these the card comes with a Single 6-Pin PCI-e Connector and a single SLI Connector. The display outputs include a Mine-HDMI and Two DVI connectors.
+
+The six memory chips on the cards show that the card may turn out to be 192-bit but the lock down of tww of the chips can make it 128-Bit. However the details about the card will be released till end of August.
+
+Source",https://wccftech.com/images/news/GF-106-drawings-revealed/97a.jpg

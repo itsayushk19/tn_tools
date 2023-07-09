@@ -1,0 +1,156 @@
+// Colors
+$colors-text: rgb(38, 39, 75);
+$colors-button-bg: #6c6cfe;
+$colors-button-hover: #6161e4;
+$colors-pink1: hsl(322 100% 99.4%);
+$colors-pink2: hsl(323 100% 98.4%);
+$colors-pink3: hsl(323 86.3% 96.5%);
+$colors-pink4: hsl(323 78.7% 94.2%);
+$colors-pink5: hsl(323 72.2% 91.1%);
+$colors-pink6: hsl(323 66.3% 86.6%);
+$colors-pink7: hsl(323 62% 80.1%);
+$colors-pink8: hsl(323 60.3% 72.4%);
+$colors-pink9: hsl(322 65% 54.5%);
+$colors-pink10: hsl(322 63.9% 50.7%);
+$colors-pink11: hsl(322 75% 46%);
+$colors-pink12: hsl(320 70% 13.5%);
+$colors-plum1: hsl(292 90% 99.4%);
+$colors-plum2: hsl(300 100% 98.6%);
+$colors-plum3: hsl(299 71.2% 96.4%);
+$colors-plum4: hsl(299 62% 93.8%);
+$colors-plum5: hsl(298 56.1% 90.5%);
+$colors-plum6: hsl(296 51.3% 85.8%);
+$colors-plum7: hsl(295 48.2% 78.9%);
+$colors-plum8: hsl(292 47.7% 70.8%);
+$colors-plum9: hsl(292 45% 51%);
+$colors-plum10: hsl(292 50.2% 46.9%);
+$colors-plum11: hsl(292 60% 42.5%);
+$colors-plum12: hsl(291 66% 14%);
+$colors-purple1: hsl(280 65% 99.4%);
+$colors-purple2: hsl(276 100% 99%);
+$colors-purple3: hsl(276 83.1% 97%);
+$colors-purple4: hsl(275 76.4% 94.7%);
+$colors-purple5: hsl(275 70.8% 91.8%);
+$colors-purple6: hsl(274 65.4% 87.8%);
+$colors-purple7: hsl(273 61% 81.7%);
+$colors-purple8: hsl(272 60% 73.5%);
+$colors-purple9: hsl(272 51% 54%);
+$colors-purple10: hsl(272 46.8% 50.3%);
+$colors-purple11: hsl(272 50% 45.8%);
+$colors-purple12: hsl(272 66% 16%);
+$colors-violet1: hsl(255 65% 99.4%);
+$colors-violet2: hsl(252 100% 99%);
+$colors-violet3: hsl(10 100% 96.5%);
+$colors-violet4: hsl(16 55.6% 96.5%);
+$colors-violet5: hsl(2 85.1% 93%);
+$colors-violet6: hsl(9 100% 91.8%);
+$colors-violet7: hsl(2 71% 83.7%);
+$colors-violet8: hsl(2 68.6% 76.3%);
+$colors-violet9: hsl(2 56% 57.5%);
+$colors-violet10: hsl(3 48.1% 53.5%);
+$colors-violet11: hsl(4 43% 48%);
+$colors-violet12: hsl(254 60% 18.5%);
+$colors-indigo1: hsl(225 60% 99.4%);
+$colors-indigo2: hsl(223 100% 98.6%);
+$colors-indigo3: hsl(223 98.4% 97.1%);
+$colors-indigo4: hsl(223 92.9% 95%);
+$colors-indigo5: hsl(224 87.1% 92%);
+$colors-indigo6: hsl(224 81.9% 87.8%);
+$colors-indigo7: hsl(225 77.4% 82.1%);
+$colors-indigo8: hsl(226 75.4% 74.5%);
+$colors-indigo9: hsl(226 70% 55.5%);
+$colors-indigo10: hsl(226 58.6% 51.3%);
+$colors-indigo11: hsl(226 55% 45%);
+$colors-indigo12: hsl(226 62% 17%);
+$colors-gray1: hsl(0 0% 99%);
+$colors-gray2: hsl(0 0% 97.3%);
+$colors-gray3: hsl(0 0% 95.1%);
+$colors-gray4: hsl(0 0% 93%);
+$colors-gray5: hsl(0 0% 90.9%);
+$colors-gray6: hsl(0 0% 88.7%);
+$colors-gray7: hsl(0 0% 85.8%);
+$colors-gray8: hsl(0 0% 78%);
+$colors-gray9: hsl(0 0% 56.1%);
+$colors-gray10: hsl(0 0% 52.3%);
+$colors-gray11: hsl(0 0% 43.5%);
+$colors-gray12: hsl(0 0% 9%);
+$colors-slate1: hsl(206 30% 98.8%);
+$colors-slate2: hsl(210 16.7% 97.6%);
+$colors-slate3: hsl(209 13.3% 95.3%);
+$colors-slate4: hsl(209 12.2% 93.2%);
+$colors-slate5: hsl(208 11.7% 91.1%);
+$colors-slate6: hsl(208 11.3% 88.9%);
+$colors-slate7: hsl(207 11.1% 85.9%);
+$colors-slate8: hsl(205 10.7% 78%);
+$colors-slate9: hsl(206 6% 56.1%);
+$colors-slate10: hsl(206 5.8% 52.3%);
+$colors-slate11: hsl(206 6% 43.5%);
+$colors-slate12: hsl(206 24% 9%);
+$colors-hiContrast: $colors-slate12;
+$colors-loContrast: white;
+$colors-canvas: hsl(0 0% 93%);
+$colors-panel: white;
+$colors-transparentPanel: hsl(0 0% 0% / 97%);
+$colors-shadowLight: hsl(206 22% 7% / 35%);
+$colors-shadowDark: hsl(206 22% 7% / 20%);
+$colors-heading: rgb(38, 39, 75);
+
+// HTML Modifications
+$scrollbar-bg: $colors-violet3;
+$scrollbar-thumb: $colors-violet6;
+$scrollbar-width: 5px;
+
+// Spacing
+$space-1: 5px;
+$space-2: 10px;
+$space-3: 15px;
+$space-4: 20px;
+$space-5: 25px;
+$space-6: 35px;
+$space-7: 45px;
+$space-8: 65px;
+$space-9: 80px;
+
+// Sizes
+$sizes-1: 5px;
+$sizes-2: 10px;
+$sizes-3: 15px;
+$sizes-4: 20px;
+$sizes-5: 25px;
+$sizes-6: 35px;
+$sizes-7: 45px;
+$sizes-8: 65px;
+$sizes-9: 80px;
+
+// Font Sizes
+$fontSizes-1: 12px;
+$fontSizes-2: 13px;
+$fontSizes-3: 15px;
+$fontSizes-4: 17px;
+$fontSizes-5: 19px;
+$fontSizes-6: 21px;
+$fontSizes-7: 27px;
+$fontSizes-8: 35px;
+$fontSizes-9: 59px;
+
+// Radii
+$radii-1: 4px;
+$radii-2: 6px;
+$radii-3: 8px;
+$radii-4: 12px;
+$radii-round: 50%;
+$radii-pill: 9999px;
+
+// Z-index
+$zIndices-1: 100;
+$zIndices-2: 200;
+$zIndices-3: 300;
+$zIndices-4: 400;
+$zIndices-max: 999;
+
+// Searchbar
+$search-1: 75px;
+$search-2: 125px;
+$search-3: 175px;
+$search-4: 225px;
+$search-5: 250px;

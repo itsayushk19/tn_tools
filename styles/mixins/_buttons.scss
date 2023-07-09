@@ -1,0 +1,23 @@
+@import 'styles/variables';
+
+.tn_button{
+    cursor: pointer;
+    border: none;
+    border-radius: $radii-pill;
+}
+
+.tn_button_medium{
+    padding: $space-3 $space-5;
+}
+
+.tn_button_primary{
+    background: $colors-violet9;
+    color: white;
+    font-size: $fontSizes-3;
+    font-weight: 500;
+}
+
+.tn_button_long{
+    padding: $space-2 $space-6;
+}
+

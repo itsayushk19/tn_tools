@@ -1,0 +1,84 @@
+@import "styles/variables";
+
+@mixin search($width, $open-width, $bg, $border) {
+    z-index: $zIndices-1;
+    .search_inner {
+        width: $width;
+        display: flex;
+        align-items: center;
+        border: 1px solid $border;
+        border-radius: $radii-pill;
+        padding: 0em calc((($width) / 100) * 5);
+        transition: width 0.05s ease-in-out, padding 0.05s ease-in-out;
+        position: relative;
+
+        &:focus-within{
+            width: $open-width;
+            border: 2px solid $colors-violet9;
+        }
+
+        .search_field {
+            padding: calc((($width) / 100) * 5);
+            margin-left: calc((($width) / 100) * 5);
+        }
+
+        .search_input {
+            padding-left: calc((($width) / 100) * 5);
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            flex: 1;
+        }
+
+        svg {
+            position: absolute;
+        }
+    }
+    .search_result {
+        position: absolute;
+        right: calc(0px + $right_spacing);
+        top: 10vh;
+        width: $open-width;
+        z-index: $zIndices-2;
+        border: 1px solid $colors-gray7;
+        border-radius: $radii-2;
+        text-align: left;
+        max-height: 60vh;
+        background-color: white;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transition: width 0.05s ease-in-out, padding 0.05s ease-in-out;
+
+        .search_result_inner{
+
+            .search_item{
+                padding: $space-2 $space-4;
+                border-bottom: 1px solid $colors-gray4;
+                box-sizing: border-box;
+
+                .search_toolName{
+                    text-decoration: none;
+                    color: $colors-text;
+                    font-size: $fontSizes-2;
+                    font-weight: 400;
+                }
+
+                .search_categoryName{
+                    text-decoration: none;
+                    color: $colors-violet10;
+                    font-size: $fontSizes-1;
+                    font-weight: 500;
+                }
+
+                &:hover{
+                    background-color: $colors-violet3;
+                }
+
+                &:active{
+                    background-color: $colors-gray4;
+                }
+            }
+        }
+    }
+}

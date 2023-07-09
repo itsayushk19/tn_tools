@@ -1,0 +1,20 @@
+.tn_grid {
+            display: grid;
+            justify-items: stretch;
+            align-items: center;
+        }
+        
+        .tn_grid_3_2 {
+            grid-template-columns: auto auto auto;
+        }
+        
+        .tn_textarea_btn {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flipped {
+            transform: rotateX(180deg);
+            transition: transform 0.5s;
+        }
+        

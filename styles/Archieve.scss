@@ -1,0 +1,131 @@
+@import "variables";
+
+.archieve_container {
+  width: 100%;
+  background-color: $colors-slate2;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .archieve_hero {
+    background: $colors-violet3;
+    width: 100%;
+    height: 90vh;
+
+    .hero_inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0px auto;
+      padding: 40px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+
+      .hero_left, .hero_right {
+        max-width: 50%;
+
+        .hero_title h1 {
+          font-size: $fontSizes-8;
+          color: $colors-text;
+        }
+
+        .hero_description {
+          font-size: $fontSizes-3;
+          color: $colors-text;
+        }
+
+        .hero_cta {
+          margin: $space-5 0em;
+          scroll-behavior: smooth;
+        }
+      }
+
+      .hero_right {
+        max-width: 50%;
+      }
+    }
+  }
+
+  .archieve_banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: $space-7;
+  }
+
+  .archieve_collection {
+    max-width: 60%;
+    margin: 0px auto;
+    text-align: left;
+
+    .collection_titlebar {
+      text-align: left;
+      display: flex;
+      align-content: center;
+      align-items: center;
+      justify-content: space-between;
+
+      .pagination button {
+        background-color: $colors-violet9;
+        color: white;
+        padding: $space-1 $space-3;
+        font-weight: 500;
+        margin-right: $space-2;
+        border-radius: $radii-3;
+        text-transform: uppercase;
+        font-size: $fontSizes-2;
+        margin-right: 10px;
+        transition: left 0.3s ease-out, width 0.3s ease-out;
+
+        &:hover,
+        &:focus,
+        &:active {
+          background-color: $colors-violet10;
+          outline: none;
+          border: none;
+          transition: left 0.3s ease-out, width 0.3s ease-out;
+        }
+      }
+      .pagination button.active{
+            background-color: $colors-violet11;
+      }
+    }
+
+    .collection_container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      grid-column-gap: $space-3;
+      grid-row-gap: $space-3;
+
+      .collection_tool {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        cursor: pointer;
+        width: 300px;
+        padding: $space-5;
+        aspect-ratio: 1/1;
+        background-color: white;
+        box-shadow: $colors-violet5 0px 2px 3px;
+        transition: 0.3s ease-in-out;
+        border-radius: $radii-3;
+
+        .tool_cta strong {
+          color: $colors-violet8;
+          transition: transform 0.3s ease-in-out;
+        }
+
+        &:hover {
+          box-shadow: $colors-violet3 0px 8px 24px;
+
+          .tool_cta strong {
+            transform: scale(2);
+            /* enlarge the strong element on hover */
+          }
+        }
+      }
+    }
+  }
+}
