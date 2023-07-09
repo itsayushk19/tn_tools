@@ -10,8 +10,7 @@ import { useState, useRef, useEffect } from "react";
 export default function AllCategories({
   children,
   categoryObject,
-  categorizedTools,
-  baseAddress,
+  categorizedTools
 }) {
   const [hoveredTool, setHoveredTool] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -167,11 +166,8 @@ export default function AllCategories({
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const protocol = req.headers['x-forwarded-proto'] || 'http';
-  const baseAddress = `${protocol}://${req.headers.host}`;
-  const category = `categoryShowAll`;
+export async function getStaticProps() {
+  const category = 'categoryShowAll';
   const categoryObject = await getCategory(category);
   const categorizedTools = await getAllToolsCategorized();
 
@@ -179,7 +175,6 @@ export async function getServerSideProps(context) {
     props: {
       categoryObject,
       categorizedTools,
-      baseAddress
     },
   };
 }
