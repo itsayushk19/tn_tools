@@ -13,17 +13,16 @@ export default function Archieve({ categorizedTools, category, categoryObject })
   );
 }
 
-export async function getStaticProps() {
-  const category = 'coding';
-  const categorizedTools = await getAllToolsCategorized();
-  const categoryObject = await getCategory(category);
+export async function getServerSideProps(context) {
+  const category = `coding`
+  const categorizedTools = await getAllToolsCategorized()
+  const categoryObject = await getCategory(category) 
 
   return {
     props: {
       categorizedTools,
       category,
-      categoryObject,
+      categoryObject
     },
   };
 }
-
