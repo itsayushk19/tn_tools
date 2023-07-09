@@ -6,9 +6,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import BugPopup from "../site/BugPopup";
-import { NextSeo } from "next-seo";
+import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
+  console.log(categorizedTools)
   const ToolEmbedd = dynamic(
     () => import(`/database/tools/${toolData.category}.js`),
     {
@@ -54,9 +55,31 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
     // Add other SEO configurations here
   };
 
+  const breadcrumbItems = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://webtools.techneg.co.in",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: toolData.category,
+      item: `https://webtools.techneg.co.in/tool/${toolData.category}`
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: toolData.title,
+      item: `https://webtools.techneg.co.in/${toolData.category}/${toolData.id}`,
+    },
+  ];
+
   return (
     <>
       <NextSeo {...SEO} />
+      <BreadcrumbJsonLd itemListElements={breadcrumbItems} />
       <Head>
         <title>{title}</title>
         <meta name="description" content={toolData.description} />
