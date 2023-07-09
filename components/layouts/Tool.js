@@ -1,11 +1,12 @@
-import Head from "next/head"
-import Header from "/components/site/Header"
-import Sidebar from "../site/Sidebar"
-import dynamic from "next/dynamic"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import { useState, useEffect } from "react"
-import BugPopup from "../site/BugPopup"
+import Head from "next/head";
+import Header from "/components/site/Header";
+import Sidebar from "../site/Sidebar";
+import dynamic from "next/dynamic";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState, useEffect } from "react";
+import BugPopup from "../site/BugPopup";
+import { NextSeo } from "next-seo";
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
   const ToolEmbedd = dynamic(
@@ -13,31 +14,49 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
     {
       loading: () => <p>Loading...</p>,
     }
-  )
+  );
 
-  const [popupVisible, setPopupVisible] = useState(false)
+  const [popupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {
     const handleEscClose = (e) => {
       if (e.keyCode === 27) {
-        setPopupVisible()
+        setPopupVisible();
       }
-    }
-    document.addEventListener("keydown", handleEscClose)
+    };
+    document.addEventListener("keydown", handleEscClose);
     return () => {
-      document.removeEventListener("keydown", handleEscClose)
-    }
-  }, [])
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, []);
 
   const openPopup = () => {
-    setPopupVisible(true)
-  }
+    setPopupVisible(true);
+  };
 
+  const title = `${toolData.title} Online | Free WebTool By TechNeg`;
 
-  const title = `${toolData.title} Online | Free WebTool By TechNeg`
+  const SEO = {
+    title: `${toolData.title} Online | Free WebTool By TechNeg`,
+    description: `${toolData.description}`,
+    openGraph: {
+      title: `${toolData.title} Online | Free WebTool By TechNeg`,
+      description: `${toolData.description}`,
+      type: "website",
+      site_name: "Free WebTools By TechNeg",
+      // Add your breadcrumb data here
+      article: {
+        publishedTime: `${toolData.date}`,
+        section: `${toolData.category}`,
+        tags: `${toolData.category}`,
+      },
+    },
+    // Add other SEO configurations here
+  };
 
   return (
     <>
+      <NextSeo {...SEO} />
       <Head>
         <title>{title}</title>
         <meta name="description" content={toolData.description} />
@@ -52,7 +71,9 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
           <div className="tool__embed">
             <div className="pageMeta">
               <h1 id="toolTitle">{toolData.title}</h1>
-              <button className="tn_button bug_button" onClick={openPopup}>Submit Bug</button>
+              <button className="tn_button bug_button" onClick={openPopup}>
+                Submit Bug
+              </button>
             </div>
             <div className="bg-blue-100 text-white-600 text-left text-justify p-4 text-xs rounded-lg w-4/5 h-auto rounded border border-blue-300">
               Thank you for using our tools! Please note that our web tools are
@@ -71,8 +92,8 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
           </div>
         </main>
       </div>
-      <BugPopup popupVisible={popupVisible}/>
+      <BugPopup popupVisible={popupVisible} />
       <ToastContainer />
     </>
-  )
+  );
 }
