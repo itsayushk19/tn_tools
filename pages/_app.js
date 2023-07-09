@@ -9,7 +9,8 @@ import { useRouter } from 'next/router';
 import Router from 'next/router';
 import TopLoadingBar from 'react-top-loading-bar';
 import Script from 'next/script';
-import MobileErrorPage from './MobileError';
+import dynamic from 'next/dynamic'; // Import dynamic from 'next/dynamic'
+const MobileErrorPage = dynamic(() => import('./MobileError')); // Dynamic import for client-side rendering
 
 const space = Space_Grotesk({ subsets: ['latin'] });
 const manrope = Manrope({ subsets: ['latin'] });
@@ -40,10 +41,14 @@ export default function App({ Component, pageProps }) {
     };
   }, []);
 
-  const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+  const isBrowser = typeof window !== 'undefined'; // Check if running in the browser
 
-  if (isMobileDevice) {
-    return <MobileErrorPage />;
+  if (isBrowser) {
+    const isMobileDevice = /Mobi/i.test(navigator.userAgent);
+
+    if (isMobileDevice) {
+      return <MobileErrorPage />;
+    }
   }
 
   return (
