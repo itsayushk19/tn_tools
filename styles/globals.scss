@@ -114,3 +114,11 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px antiquewhite inset !important;
 }
+
+.tn_button_group.full-width {
+  display: flex;
+  justify-content: space-around;
+  .tn_button_default, .tn_button_primary{
+    flex-basis: 45%;
+  }
+}

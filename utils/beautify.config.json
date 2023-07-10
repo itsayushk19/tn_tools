@@ -1,0 +1,20 @@
+{
+  "css": {
+            "parser": "css"
+  },
+  "js": {
+            "parser": "babel"
+  },
+  "html":{
+    "parser": "html"
+  },
+  "typescript": {
+    "parser": "typescript"
+  },
+  "json": {
+    "parser": "json5"
+  },
+  "markdown":{
+    "parser": "markdown"
+  }
+}

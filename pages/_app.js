@@ -5,7 +5,6 @@ import 'styles/Archieve.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Router from 'next/router';
 import TopLoadingBar from 'react-top-loading-bar';
 import Script from 'next/script';
@@ -85,9 +84,6 @@ export default function App({ Component, pageProps }) {
         }
       `}</style>
       <Component {...pageProps} />
-      <Script
-      src={`pages/scripts/ripple.js`}
-      />
     </>
   )
 }

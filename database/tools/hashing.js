@@ -100,16 +100,16 @@ export default function HashTool ({ id }) {
               Output
             </label>
           </div>
-          <div className="flex justify-stretch">
+          <div className="tn_button_group full-width">
             <button
-              className="tn_button tn_button_long tn_button_default ripple"
+              className="tn_button tn_button_default"
               id="copyBtn"
               onClick={handleCopyOutput}
             >
               Copy
             </button>
             <button
-              className="tn_button tn_button_long tn_button_primary ripple"
+              className="tn_button tn_button_primary"
               onClick={handleClearOutput}
             >
               Clear

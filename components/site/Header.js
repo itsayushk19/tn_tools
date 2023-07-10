@@ -2,7 +2,7 @@ import Image from "next/image";
 import SearchBar from "./ToolSearch";
 import { useState } from "react";
 import Link from "next/link";
-import TopLogo from "/public/vercel.svg"
+import TopLogo from "public/favicons/android-chrome-512x512.png"
 
 export default function Header({ categorizedTools }) {
   const [showCategories, setShowCategories] = useState(false);
@@ -30,7 +30,6 @@ export default function Header({ categorizedTools }) {
                 alt="TechNeg Web Tools Website Logo"
                 style={{ width: "44px", height: "44px", marginRight: "1rem" }}
               />
-              <h3>TN WebToolKit</h3>
             </Link>
           </div>
           <div className="col_2">

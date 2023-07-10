@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import normalBeep from 'public/sound/normal-press.mp3'
 
 export default function SimpleCalculator() {
   const [operation, setOperation] = useState(""); // State to store the current operation
@@ -6,8 +7,18 @@ export default function SimpleCalculator() {
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
 
+  // Load the history from localStorage on component mount
+  useEffect(() => {
+    const savedHistory = localStorage.getItem("calculatorHistory");
+    if (savedHistory) {
+      setHistory(JSON.parse(savedHistory));
+    }
+  }, []);
+
   // Function to handle button click events
   const handleButtonClick = (value) => {
+    const normal = new Audio(normalBeep);
+    normal.play()
     if (value === "C") {
       // Clear the operation and typed value
       setOperation("");
@@ -19,7 +30,10 @@ export default function SimpleCalculator() {
         setOperation(`${operation} =`);
         setTypedValue(result.toString());
         // Add the current operation to the history array
-        setHistory((prevHistory) => [...prevHistory, operation]);
+        const newHistory = [...history, operation];
+        setHistory(newHistory);
+        // Save the updated history to localStorage
+        localStorage.setItem("calculatorHistory", JSON.stringify(newHistory));
       } catch (error) {
         // Handle any errors during evaluation
         console.error("Error: ", error);
@@ -37,27 +51,40 @@ export default function SimpleCalculator() {
       const operationWithSquare = `sqr(${typedValue}) = ${squaredValue.toString()}`;
       setOperation(operationWithSquare);
       // Add the squared operation to the history array
-      setHistory((prevHistory) => [...prevHistory, operationWithSquare]);
+      const newHistory = [...history, operationWithSquare];
+      setHistory(newHistory);
+      // Save the updated history to localStorage
+      localStorage.setItem("calculatorHistory", JSON.stringify(newHistory));
+    } else if (value === "clearHistory") {
+      setHistory([]);
+      localStorage.removeItem("calculatorHistory");
     } else {
       // Append the clicked button value to the typed value and operation
       setTypedValue((prevValue) => prevValue + value);
       setOperation((prevValue) => prevValue + value);
     }
-  };  
+  };
 
   return (
     <>
       <div className="container">
         <div className="calc-body">
           <div className="calc-screen">
+            <div className="calc-topbar">
             <button onClick={() => handleButtonClick("checkHistory")}>
               <i className="fas fa-history checkHistory"></i>
             </button>
+            <button className="clearLocalHistory" onClick={() => handleButtonClick("clearHistory")}>
+              Clear History
+            </button>
+            </div>
             <div className={`calc-operation ${showHistory ? "expanded" : ""}`}>
               {showHistory && history.length > 0 ? (
                 <div className="history">
                   {history.map((item, index) => (
-                    <div key={index}>{item}</div>
+                    <div className="history_item" key={index}>
+                      {item}
+                    </div>
                   ))}
                 </div>
               ) : (
@@ -67,7 +94,7 @@ export default function SimpleCalculator() {
             </div>
             <div className="calc-typed">
               {typedValue}
-              <span className="blink-me">_</span>
+              <span className="blink-me blink-animation">_</span>
             </div>
           </div>
           <div className="calc-button-row">
@@ -152,12 +179,11 @@ export default function SimpleCalculator() {
           width: 100%;
           margin: auto;
           min-height: 400px;
-          border: solid 1px #3a4655;
-          box-shadow: 0 8px 50px -7px black;
+          border: 1px solid #e2e2e2
         }
 
         .calc-screen {
-          background: #3a4655;
+          background: navajowhite;
           width: 100%;
           padding: 20px;
         }
@@ -174,7 +200,7 @@ export default function SimpleCalculator() {
         .calc-operation.expanded {
           height: 50%;
           z-index: 99999;
-          background: #3a4655;
+          background: transparent;
           position: relative;
           animation: expandHeight 0.5s forwards;
         }
@@ -183,19 +209,19 @@ export default function SimpleCalculator() {
           margin-top: 20px;
           font-size: 45px;
           text-align: right;
-          color: #fff;
+          color: black;
           user-select: none;
         }
 
         .calc-button-row {
           width: 100%;
-          background: #3c4857;
+          background: navajowhite;
         }
 
         .button {
           width: 25%;
-          background: #425062;
-          color: #fff;
+          background: antiquewhite;
+          color: #ba514d;
           padding: 20px;
           display: inline-block;
           font-size: 25px;
@@ -210,24 +236,25 @@ export default function SimpleCalculator() {
         }
 
         .button.l {
-          color: #aeb3ba;
-          background: #404d5e;
+          color: white;
+          background: #ba514d;
         }
 
         .button.c {
-          color: #d95d4e;
-          background: #404d5e;
+          color: white;
+          background: #ba514d;
         }
 
         .button:hover {
           background: #cf5a56;
           transform: rotate(5deg);
+          color: white;
         }
 
         .button.c:hover,
         .button.l:hover {
           background: #cf5a56;
-          color: #fff;
+          color: white;
         }
 
         .blink-me {
@@ -235,16 +262,26 @@ export default function SimpleCalculator() {
         }
 
         .checkHistory {
-          color: white;
+          color: #ba514d;
           margin-left: 1em;
         }
 
         .history {
-          max-height: 50%;
+          max-height: 90%;
           overflow-y: auto;
           overflow-x: hidden;
           padding: 1em;
-          background-color: #3a4655;
+          background-color: transparent;
+        }
+        
+        .clearLocalHistory{
+          color: #ba514d;
+          font-weight: bold;
+        }
+
+        .history_item {
+          border-bottom: 1px solid grey;
+          padding: 1rem;
         }
 
         .history h2 {
@@ -255,6 +292,31 @@ export default function SimpleCalculator() {
 
         .no-history {
           text-align: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+        }
+
+        .calc-topbar{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .blink-animation {
+          animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
         }
 
         @keyframes expandHeight {

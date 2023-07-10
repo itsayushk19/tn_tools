@@ -121,6 +121,8 @@
   }
   .pageBody {
     flex-basis: 70%;
+    padding-right: 5%;
+    padding-top: $space-5;
     z-index: $zIndices-1;
     .pageContent {
       background: white;
@@ -128,12 +130,22 @@
       box-shadow: 0 0 5px $colors-gray4;
     }
     .tool__embed {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 1rem;
       .pageMeta {
         display: flex;
+        width: 100%;
         flex-direction: row;
         align-content: center;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        background: white;
+        border: 1px solid #e2e2e2;
+        border-radius: 6px;
+        padding: 0rem $space-5;
         .toolIcon {
           margin-right: $space-5;
         }
@@ -141,10 +153,11 @@
     }
   }
 }
-.tool__container {
-  padding: $space-5;
+.SideBar_toggle{
+  display: none;
 }
 @media (max-width: 768px) {
+
   .container {
     flex-direction: column;
   }

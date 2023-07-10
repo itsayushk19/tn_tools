@@ -1,0 +1,13 @@
+<!-- public/sitemap.xml -->
+<xml version="1.0" encoding="UTF-8">
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+                        <url>
+                                    <loc>http://webtools.techneg.co.in/tools-sitemap.xml</loc>
+                                    <lastmod>2023-07-10</lastmod>
+                        </url>
+                        <url>
+                                    <loc>http://webtools.techneg.co.in/category-sitemap.xml</loc>
+                                    <lastmod>2023-07-10</lastmod>
+                        </url>
+            </urlset>
+</xml>

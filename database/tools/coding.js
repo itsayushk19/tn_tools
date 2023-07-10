@@ -4,7 +4,6 @@ import { toast } from "react-toastify"
 export default function  CodingTool  ({ id })  {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
-  const [savedPercentile, setSavedPercentile] = useState(0);
   const ToolID = id.split("-");
   const toolName = ToolID[0];
   const options = {
@@ -42,16 +41,14 @@ export default function  CodingTool  ({ id })  {
 
       if (ToolID.includes("minifier")) {
         const successMessage = `Minified Successfuly`;
-        const { minifiedCode, savedPercentile } = await response.json();
+        const { minifiedCode } = await response.json();
         toast.success(successMessage, options);
         setOutputText(minifiedCode);
-        setSavedPercentile(savedPercentile);
       } else if (ToolID.includes("unminifier")) {
         const successMessage = `Beautified Successfuly`
-        const {prettyCode, expandPercentile} = await response.json();
+        const {prettyCode} = await response.json();
         setOutputText(prettyCode)
         toast.success(successMessage, options)
-        setSavedPercentile(expandPercentile)
       }
 
       if (response.status == 200) {
@@ -112,17 +109,6 @@ export default function  CodingTool  ({ id })  {
             </div>
             {ToolID.includes("minifier") ? "Minify" : "Beautify"}
           </button>
-      {ToolID.includes("minifier") ? (
-    <div className="bg-red-200 text-red-600 text-center font-bold w-6/12 h-auto rounded border border-red-500">
-      <div className="text-xl">{savedPercentile}%</div>
-      <div className="text-s">Saved</div>
-    </div>
-  ) : (
-    <div className="bg-green-200 text-green-600 text-center font-bold w-6/12 h-auto rounded border border-green-500">
-      <div className="text-xl">{savedPercentile}%</div>
-      <div className="text-sm">Expanded</div>
-    </div>
-  )}
         </div>
         <div className="tn_textarea_btn">
           <div className="form__group field">
@@ -138,16 +124,16 @@ export default function  CodingTool  ({ id })  {
               Output
             </label>
           </div>
-          <div className="flex justify-stretch">
+          <div className="tn_button_group full-width">
             <button
-              className="tn_button tn_button_long tn_button_default ripple"
+              className="tn_button tn_button_default ripple"
               id="copyBtn"
               onClick={handleCopyOutput}
             >
               Copy
             </button>
             <button
-              className="tn_button tn_button_long tn_button_primary ripple"
+              className="tn_button tn_button_primary ripple"
               onClick={handleClearOutput}
             >
               Clear

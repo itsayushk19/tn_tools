@@ -7,9 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import BugPopup from "../site/BugPopup";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
+import Image from 'next/image'
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
-  console.log(categorizedTools)
   const ToolEmbedd = dynamic(
     () => import(`/database/tools/${toolData.category}.js`),
     {
@@ -93,17 +93,11 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
         <main className="pageBody">
           <div className="tool__embed">
             <div className="pageMeta">
+              <Image src={toolData.activeSVG} width={50} height={50} />
               <h1 id="toolTitle">{toolData.title}</h1>
-              <button className="tn_button bug_button" onClick={openPopup}>
+              <button className="tn_button tn_button_small bug_button" onClick={openPopup}>
                 Submit Bug
               </button>
-            </div>
-            <div className="bg-blue-100 text-white-600 text-left text-justify p-4 text-xs rounded-lg w-4/5 h-auto rounded border border-blue-300">
-              Thank you for using our tools! Please note that our web tools are
-              still under development, and you may encounter bugs and errors.
-              Your feedback is invaluable in helping us fix any issues. If you
-              experience any bugs or errors, please report them using the
-              &quot;Report&ldquo; button. Your help is greatly appreciated!
             </div>
             <div className="tool__container">
               <ToolEmbedd id={toolData.id} />
