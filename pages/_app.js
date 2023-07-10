@@ -10,6 +10,7 @@ import TopLoadingBar from 'react-top-loading-bar';
 import Script from 'next/script';
 import dynamic from 'next/dynamic'; // Import dynamic from 'next/dynamic'
 const MobileErrorPage = dynamic(() => import('./MobileError')); // Dynamic import for client-side rendering
+import { Analytics } from '@vercel/analytics/react';
 
 const space = Space_Grotesk({ subsets: ['latin'] });
 const manrope = Manrope({ subsets: ['latin'] });
@@ -84,6 +85,7 @@ export default function App({ Component, pageProps }) {
         }
       `}</style>
       <Component {...pageProps} />
+      <Analytics />
     </>
   )
 }
