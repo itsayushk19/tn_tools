@@ -57,7 +57,7 @@ export default function ArchieveLayout({
                   href={`/tools/${slugify(category).toLowerCase()}/#toolbox`}
                 >
                   <button className="tn_button tn_button_primary tn_button_medium">
-                    Discover {category} Tools &gt
+                    Discover {category} Tools {">"}
                   </button>
                 </Link>
               </div>
@@ -160,7 +160,7 @@ export default function ArchieveLayout({
                   <p>{tool.description}</p>
                 </div>
                 <div className="tool_cta">
-                  <strong>Check Now &gt</strong>
+                  <strong>Check Now {'>'}</strong>
                 </div>
               </Link>
             ))}

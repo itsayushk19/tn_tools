@@ -2,7 +2,7 @@ import Image from "next/image";
 import SearchBar from "./ToolSearch";
 import { useState } from "react";
 import Link from "next/link";
-import TopLogo from "public/favicons/android-chrome-512x512.png"
+import TopLogo from "public/favicons/android-chrome-512x512.png";
 
 export default function Header({ categorizedTools }) {
   const [showCategories, setShowCategories] = useState(false);
@@ -12,6 +12,10 @@ export default function Header({ categorizedTools }) {
   const handleCategoriesLeave = () => {
     setShowCategories(false);
   };
+
+  const fiveCategories = Object.keys(categorizedTools).slice(0, 5);
+  const otherCategories = Object.keys(categorizedTools).slice(5);
+
   return (
     <>
       <header className="site_header">
@@ -33,6 +37,33 @@ export default function Header({ categorizedTools }) {
             </Link>
           </div>
           <div className="col_2">
+            <nav>
+            <ul>
+        {fiveCategories.map((category) => (
+          <li key={category}>
+            <Link href={`/tools/${category}`}>
+              {category}
+            </Link>
+          </li>
+        ))}
+        {otherCategories.length > 0 && (
+          <li>
+            <details>
+              <summary>More Categories</summary>
+              <ul>
+                {otherCategories.map((category) => (
+                  <li key={category}>
+                    <Link href={`/tools/${category}`}>
+                      {category}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        )}
+      </ul>
+            </nav>
             <SearchBar categorizedTools={categorizedTools} />
           </div>
         </div>
