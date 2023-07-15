@@ -46,6 +46,10 @@
     font-weight: 500;
 }
 
+.tn_button_disabled{
+    opacity: 0.5;
+}
+
 .tn_button_long{
     padding: $space-2 $space-6;
 }

@@ -1,6 +1,9 @@
 @import "variables";
 @import "mixins/input_fields";
 @import "mixins/buttons";
+.tool__container{
+  min-height: 50vh;
+}
 .main__container {
   display: flex;
   flex-wrap: wrap;

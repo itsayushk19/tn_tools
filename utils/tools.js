@@ -102,8 +102,6 @@ export async function getAllToolsCategorized() {
     });
   }
 
-  console.log(toolData)
-
   return toolData;
 }
 

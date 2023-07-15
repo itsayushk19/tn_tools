@@ -83,6 +83,9 @@ export default function App({ Component, pageProps }) {
         textarea.code{
           font-family: ${pt_mono.style.fontFamily}
         }
+        strong.colorMeta{
+          font-family: ${space.style.fontFamily}
+        }
       `}</style>
       <Component {...pageProps} />
       <Analytics />

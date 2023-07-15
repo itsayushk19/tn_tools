@@ -15,7 +15,6 @@ export default async function handler(req, res) {
 
     try {
       const prettyCode = await beautifyCode(code, type)
-      console.log(prettyCode)
       const finalLength = prettyCode.length
       const expandPercentile = ((( finalLength-initialLength) / finalLength ) * 100).toFixed(1)
       return res.status(200).json({prettyCode, expandPercentile})
