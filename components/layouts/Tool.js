@@ -7,9 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import BugPopup from "../site/BugPopup";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
+  
   const ToolEmbedd = dynamic(
     () => import(`/database/tools/${toolData.category}.js`),
     {
@@ -18,6 +19,10 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
   );
 
   const [popupVisible, setPopupVisible] = useState(false);
+
+  const openPopup = () => {
+    setPopupVisible(true);
+  };
 
   useEffect(() => {
     const handleEscClose = (e) => {
@@ -31,9 +36,6 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
     };
   }, []);
 
-  const openPopup = () => {
-    setPopupVisible(true);
-  };
 
   const title = `${toolData.title} Online | Free WebTool By TechNeg`;
 
@@ -66,7 +68,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
       "@type": "ListItem",
       position: 2,
       name: toolData.category,
-      item: `https://webtools.techneg.co.in/tool/${toolData.category}`
+      item: `https://webtools.techneg.co.in/tool/${toolData.category}`,
     },
     {
       "@type": "ListItem",
@@ -95,7 +97,10 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
             <div className="pageMeta">
               <Image src={toolData.activeSVG} width={50} height={50} />
               <h1 id="toolTitle">{toolData.title}</h1>
-              <button className="tn_button tn_button_small bug_button" onClick={openPopup}>
+              <button
+                className="tn_button tn_button_small bug_button"
+                onClick={openPopup}
+              >
                 Submit Bug
               </button>
             </div>
@@ -109,7 +114,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
           </div>
         </main>
       </div>
-      <BugPopup popupVisible={popupVisible} />
+      <BugPopup popupVisible={popupVisible} setPopupVisible={setPopupVisible} />
       <ToastContainer />
     </>
   );

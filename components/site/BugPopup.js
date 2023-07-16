@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-export default function BugPopup({ popupVisible }) {
+export default function BugPopup( {popupVisible, setPopupVisible }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [selectedTool, setSelectedTool] = useState("");
   const [sendLink, setSendLink] = useState(true);
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
 
   const router = useRouter();
 
@@ -30,22 +34,36 @@ export default function BugPopup({ popupVisible }) {
     setSendLink(e.target.checked);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Message:", message);
-    console.log("Send Link:", sendLink);
 
-    if (sendLink) {
-      // Send the current tool page link using next/router
-      const currentToolPath = router.asPath;
-      console.log("Current Tool Link:", currentToolPath);
-      // You can now include this link in your API call or perform any required action
-    } else {
-      const currentToolPath = "Not Provided";
-      console.log("Current Tool Link:", currentToolPath);
+    const currentToolPath = sendLink ? window.location.href : "Not Provided";
+
+    try {
+      const response = await fetch("/api/sendMail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Referer: window.location.href,
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          sendLink,
+        }),
+      });
+
+      if (response.ok) {
+        window.alert("Success")
+        console.log("Email sent successfully");
+      } else {
+        window.alert("Failed")
+        console.error("Error sending email");
+      }
+    } catch (error) {
+      window.alert("Failed", error)
+      console.error("Error sending email:", error);
     }
 
     // Reset form fields and close the popup
@@ -53,7 +71,7 @@ export default function BugPopup({ popupVisible }) {
     setEmail("");
     setMessage("");
     setSendLink(true); // Reset checkbox to true
-    closePopup();
+    closePopup()
   };
   return (
     <>
@@ -96,8 +114,8 @@ export default function BugPopup({ popupVisible }) {
               <div className="form-group">
                 <div className="sub-group">
                   <label htmlFor="sendLink">
-                    Are you currently on the tool where you&apos;re experiencing the
-                    issue?
+                    Are you currently on the tool where you&apos;re experiencing
+                    the issue?
                   </label>
                   <input
                     type="checkbox"

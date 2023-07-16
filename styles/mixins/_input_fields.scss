@@ -1,54 +1,71 @@
-@import 'grid';
-@import 'styles/variables';
+@import "grid";
+@import "styles/variables";
 
-input:focus, textarea:focus, select:focus{
-    outline: none;
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
 }
 
-.form__field{
-    border: 1px solid $colors-gray6;
-    border-radius: $radii-2;
-    box-sizing: border-box;
-    padding: $space-3;
-    resize: none;
+.form__field {
+  border: 1px solid $colors-gray6;
+  border-radius: $radii-2;
+  box-sizing: border-box;
+  padding: $space-3;
+  resize: none;
+  font-size: $fontSizes-3;
+  color: rgb(38, 39, 75);
+  font-weight: 400;
+  outline: none;
+  color: $colors-text;
+  padding: 22px;
+  background: white;
+  transition: border-color 0.2s;
+  padding-left: $space-7;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
     font-size: $fontSizes-3;
-    color: rgb(38, 39, 75);
-    font-weight: 400;
-    outline: none;
-    color: $colors-text;
-    padding: $space-6 $space-5;
-    background: white;
-    transition: border-color 0.2s;
-  
-    &::placeholder {
-      color: transparent;
-    }
-  
-    &:placeholder-shown ~ .form__label {
-      font-size: $fontSizes-3;
-      color: rgb(115, 115, 143);
-      cursor: text;
-      top: $space-5;
-    }
+    color: rgb(115, 115, 143);
+    cursor: text;
+    top: $space-5;
+  }
 }
 
-.form_field_large{
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1/1;
+.form__group.paletteField {
+  display: flex;
+  align-items: center;
+
+  .colorPalette {
+    width: 25px;
+    height: 25px;
+    border-radius: $radii-3;
+    position: absolute;
+    margin-left: $space-3;
+    margin-top: 10px;
+  }
 }
 
-.form__field__med{
+.form_field_large {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+}
+
+.form__field__med {
   width: 50%;
 }
 
-.form__field__no__margin{
+.form__field__no__margin {
   padding: 0;
 }
 
-.form_field_slim{
+.form_field_slim {
   width: 100%;
-  height: 1vh;
+  height: 70px;
   overflow-y: hidden;
   font-size: $fontSizes-5;
 }
@@ -65,7 +82,7 @@ input:focus, textarea:focus, select:focus{
   display: block;
   transition: 0.2s;
   font-size: $fontSizes-1;
-  padding: $space-3 $space-5; 
+  padding: 10px $space-3;
 }
 
 .form__field:focus {
@@ -80,23 +97,27 @@ input:focus, textarea:focus, select:focus{
   border: 2px solid $colors-violet8;
 }
 
-.form__field.readonly:focus{
-  ~ .form__label{
+.form__field.readonly:focus {
+  ~ .form__label {
     top: $space-5;
     font-size: $fontSizes-3;
   }
   border: 1px solid $colors-gray6;
 }
 /* reset input */
-.form__field{
-  &:required,&:invalid { box-shadow:none; }
+.form__field {
+  &:required,
+  &:invalid {
+    box-shadow: none;
+  }
 }
 
-.savedPercentile, .tn_button{
+.savedPercentile,
+.tn_button {
   transition: 0.3s ease;
 }
 
-.dropZone{
+.dropZone {
   width: 90%;
   margin: 0% 10%;
   height: 30vh;
@@ -110,7 +131,7 @@ input:focus, textarea:focus, select:focus{
   background-color: $colors-violet3;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     box-shadow: $colors-violet3 0px 8px 24px;
   }
 }
@@ -136,11 +157,10 @@ body {
   background-color: #ebf3f3;
 }
 
-
 .field_drop_selection {
   border: 1px solid $colors-gray6;
   border-radius: $radii-2;
-  height: 42px;
+  min-width: 200px;
   z-index: 1;
   background: white;
 }
@@ -155,8 +175,11 @@ body {
   width: 100%;
 }
 
-#select-box{
+#select-box {
   position: absolute;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 #options-view-button {
@@ -198,7 +221,6 @@ body {
   width: 12px;
   padding: 9px 14px;
 }
-
 
 #chevrons i {
   display: block;
@@ -431,7 +453,6 @@ input[type="radio"] {
   top: -231px;
 }
 
-
 #option-bg {
   position: absolute;
   top: 0;
@@ -484,28 +505,55 @@ input[type="radio"] {
 }
 
 @keyframes vibration {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(-2px) rotate(-1deg); }
-  20% { transform: translateX(2px) rotate(1deg); }
-  30% { transform: translateX(-2px) rotate(-1deg); }
-  40% { transform: translateX(2px) rotate(1deg); }
-  50% { transform: translateX(-1px) rotate(-1deg); }
-  60% { transform: translateX(1px) rotate(1deg); }
-  70% { transform: translateX(-1px) rotate(-1deg); }
-  80% { transform: translateX(1px) rotate(1deg); }
-  90% { transform: translateX(-1px) rotate(-1deg); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  20% {
+    transform: translateX(2px) rotate(1deg);
+  }
+  30% {
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(2px) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  60% {
+    transform: translateX(1px) rotate(1deg);
+  }
+  70% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(1px) rotate(1deg);
+  }
+  90% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .error-animation {
   animation: vibration 0.5s;
 }
 
-.colorCard{
+.colorCard {
   display: flex;
   height: 25vh;
   border-radius: $radii-4;
   width: 60%;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    box-shadow: $colors-violet5 0px 8px 12px;
+  }
 }
 
 .colorPane {
@@ -517,22 +565,22 @@ input[type="radio"] {
   border-bottom-left-radius: $radii-4;
 }
 
-.colorInfo{
+.colorInfo {
   padding: $space-3 $space-6;
   display: flex;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    justify-content: center;
-    min-width: 360px;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  min-width: 360px;
 
-  strong{
+  strong {
     color: $colors-text;
     font-size: $fontSizes-5;
     font-weight: 300;
     margin-right: $space-3;
   }
-  div{
-    color: $colors-gray11;
+  div {
+    color: black;
     font-size: $fontSizes-5;
   }
 }
@@ -555,7 +603,7 @@ input[type="radio"] {
   background-color: $colors-violet7;
   border-top-left-radius: $radii-4;
   border-bottom-left-radius: $radii-4;
-  span{
+  span {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -566,12 +614,12 @@ input[type="radio"] {
   }
 }
 
-.grid-container.empty{
+.grid-container.empty {
   display: flex;
   flex-direction: column;
   -webkit-box-pack: justify;
   justify-content: space-between;
-  div{
+  div {
     width: 100%;
     height: 16px;
     margin: 10px 0px;
@@ -579,10 +627,10 @@ input[type="radio"] {
   }
 }
 
-.colorMetaValue{
+.colorMetaValue {
   position: relative;
   cursor: pointer;
-  &:hover{
+  &:hover {
     color: $colors-violet11;
   }
 }
@@ -616,4 +664,8 @@ input[type="radio"] {
 .copyIcon {
   display: inline-block;
   margin-left: 5px;
+}
+
+.grid.grid-gap-small.lg\:grid-flow-col {
+  column-gap: $space-4;
 }

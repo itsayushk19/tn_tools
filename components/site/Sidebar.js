@@ -45,6 +45,7 @@ export default function Sidebar({ categorizedTools }) {
               tools.some(isCurrentTool) ? "category_active" : ""
             }`}
           >
+            
             {categoryName} Tools
           </summary>
           <div className="list_item_container">

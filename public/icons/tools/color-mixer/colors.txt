@@ -1,0 +1,57 @@
+Colors:
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
+Color Card: undefined
+Hex: cf5a56
+RGBA: rgba(207, 90, 86, 1)
+HSLA: hsla(2, 56%, 57%, 1)
+
