@@ -9,6 +9,7 @@ body {
   scroll-behavior: smooth;
 }
 
+
 main {
   scroll-behavior: smooth;
 }
@@ -116,9 +117,7 @@ input:-webkit-autofill:active{
 }
 
 .tn_button_group.full-width {
-  display: flex;
-  justify-content: space-around;
-  .tn_button_default, .tn_button_primary{
-    flex-basis: 45%;
-  }
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: $space-3;
 }

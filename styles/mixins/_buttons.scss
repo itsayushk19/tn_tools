@@ -93,5 +93,13 @@
     font-weight: 500;
 }
 
+.tn_button_bordered{
+    border: 1px solid #cf5a56;
+    color: #cf5a56;
+    font-weight: bold;
+    font-size: $fontSizes-3;
+}
 
-
+.tn_button_round{
+    border-radius: $radii-pill;
+}
