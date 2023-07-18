@@ -121,3 +121,25 @@ input:-webkit-autofill:active{
   grid-auto-flow: column;
   grid-gap: $space-3;
 }
+
+table.table{
+  width: 100%;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  background-color: white;
+
+  tr{
+    th{
+      padding: $space-2;
+      color: rgb(38, 39, 75);
+      border-bottom: 1px solid #e2e2e2;
+      cursor: pointer;
+    }
+    td{
+      padding: $space-2;
+      color: rgb(38, 39, 75);
+      border-bottom: 1px solid #e2e2e2;
+    }
+    text-align: center;
+  }
+}

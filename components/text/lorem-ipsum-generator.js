@@ -5,7 +5,7 @@
     const [paragraphCount, setParagraphCount] = useState(1);
     const [avgWordsPerSentence, setAvgWordsPerSentence] = useState(10);
     const [avgSentencesPerParagraph, setAvgSentencesPerParagraph] = useState(5);
-    const [outputText, setOutputText] = useState("");
+    const [outputText, setOutputText] = useState("Lorem ipsum dolor sit amet. aute laboris aute exercitation reprehenderit pariatur aute. mollit culpa qui do nisi quis quis consequat. adipisicing ex aliqua amet ex magna voluptate. voluptate aliqua exercitation et ea magna ex do mollit et. id labore deserunt dolor sit non adipisicing elit pariatur sit exercitation.");
 
     const handleParagraphCountChange = (event) => {
       const value = parseInt(event.target.value);

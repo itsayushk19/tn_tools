@@ -66,8 +66,8 @@ export default function App({ Component, pageProps }) {
           font-family: ${manrope.style.fontFamily};
         }
 
-        .tn_text{
-          font-family: ${space.style.fontFamily}
+        .tn_text, .table tr th, .table tr td{
+          font-family: ${manrope.style.fontFamily}
         }
 
         h1, h2, h3, h4, h5, h6{
