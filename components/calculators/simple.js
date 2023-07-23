@@ -7,6 +7,24 @@ export default function SimpleCalculator() {
   const [showHistory, setShowHistory] = useState(false);
   const [history, setHistory] = useState([]);
 
+  const [inputValue, setInputValue] = useState('');
+  const [result, setResult] = useState('');
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const runWorker = () => {
+    const worker = new Worker('/worker.js');
+
+    worker.onmessage = (e) => {
+      setResult(e.data);
+    };
+
+    // Send data to the worker
+    worker.postMessage(Number(inputValue));
+  };
+
   // Load the history from localStorage on component mount
   useEffect(() => {
     const savedHistory = localStorage.getItem("calculatorHistory");
@@ -169,6 +187,8 @@ export default function SimpleCalculator() {
           </div>
         </div>
       </div>
+      <button onClick={runWorker}>Run Worker</button>
+      {result && <p>Result: {result}</p>}
       <style jsx>{`
         .container {
           width: 100%;

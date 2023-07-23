@@ -29,41 +29,55 @@ export default function ColorMixTool({ id }) {
   }, [startColor, endColor]);
 
   const exportColors = (format) => {
-            if (mixedColors.length === 0) {
-              toast.error("No colors to export!", options);
-              return;
-            }
-        
-            let convertedData;
-        
-            switch (format) {
-              case "csv":
-                convertedData = convertToCSV(mixedColors);
-                saveAs(new Blob([convertedData], { type: "text/csv;charset=utf-8" }), "colors.csv");
-                break;
-              case "xml":
-                convertedData = convertToXML(mixedColors);
-                saveAs(new Blob([convertedData], { type: "text/xml;charset=utf-8" }), "colors.xml");
-                break;
-              case "json":
-                convertedData = convertToJSON(mixedColors);
-                saveAs(new Blob([convertedData], { type: "application/json;charset=utf-8" }), "colors.json");
-                break;
-              case "text":
-                convertedData = convertToText(mixedColors);
-                saveAs(new Blob([convertedData], { type: "text/plain;charset=utf-8" }), "colors.txt");
-                break;
-              case "excel":
-                convertedData = convertToExcel(mixedColors);
-                saveAs(convertedData, "colors.xlsx");
-                break;
-              default:
-                toast.error("Invalid export format!", options);
-                return;
-            }
-        
-            toast.success(`Colors exported as ${format.toUpperCase()} successfully!`, { autoClose: 2000 });
-          };
+    if (mixedColors.length === 0) {
+      toast.error("No colors to export!", options);
+      return;
+    }
+
+    let convertedData;
+
+    switch (format) {
+      case "csv":
+        convertedData = convertToCSV(mixedColors);
+        saveAs(
+          new Blob([convertedData], { type: "text/csv;charset=utf-8" }),
+          "colors.csv"
+        );
+        break;
+      case "xml":
+        convertedData = convertToXML(mixedColors);
+        saveAs(
+          new Blob([convertedData], { type: "text/xml;charset=utf-8" }),
+          "colors.xml"
+        );
+        break;
+      case "json":
+        convertedData = convertToJSON(mixedColors);
+        saveAs(
+          new Blob([convertedData], { type: "application/json;charset=utf-8" }),
+          "colors.json"
+        );
+        break;
+      case "text":
+        convertedData = convertToText(mixedColors);
+        saveAs(
+          new Blob([convertedData], { type: "text/plain;charset=utf-8" }),
+          "colors.txt"
+        );
+        break;
+      case "excel":
+        convertedData = convertToExcel(mixedColors);
+        saveAs(convertedData, "colors.xlsx");
+        break;
+      default:
+        toast.error("Invalid export format!", options);
+        return;
+    }
+
+    toast.success(`Colors exported as ${format.toUpperCase()} successfully!`, {
+      autoClose: 2000,
+    });
+  };
 
   const handleStartColorChange = (event) => {
     const color = event.target.value;
@@ -550,7 +564,6 @@ export default function ColorMixTool({ id }) {
           </div>
         ))}
       </div>
-      
     </>
   );
 }

@@ -3,6 +3,9 @@
 @import "mixins/buttons";
 .tool__container{
   min-height: 50vh;
+  display: grid;
+  grid-template-columns: auto;
+  grid-gap: $space-5;
 }
 .main__container {
   display: flex;

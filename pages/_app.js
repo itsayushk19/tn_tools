@@ -4,6 +4,9 @@ import 'styles/pageLayout.scss';
 import 'styles/Archieve.scss';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google';
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import TopLoadingBar from 'react-top-loading-bar';
@@ -93,6 +96,7 @@ export default function App({ Component, pageProps }) {
       `}</style>
       <Component {...pageProps} />
       <Analytics />
+      <Script src={`https://unpkg.com/boxicons@2.1.4/dist/boxicons.js`}/>
     </>
   )
 }

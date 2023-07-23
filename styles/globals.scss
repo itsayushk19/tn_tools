@@ -109,6 +109,11 @@ html {
   background: $colors-violet9;
 }
 
+input[type="file"]{
+  opacity: 0;
+  cursor: pointer;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -142,4 +147,114 @@ table.table{
     }
     text-align: center;
   }
+}
+
+
+.tweetPreview_main{
+  width: 100%;
+  height: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  .tweetPreview_card{
+    width: 600px;
+    border: 1px solid rgb(232, 239, 243);
+    padding: $space-3;
+    background-color: white;
+    display: grid;
+    flex-direction: row;
+    justify-content: space-between;
+    grid-auto-flow: column;
+    grid-gap: $space-5;
+
+    .tweetPreview_profile{
+      width: 50px;
+      height: 50px;
+      img{
+        border-radius: $radii-round;
+      }
+    }
+
+    .verified{
+      margin: 0px 10px;
+      fill: rgb(29, 161, 242);
+    }
+
+    .tweetPreview_header{
+      display: flex;
+      align-items: center;
+
+      .tweetHeader_item{
+        margin: 0 10px 0px 0px;
+        font-size: 15px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+
+      .tweetHeader_item.acc_name{
+        font-weight: 700;
+      }
+
+      .tweetHeader_item.username{
+        font-weight: 400;
+        color: rgb(91, 112, 131);
+      }
+
+      .tweetHeader_item.time{
+        font-weight: 400;
+        color: rgb(91, 112, 131);
+      }
+    }
+
+    .tweetPreview_middle{
+      .tweetPreview_content{
+        padding: $space-1 0px;
+        font-size: 15px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+
+        .tweet-mention, .tweet-hashtag, .tweet-link{
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+      }
+      .tweetPreview_footer{
+        display: flex;
+        padding: $space-1 0px;
+        justify-content: space-between;
+
+        .tweetPreview_footer_buttons{
+          margin-right: $space-5;
+          display: flex;
+          svg{
+            fill: rgb(91, 112, 131);
+          }
+
+          .tweetCounter{
+            font-size: 13px;
+            padding-left: 12px;
+            line-height: 18.75px;
+            color: rgb(91, 112, 131);
+          }
+        }
+      }
+    }
+}
+}
+
+.vertiCal{
+  display: flex;
+  flex-direction: column;
+}
+
+.pane{
+  overflow-x: hidden;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 17px;
+    font-weight: 400;
+    outline: none;
+    color: #26274b;
+    padding: $space-3;
+    background: #fff;
+    transition: border-color .2s;
 }
