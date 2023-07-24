@@ -665,6 +665,12 @@ input[type="radio"] {
   }
 }
 
+div.focused{
+  box-shadow: #ffdbd5 0px 0px 0px 2px;
+  font-weight: 400;
+  border: 2px solid #ec9c99;
+}
+
 .colorMetaValue:hover::before {
   content: "\f0c5";
   font-family: "Font Awesome 5 Free";

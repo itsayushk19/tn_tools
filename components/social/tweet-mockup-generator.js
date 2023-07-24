@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const TweetGenerator = () => {
+  const [TweetContent, setTweetContent] = useState("This is a sample tweet. @mentions, #hashtags, https://links.com are all automatically converted.")
   const [likesCount, setLikesCount] = useState(0);
   const [repliesCount, setRepliesCount] = useState(0);
   const [retweetsCount, setRetweetsCount] = useState(0);
@@ -14,8 +15,15 @@ const TweetGenerator = () => {
   const [usrName, setUSRName] = useState("@johndoe");
   const [avatar, setAvatar] = useState(null);
   const [avatarStatus, setAvatarStatus] = useState("Click to upload");
+  const [isInputHovered, setIsInputHovered] = useState(false);
   const [time, setTime] = useState(null);
   const tweetCardRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileUploadClick = () => {
+    // Programmatically trigger the file input click event using the ref
+    fileInputRef.current.click();
+  };
 
   const formatTweetContent = (content) => {
     // Regular expressions to find mentions, hashtags, and links in the tweet content
@@ -68,6 +76,18 @@ const TweetGenerator = () => {
         setAvatar(null);
         setAvatarStatus("Click to upload");
       }
+    } else if (name === "TweetContent") {
+      // Replace newlines with <br> tags for the preview
+      const formattedValue = value.replace(/\n/g, '<br>');
+      setTweetContent(formattedValue);
+
+      // Set isInputHovered to true for a few seconds
+      setIsInputHovered(true);
+
+      // Schedule setting isInputHovered back to false after 3 seconds (adjust the time as needed)
+      setTimeout(() => {
+        setIsInputHovered(false);
+      }, 3000);
     }
   };
 
@@ -135,7 +155,7 @@ const TweetGenerator = () => {
 
   return (
     <>
-      <div className="tweetPreview_main form__field flex justify-center">
+      <div className="tweetPreview_main form__field flex justify-center" >
         <div className="tweetPreview_card" ref={tweetCardRef}>
           <div className="tweetPreview_profile">
             {avatar ? (
@@ -161,9 +181,7 @@ const TweetGenerator = () => {
             </div>
             <div
               className="tweetPreview_content"
-              dangerouslySetInnerHTML={formatTweetContent(
-                "This is a sample tweet. @mentions, #hashtags, https://links.com are all automatically converted."
-              )}
+              dangerouslySetInnerHTML={formatTweetContent(TweetContent)}
             ></div>
             <div className="tweetPreview_footer">
               <div className="tweetPreview_footer_buttons">
@@ -210,8 +228,29 @@ const TweetGenerator = () => {
         </div>
       </div>
       <div className="grid lg:grid-flow-col gap-4">
+      <div className="form__group field">
+          <textarea
+            className="form__field form_field_med form_field_color"
+            placeholder=" "
+            name="TweetContent"
+            id="input"
+            required
+            value={TweetContent}
+            onChange={handleInputChange}
+          />
+          <label htmlFor="input" className="form__label txt-upper">
+           Tweet Content
+          </label>
+        </div>
+      </div>
+      <div className="grid lg:grid-flow-col gap-4">
         <div className="form__group field">
-          <div className="textarea-wrapper form__field form_field_slim">
+          <div className={`textarea-wrapper form__field form_field_slim file-upload ${
+        isInputHovered ? 'focused' : ''
+      }`} onClick={() => handleFileUploadClick()}
+            onMouseEnter={() => setIsInputHovered(true)}
+            onMouseLeave={() => setIsInputHovered(false)}
+          >
             <input
               type="file"
               accept="image/*"
@@ -219,6 +258,7 @@ const TweetGenerator = () => {
               name="avatar"
               id="input"
               required
+              ref={fileInputRef}
               onChange={handleInputChange}
             />
 
