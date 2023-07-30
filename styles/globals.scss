@@ -264,3 +264,39 @@ table.table{
     background: #fff;
     transition: border-color .2s;
 }
+
+input[type="checkbox"]:checked + .customCheckbox {
+  background-color: #007bff; /* Change the background when the checkbox is checked */
+  border-color: #007bff;
+}
+
+/* Style the inner tick mark for checked state */
+input[type="checkbox"]:checked + .customCheckbox::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 7px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Center the text vertically */
+input[type="checkbox"] + .customCheckbox + span {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  display: none; /* Hide the default checkbox */
+}
+
+input[type="checkbox"]:checked + .customCheckbox .checkIcon {
+  display: block;
+}
+
+input[type="checkbox"]:checked + .customCheckbox svg {
+  display: block;
+}

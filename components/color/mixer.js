@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
+import CustomDropdown from "../elemental/dropDownSelection";
+import colorDictionary from "../css/colors.json"
 
 export default function ColorMixTool({ id }) {
   const [startColor, setStartColor] = useState("");
@@ -80,8 +82,58 @@ export default function ColorMixTool({ id }) {
   };
 
   const handleStartColorChange = (event) => {
-    const color = event.target.value;
+    const color = event.target.value.trim();
     setStartColor(color);
+
+    // Check for light/dark first before primary color
+    const colorParts = color.toLowerCase().split(/\s+/);
+    if (
+      colorParts.length === 2 &&
+      (colorParts[0] === "light" || colorParts[0] === "dark")
+    ) {
+      const lightOrDark = colorParts[0];
+      const primaryColor = colorParts[1];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setStartColor(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setStartColor(primaryColorData.dark);
+          return;
+        }
+      }
+
+      // If the light/dark variation is not available, fall back to using the entered color
+      setStartColor(color);
+      return;
+    }
+
+    // If no light/dark or invalid input, continue with existing logic
+    setStartColor(color);
+
+    // Check for primary color or variations (light/dark)
+    if (colorParts.length >= 1) {
+      const primaryColor = colorParts[0];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        const lightOrDark = colorParts[1];
+
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setStartColor(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setStartColor(primaryColorData.dark);
+          return;
+        } else if (!lightOrDark) {
+          // If no light/dark specified, set the hex color
+          setStartColor(primaryColorData.hex);
+          return;
+        }
+      }
+    }
 
     if (isValidColor(color)) {
       const colorFormats = ["hex", "rgb", "rgba", "hsl", "hsla"];
@@ -102,6 +154,56 @@ export default function ColorMixTool({ id }) {
   const handleEndColorChange = (event) => {
     const color = event.target.value;
     setEndColor(color);
+
+    // Check for light/dark first before primary color
+    const colorParts = color.toLowerCase().split(/\s+/);
+    if (
+      colorParts.length === 2 &&
+      (colorParts[0] === "light" || colorParts[0] === "dark")
+    ) {
+      const lightOrDark = colorParts[0];
+      const primaryColor = colorParts[1];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setEndColor(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setEndColor(primaryColorData.dark);
+          return;
+        }
+      }
+
+      // If the light/dark variation is not available, fall back to using the entered color
+      setEndColor(color);
+      return;
+    }
+
+    // If no light/dark or invalid input, continue with existing logic
+    setEndColor(color);
+
+    // Check for primary color or variations (light/dark)
+    if (colorParts.length >= 1) {
+      const primaryColor = colorParts[0];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        const lightOrDark = colorParts[1];
+
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setEndColor(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setEndColor(primaryColorData.dark);
+          return;
+        } else if (!lightOrDark) {
+          // If no light/dark specified, set the hex color
+          setEndColor(primaryColorData.hex);
+          return;
+        }
+      }
+    }
 
     if (isValidColor(color)) {
       const colorFormats = ["hex", "rgb", "rgba", "hsl", "hsla"];
@@ -146,9 +248,8 @@ export default function ColorMixTool({ id }) {
     return false;
   };
 
-  const handleStepsChange = (event) => {
-    const steps = parseInt(event.target.value);
-    setSteps(steps);
+  const handleStepsChange = (option) => {
+    setSteps(option);
   };
 
   const mixColors = () => {
@@ -423,65 +524,55 @@ export default function ColorMixTool({ id }) {
 
   return (
     <>
-      <div className="grid grid-gap-small lg:grid-flow-col">
-        <div className="form__group field paletteField">
-          <textarea
-            className="form__field form_field_slim form_field_color code"
-            placeholder=" "
-            name="startColor"
-            id="startColor"
-            required
-            value={startColor}
-            onChange={handleStartColorChange}
-          />
-          <div
-            className="colorPalette"
-            style={{ background: `${startColor}` }}
-          ></div>
-          <label htmlFor="startColor" className="form__label txt-upper">
-            Start Color
-          </label>
-        </div>
-        <div className="form__group field paletteField">
-          <div
-            className="colorPalette"
-            style={{ background: `${endColor}` }}
-          ></div>
-          <textarea
-            className="form__field form_field_slim form_field_color code"
-            placeholder=" "
-            name="endColor"
-            id="endColor"
-            required
-            value={endColor}
-            onChange={handleEndColorChange}
-          />
-          <label htmlFor="endColor" className="form__label txt-upper">
-            End Color
-          </label>
+      <div className="grid lg:grid-flow-col gap-4">
+        <div className="form__group field">
+          <div className="form__group field paletteField">
+            <textarea
+              className="form__field form_field_slim form_field_color "
+              placeholder=" "
+              name="startColor"
+              id="startColor"
+              required
+              value={startColor}
+              onChange={handleStartColorChange}
+            />
+            <div
+              className="colorPalette"
+              style={{ background: `${startColor}` }}
+            ></div>
+            <label htmlFor="startColor" className="form__label txt-upper">
+              Start Color
+            </label>
+          </div>
         </div>
         <div className="form__group field">
-          <select
-            className="form__field form_field_slim"
-            name="steps"
-            id="steps"
-            value={steps}
-            onChange={handleStepsChange}
-          >
-            <option value="1">1 Step</option>
-            <option value="2">2 Steps</option>
-            <option value="3">3 Steps</option>
-            <option value="4">4 Steps</option>
-            <option value="5">5 Steps</option>
-            <option value="6">6 Steps</option>
-            <option value="7">7 Steps</option>
-            <option value="8">8 Steps</option>
-            <option value="9">9 Steps</option>
-            <option value="10">10 Steps</option>
-          </select>
-          <label htmlFor="steps" className="form__label txt-upper">
-            Steps
-          </label>
+          <div className="form__group field paletteField">
+            <div
+              className="colorPalette"
+              style={{ background: `${endColor}` }}
+            ></div>
+            <textarea
+              className="form__field form_field_slim form_field_color "
+              placeholder=" "
+              name="endColor"
+              id="endColor"
+              required
+              value={endColor}
+              onChange={handleEndColorChange}
+            />
+            <label htmlFor="endColor" className="form__label txt-upper">
+              End Color
+            </label>
+          </div>
+        </div>
+        <div className="form__group field">
+          <CustomDropdown
+            options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} // Replace with your options array
+            onSelect={handleStepsChange} // Pass the callback function to onSelect prop
+            size="slim" // Replace with the desired size
+            label="Select an option" // Replace with the desired label
+            selectedOption={steps} // Replace with the desired
+          />
         </div>
       </div>
       <div className="flex flex-col justify-evenly content-center items-center">

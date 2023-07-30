@@ -1,0 +1,91 @@
+@import "variables";
+/* CustomDropdown.module.css */
+.dropdownContainer {
+  position: relative;
+  width: 100%;
+  /* Add other styling as needed */
+}
+
+.selectedOption {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  width: 100%;
+}
+
+.optionsList {
+  position: absolute;
+  z-index: 99999999999999;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  top: 100% + 5%;
+  left: 0;
+  height: fit-content;
+  max-height: 260px;
+  overflow-y: scroll !important;
+  width: 100%;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  animation: expandFromTop 0.2s ease;
+  transition: height 0.3s ease;
+}
+
+.optionsList li {
+  padding: $space-4;
+  cursor: pointer;
+}
+
+.optionsList li:not(.activeOption):hover {
+  background-color: $colors-violet3; /* Replace this with your desired background color for non-active items on hover */
+  color: black; /* Replace this with your desired text color for non-active items on hover */
+}
+
+.activeOption {
+  background-color: $primary-vibrant; /* Replace this with your desired background color */
+  color: white;
+  font-weight: 700;
+  display: block; /* Replace this with your desired text color */
+}
+
+.noOptions {
+  padding: 10px;
+  text-align: center;
+  height: 50vh;
+  background-color: white;
+}
+
+.icon {
+  position: absolute;
+  right: $space-4;
+  top: 50%;
+  color: $primary-vibrant;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.opened {
+  transform: rotate(180deg);
+}
+
+@keyframes expandFromTop {
+  0% {
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+  100% {
+    transform-origin: top;
+    transform: scaleY(1);
+  }
+}
+@keyframes collapseToTop {
+  0% {
+    transform-origin: bottom;
+    transform: scaleY(1);
+  }
+  100% {
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+}

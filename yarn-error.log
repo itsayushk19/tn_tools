@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\ajay4\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add mathjax
+  C:\Program Files\nodejs\node.exe C:\Users\ajay4\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add cheerio
 
 PATH: 
   C:\ffmpeg\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\ajay4\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\Scripts;C:\Program Files\Git\cmd;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;;C:\Program Files\Docker\Docker\resources\bin;C:\Ruby31-x64\bin;C:\Users\ajay4\AppData\Local\Microsoft\WindowsApps;C:\Users\ajay4\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ajay4\.dotnet\tools;C:\Users\ajay4\AppData\Roaming\npm;C:\Program Files (x86)\MongoDB CLI\;C:\Users\ajay4\AppData\Local\Programs\mongosh\;C:\Users\ajay4\AppData\Local\GitHubDesktop\bin;;C:\adb;
@@ -52,9 +52,12 @@ npm manifest:
       "@testing-library/react": "^14.0.0",
       "@vercel/analytics": "^1.0.1",
       "autoprefixer": "^10.4.14",
+      "axios": "^1.4.0",
       "babel-loader": "^9.1.3",
       "babel-plugin-macros": "^3.1.0",
       "bcrypt": "^5.1.0",
+      "boxicons": "^2.1.4",
+      "cheerio": "^1.0.0-rc.12",
       "comlink": "^4.4.1",
       "comlink-loader": "^2.0.0",
       "compromise": "^14.9.0",
@@ -71,8 +74,10 @@ npm manifest:
       "html-minifier": "^4.0.0",
       "html2canvas": "^1.4.1",
       "install": "^0.13.0",
+      "ioredis": "^5.3.2",
       "jsonwebtoken": "^9.0.1",
       "math-expressions": "^2.0.0-alpha64",
+      "mathjax": "^3.2.2",
       "mathjs": "^11.8.2",
       "mathquill": "^0.10.1-a",
       "memoizee": "^0.4.15",
@@ -90,13 +95,18 @@ npm manifest:
       "plotly.js-basic-dist": "^2.24.3",
       "postcss": "^8.4.24",
       "prettier": "^3.0.0",
+      "puppeteer": "^20.9.0",
       "react": "18.2.0",
       "react-color": "^2.19.3",
       "react-datepicker": "^4.16.0",
       "react-datetime": "^3.2.0",
       "react-dom": "18.2.0",
+      "react-google-charts": "^4.0.1",
+      "react-highlight": "^0.15.0",
+      "react-math-keyboard": "^1.2.32",
       "react-mathquill": "^1.0.3",
       "react-ripples": "^2.2.1",
+      "react-syntax-highlighter": "^15.5.0",
       "react-toastify": "^9.1.3",
       "react-top-loading-bar": "^2.3.1",
       "remark": "^14.0.3",

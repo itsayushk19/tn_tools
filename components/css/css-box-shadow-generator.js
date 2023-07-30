@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import colorDictionary from "./colors.json";
 import Highlight from "react-highlight";
+import CustomDropdown from "../elemental/dropDownSelection";
+import CustomCheckbox from "../elemental/checkBox";
+
+const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
 export default function LoremIpsumGenerator() {
   const defaultSettings = {
@@ -106,6 +110,10 @@ export default function LoremIpsumGenerator() {
     const value = event.target.value;
     setSpread(value);
   };
+  const handleOptionSelect = (selectedOption) => {
+    console.log("Selected option:", selectedOption);
+    // Do something with the selected option, e.g., update state or perform an action.
+  };
 
   const handleColorChange = (event, setColor, setColorFormat) => {
     const color = event.target.value.trim(); // Remove leading and trailing whitespaces
@@ -205,6 +213,17 @@ export default function LoremIpsumGenerator() {
 
   return (
     <>
+      <div className="grid lg:grid-flow-col gap-5">
+        <CustomCheckbox options={options} orientation={"vertical"} />
+      </div>
+      <div className="grid lg:grid-flow-col gap-5">
+        <CustomDropdown
+          options={options}
+          onSelect={handleOptionSelect}
+          size="slim"
+          label="Label"
+        />
+      </div>
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="grid lg:grid-cols-1 pane">
           <div className="flex flex-col justify-between">
@@ -224,8 +243,8 @@ export default function LoremIpsumGenerator() {
               <input
                 type="range"
                 id="HorizOff"
-                min={1}
-                max={60}
+                min={-40}
+                max={40}
                 value={HorizOff}
                 onChange={handleHorizOffChange}
               />
@@ -246,8 +265,8 @@ export default function LoremIpsumGenerator() {
               <input
                 type="range"
                 id="vertOff"
-                min={1}
-                max={20}
+                min={-40}
+                max={40}
                 value={VertOff}
                 onChange={handleVertOffChange}
               />
@@ -271,8 +290,8 @@ export default function LoremIpsumGenerator() {
               <input
                 type="range"
                 id="blur"
-                min={1}
-                max={30}
+                min={0}
+                max={20}
                 value={Blur}
                 onChange={handleBlurChange}
               />
@@ -293,8 +312,8 @@ export default function LoremIpsumGenerator() {
               <input
                 type="range"
                 id="spread"
-                min={1}
-                max={30}
+                min={0}
+                max={20}
                 value={Spread}
                 onChange={handleSpreadChange}
               />
@@ -314,7 +333,7 @@ export default function LoremIpsumGenerator() {
         <div className="grid lg:grid-cols-1 form__field">
           <div className="form__group field paletteField">
             <textarea
-              className="form__field form_field_slim form_field_color code"
+              className="form__field form_field_slim form_field_color"
               placeholder=" "
               name="firstColor"
               id="firstColor"
@@ -338,7 +357,7 @@ export default function LoremIpsumGenerator() {
               style={{ background: `${secondColor}` }}
             ></div>
             <textarea
-              className="form__field form_field_slim form_field_color code"
+              className="form__field form_field_slim form_field_color"
               placeholder=" "
               name="secondColor"
               id="secondColor"
@@ -358,7 +377,7 @@ export default function LoremIpsumGenerator() {
               style={{ background: `${thirdColor}` }}
             ></div>
             <textarea
-              className="form__field form_field_slim form_field_color code"
+              className="form__field form_field_slim form_field_color "
               placeholder=" "
               name="thirdColor"
               id="thirdColor"
@@ -389,13 +408,13 @@ export default function LoremIpsumGenerator() {
       </div>
       <div className="tn_button_group flex justify-center">
         <button
-        onClick={handleCopy}
+          onClick={handleCopy}
           className={`tn_button tn_button_medium tn_button_bordered tn_button_round`}
         >
           Copy
         </button>
         <button
-        onClick={handleReset}
+          onClick={handleReset}
           className={`tn_button tn_button_medium  tn_button_primary tn_button_round ml-5`}
         >
           Reset

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import CustomDropdown from "../elemental/dropDownSelection";
+import colorDictionary from "../css/colors.json";
 
 export default function CodingTool({ id }) {
   const [inputText, setInputText] = useState("");
@@ -10,7 +12,7 @@ export default function CodingTool({ id }) {
   const [lastColorFormat, setLastColorFormat] = useState(`rgb`);
   const [colorCodes, setColorCodes] = useState({});
   const [isInputEmpty, setIsInputEmpty] = useState(true);
-  
+
   const options = {
     position: "top-center",
     autoClose: 1000,
@@ -38,8 +40,8 @@ export default function CodingTool({ id }) {
     setBorderColor(isValidColor(selectedColor) ? selectedColor : "");
   };
 
-  const handleFirstColorFormatChange = (event) => {
-    const selectedFormat = event.target.value;
+  const handleFirstColorFormatChange = (option) => {
+    const selectedFormat = option;
 
     if (selectedFormat === lastColorFormat) {
       // Vibrate or oscillate the dropdown form to indicate the selection is wrong
@@ -53,8 +55,8 @@ export default function CodingTool({ id }) {
     }
   };
 
-  const handleLastColorFormatChange = (event) => {
-    const selectedFormat = event.target.value;
+  const handleLastColorFormatChange = (option) => {
+    const selectedFormat = option;
 
     if (selectedFormat === firstColorFormat) {
       // Vibrate or oscillate the dropdown form to indicate the selection is wrong
@@ -73,6 +75,56 @@ export default function CodingTool({ id }) {
 
     setInputText(color);
     setBorderColor(isValidColor(color) ? color : "");
+
+    // Check for light/dark first before primary color
+    const colorParts = color.toLowerCase().split(/\s+/);
+    if (
+      colorParts.length === 2 &&
+      (colorParts[0] === "light" || colorParts[0] === "dark")
+    ) {
+      const lightOrDark = colorParts[0];
+      const primaryColor = colorParts[1];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setInputText(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setInputText(primaryColorData.dark);
+          return;
+        }
+      }
+
+      // If the light/dark variation is not available, fall back to using the entered color
+      setInputText(color);
+      return;
+    }
+
+    // If no light/dark or invalid input, continue with existing logic
+    setInputText(color);
+
+    // Check for primary color or variations (light/dark)
+    if (colorParts.length >= 1) {
+      const primaryColor = colorParts[0];
+      const primaryColorData = colorDictionary[primaryColor];
+
+      if (primaryColorData) {
+        const lightOrDark = colorParts[1];
+
+        if (lightOrDark === "light" && primaryColorData.light) {
+          setInputText(primaryColorData.light);
+          return;
+        } else if (lightOrDark === "dark" && primaryColorData.dark) {
+          setInputText(primaryColorData.dark);
+          return;
+        } else if (!lightOrDark) {
+          // If no light/dark specified, set the hex color
+          setInputText(primaryColorData.hex);
+          return;
+        }
+      }
+    }
 
     if (isValidColor(color)) {
       // Get the first color format that matches the entered color
@@ -458,132 +510,33 @@ export default function CodingTool({ id }) {
     <>
       <div className="grid lg:grid-flow-col">
         <div className="form__group field">
-          <textarea
-            className="form__field form_field_slim form_field_color code"
-            placeholder=" "
-            name="input"
-            id="input"
-            required
-            value={inputText}
-            onChange={handleInputChange}
-            style={{ borderColor: borderColor }}
-          />
-          <label htmlFor="input" className="form__label txt-upper">
-            {firstColorFormat.toUpperCase()}
-          </label>
-          <form className="field_drop_selection" id="firstColorDropdownForm">
-            <div id="select-box">
-              <input type="checkbox" id="options-view-button" />
-              <div id="select-button" className="brd">
-                <div id="selected-value">
-                  <span>Select Color</span>
-                </div>
-              </div>
-              <div id="options">
-                <div className="option">
-                  <input
-                    className="s-c top"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="hex"
-                    checked={firstColorFormat === "hex"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <input
-                    className="s-c bottom"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="Hex"
-                    checked={firstColorFormat === "Hex"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <span className="label">Hex</span>
-                  <span className="opt-val">Hex</span>
-                </div>
-                <div className="option">
-                  <input
-                    className="s-c top"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="rgb"
-                    checked={firstColorFormat === "rgb"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <input
-                    className="s-c bottom"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="RGB"
-                    checked={firstColorFormat === "RGB"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <span className="label">RGB</span>
-                  <span className="opt-val">RGB</span>
-                </div>
-                <div className="option">
-                  <input
-                    className="s-c top"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="rgba"
-                    checked={firstColorFormat === "rgba"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <input
-                    className="s-c bottom"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="RGB"
-                    checked={firstColorFormat === "RGBA"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <span className="label">RGBA</span>
-                  <span className="opt-val">RGBA</span>
-                </div>
-                <div className="option">
-                  <input
-                    className="s-c top"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="hsl"
-                    checked={firstColorFormat === "hsl"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <input
-                    className="s-c bottom"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="HSL"
-                    checked={firstColorFormat === "HSL"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <span className="label">HSL</span>
-                  <span className="opt-val">HSL</span>
-                </div>
-                <div className="option">
-                  <input
-                    className="s-c top"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="hsla"
-                    checked={firstColorFormat === "hsla"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <input
-                    className="s-c bottom"
-                    type="radio"
-                    name="firstColorFormat"
-                    value="HSLA"
-                    checked={firstColorFormat === "HSLA"}
-                    onChange={handleFirstColorFormatChange}
-                  />
-                  <span className="label">HSLA</span>
-                  <span className="opt-val">HSLA</span>
-                </div>
-                <div id="option-bg"></div>
-              </div>
-            </div>
-          </form>
+          <div className="field paletteField">
+            <textarea
+              className="form__field form_field_slim form_field_color"
+              placeholder=" "
+              name="firstColor"
+              id="firstColor"
+              required
+              value={inputText}
+              onChange={handleInputChange}
+            />
+            <div
+              className="colorPalette"
+              style={{ background: `${inputText}` }}
+            ></div>
+            <label htmlFor="BG" className="form__label txt-upper">
+              Background Color
+            </label>
+          </div>
+          <div id="firstColorDropdownForm" className="">
+            <CustomDropdown
+              options={["HEX", "RGB", "HSL", "RGBA", "HSLA"]}
+              onSelect={handleFirstColorFormatChange}
+              size="slim"
+              label="Label"
+              selectedOption={firstColorFormat}
+            />
+          </div>
         </div>
         <div className="flex flex-col justify-evenly content-center items-center">
           <button
@@ -602,7 +555,7 @@ export default function CodingTool({ id }) {
         <div className="tn_textarea_btn">
           <div className="form__group field">
             <textarea
-              className="form__field form_field_slim form_field_color code readonly"
+              className="form__field form_field_slim form_field_color readonly"
               placeholder=" "
               name="output"
               id="output"
@@ -612,119 +565,15 @@ export default function CodingTool({ id }) {
             <label htmlFor="output" className="form__label">
               {lastColorFormat.toUpperCase()}
             </label>
-            <form className="field_drop_selection" id="lastColorDropdownForm">
-              <div id="select-box">
-                <input type="checkbox" id="options-view-button" />
-                <div id="select-button" className="brd">
-                  <div id="selected-value">
-                    <span>Select Color</span>
-                  </div>
-                </div>
-                <div id="options">
-                  <div className="option">
-                    <input
-                      className="s-c top"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="hex"
-                      checked={lastColorFormat === "hex"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <input
-                      className="s-c bottom"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="Hex"
-                      checked={lastColorFormat === "Hex"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <span className="label">Hex</span>
-                    <span className="opt-val">Hex</span>
-                  </div>
-                  <div className="option">
-                    <input
-                      className="s-c top"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="rgb"
-                      checked={lastColorFormat === "rgb"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <input
-                      className="s-c bottom"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="RGB"
-                      checked={lastColorFormat === "RGB"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <span className="label">RGB</span>
-                    <span className="opt-val">RGB</span>
-                  </div>
-                  <div className="option">
-                    <input
-                      className="s-c top"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="rgba"
-                      checked={lastColorFormat === "rgba"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <input
-                      className="s-c bottom"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="RGB"
-                      checked={lastColorFormat === "RGBA"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <span className="label">RGBA</span>
-                    <span className="opt-val">RGBA</span>
-                  </div>
-                  <div className="option">
-                    <input
-                      className="s-c top"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="hsl"
-                      checked={lastColorFormat === "hsl"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <input
-                      className="s-c bottom"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="HSL"
-                      checked={lastColorFormat === "HSL"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <span className="label">HSL</span>
-                    <span className="opt-val">HSL</span>
-                  </div>
-                  <div className="option">
-                    <input
-                      className="s-c top"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="hsla"
-                      checked={lastColorFormat === "hsla"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <input
-                      className="s-c bottom"
-                      type="radio"
-                      name="lastColorFormat"
-                      value="HSLA"
-                      checked={lastColorFormat === "HSLA"}
-                      onChange={handleLastColorFormatChange}
-                    />
-                    <span className="label">HSLA</span>
-                    <span className="opt-val">HSLA</span>
-                  </div>
-                  <div id="option-bg"></div>
-                </div>
-              </div>
-            </form>
+            <div id="lastColorDropdownForm" className="">
+              <CustomDropdown
+                options={["HEX", "RGB", "HSL", "RGBA", "HSLA"]}
+                onSelect={handleLastColorFormatChange}
+                size="slim"
+                label="Label"
+                selectedOption={lastColorFormat}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ select:focus {
   outline: none;
 }
 
-.tn_text{
+.tn_text {
   color: rgb(38, 39, 75);
   outline: none;
 }
@@ -28,7 +28,6 @@ select:focus {
   right: 10px;
   transform: translateY(-50%);
 }
-
 
 .form__field {
   overflow-x: hidden;
@@ -55,11 +54,24 @@ select:focus {
     font-size: $fontSizes-3;
     color: rgb(115, 115, 143);
     cursor: text;
-    top: $space-5;
+    top: $space-3;
+    pointer-events: none;
   }
 }
 
-.form__group.paletteField {
+.form__field.highlightText {
+  font-size: $fontSizes-7;
+  font-weight: bold;
+  overflow-y: scroll !important;
+}
+
+.form__field.form_field_color {
+  &:placeholder-shown ~ .form__label {
+    left: 30px;
+  }
+}
+
+.paletteField {
   display: flex;
   align-items: center;
 
@@ -69,7 +81,6 @@ select:focus {
     border-radius: $radii-3;
     position: absolute;
     margin-left: $space-3;
-    margin-top: 10px;
     box-shadow: gray 0px 0px 1px;
   }
 }
@@ -97,13 +108,75 @@ select:focus {
 
 .form__group {
   position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
   width: 100%;
+}
+
+.strengthCode {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  font-size: $fontSizes-6;
+  font-weight: 600;
+}
+
+.form__colorBar {
+  position: absolute;
+  display: grid;
+  grid-auto-flow: column;
+  -moz-column-gap: 10px;
+  column-gap: 10px;
+  top: 15px;
+  right: 15px;
+
+  .bar {
+    width: 40px;
+    height: 40px;
+    border-radius: $radii-4;
+  }
+  .red {
+    background-color: red;
+    filter: opacity(0.1);
+  }
+  .tangerine {
+    background-color: #f28500;
+    filter: opacity(0.1);
+  }
+  .orange {
+    background-color: orange;
+    filter: opacity(0.1);
+  }
+  .yellow {
+    background-color: yellow;
+    filter: opacity(0.1);
+  }
+  .lgreen {
+    background-color: lightgreen;
+    filter: opacity(0.1);
+  }
+  .mgreen {
+    background-color: green;
+    filter: opacity(0.1);
+  }
+  .green {
+    background-color: darkgreen;
+    filter: opacity(0.1);
+  }
+}
+
+.form__label.focused {
+  position: absolute;
+  top: 0 !important;
+  display: block !important;
+  transition: 0.2s !important;
+  font-size: 12px !important;
+  color: #73738f !important;
+  cursor: text;
+  top: 15px;
+  pointer-events: none;
 }
 .form__label {
   position: absolute;
-  top: $space-2;
+  top: 0;
   display: block;
   transition: 0.2s;
   font-size: $fontSizes-1;
@@ -113,7 +186,7 @@ select:focus {
 .form__field:focus {
   ~ .form__label {
     position: absolute;
-    top: $space-2;
+    top: 0;
     display: block;
     transition: 0.2s;
     font-size: $fontSizes-1;
@@ -134,7 +207,6 @@ select:focus {
 .form__field {
   &:required,
   &:invalid {
-    
   }
 }
 
@@ -183,7 +255,7 @@ body {
   background-color: #ebf3f3;
 }
 
-.field{
+.field {
   cursor: pointer;
 }
 
@@ -665,7 +737,7 @@ input[type="radio"] {
   }
 }
 
-div.focused{
+div.focused {
   box-shadow: #ffdbd5 0px 0px 0px 2px;
   font-weight: 400;
   border: 2px solid #ec9c99;
@@ -706,194 +778,192 @@ div.focused{
   column-gap: $space-4;
 }
 
-
-
 /* === range theme and appearance === */
 input[type="range"] {
-	font-size: 1.5rem;
-	width: 100%;
+  font-size: 1.5rem;
+  width: 100%;
 }
 
 input[type="range"] {
-	color: #ef233c;
-	--thumb-height: 1.125em;
-	--track-height: 0.3em;
-	--track-color: rgba(0, 0, 0, 0.2);
-	--brightness-down: 80%;
-	--clip-edges: 0.125em;
+  color: #ef233c;
+  --thumb-height: 1.125em;
+  --track-height: 0.3em;
+  --track-color: rgba(0, 0, 0, 0.2);
+  --brightness-down: 80%;
+  --clip-edges: 0.125em;
 }
 
 input[type="range"].win10-thumb {
-	color: #2b2d42;
+  color: #2b2d42;
 
-	--thumb-height: 1.375em;
-	--thumb-width: 0.5em;
-	--clip-edges: 0.0125em;
+  --thumb-height: 1.375em;
+  --thumb-width: 0.5em;
+  --clip-edges: 0.0125em;
 }
 
 @media (prefers-color-scheme: dark) {
-	html {
-		background-color: #000;
-	}
+  html {
+    background-color: #000;
+  }
 
-	html::before {
-		background: radial-gradient(circle at center, #101112, #000);
-	}
+  html::before {
+    background: radial-gradient(circle at center, #101112, #000);
+  }
 
-	input[type="range"] {
-		color: #f07167;
-		--track-color: #ffd2be;
-	}
+  input[type="range"] {
+    color: #f07167;
+    --track-color: #ffd2be;
+  }
 
-	input[type="range"].win10-thumb {
-		color: #3a86ff;
-	}
+  input[type="range"].win10-thumb {
+    color: #3a86ff;
+  }
 }
 
 /* === range commons === */
 input[type="range"] {
-	position: relative;
-	background: #fff0;
-	overflow: hidden;
+  position: relative;
+  background: #fff0;
+  overflow: hidden;
 }
 
 input[type="range"]:active {
-	cursor: grabbing;
+  cursor: grabbing;
 }
 
 input[type="range"]:disabled {
-	filter: grayscale(1);
-	opacity: 0.3;
-	cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* === WebKit specific styles === */
 input[type="range"],
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	transition: all ease 100ms;
-	height: var(--thumb-height);
+  -webkit-appearance: none;
+  transition: all ease 100ms;
+  height: var(--thumb-height);
 }
 
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-webkit-slider-thumb {
-	position: relative;
+  position: relative;
 }
 
 input[type="range"]::-webkit-slider-runnable-track,
-input[type="range"]::-moz-range-track{
+input[type="range"]::-moz-range-track {
   border-radius: 100px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-	--thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
-	--clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
-	--clip-bottom: calc(var(--thumb-height) - var(--clip-top));
-	--clip-further: calc(100% + 1px);
-	--box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0
-		100vmax currentColor;
+  --thumb-radius: calc((var(--thumb-height) * 0.5) - 1px);
+  --clip-top: calc((var(--thumb-height) - var(--track-height)) * 0.5 - 0.5px);
+  --clip-bottom: calc(var(--thumb-height) - var(--clip-top));
+  --clip-further: calc(100% + 1px);
+  --box-fill: calc(-100vmax - var(--thumb-width, var(--thumb-height))) 0 0
+    100vmax currentColor;
 
-	width: var(--thumb-width, var(--thumb-height));
-	background: linear-gradient(currentColor 0 0) scroll no-repeat left center /
-		50% calc(var(--track-height) + 1px);
-	background-color: currentColor;
-	box-shadow: var(--box-fill);
-	border-radius: var(--thumb-width, var(--thumb-height));
+  width: var(--thumb-width, var(--thumb-height));
+  background: linear-gradient(currentColor 0 0) scroll no-repeat left center /
+    50% calc(var(--track-height) + 1px);
+  background-color: currentColor;
+  box-shadow: var(--box-fill);
+  border-radius: var(--thumb-width, var(--thumb-height));
 
-	filter: brightness(100%);
-	clip-path: polygon(
-		100% -1px,
-		var(--clip-edges) -1px,
-		0 var(--clip-top),
-		-100vmax var(--clip-top),
-		-100vmax var(--clip-bottom),
-		0 var(--clip-bottom),
-		var(--clip-edges) 100%,
-		var(--clip-further) var(--clip-further)
-	);
+  filter: brightness(100%);
+  clip-path: polygon(
+    100% -1px,
+    var(--clip-edges) -1px,
+    0 var(--clip-top),
+    -100vmax var(--clip-top),
+    -100vmax var(--clip-bottom),
+    0 var(--clip-bottom),
+    var(--clip-edges) 100%,
+    var(--clip-further) var(--clip-further)
+  );
 }
 
 input[type="range"]:hover::-webkit-slider-thumb {
-	filter: brightness(var(--brightness-hover));
-	cursor: grab;
+  filter: brightness(var(--brightness-hover));
+  cursor: grab;
 }
 
 input[type="range"]:active::-webkit-slider-thumb {
-	filter: brightness(var(--brightness-down));
-	cursor: grabbing;
+  filter: brightness(var(--brightness-down));
+  cursor: grabbing;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-	background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
-		100% calc(var(--track-height) - 1px);
+  background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
+    100% calc(var(--track-height) - 1px);
 }
 
 input[type="range"]:disabled::-webkit-slider-thumb {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 /* === Firefox specific styles === */
 input[type="range"],
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-thumb {
-	appearance: none;
-	transition: all ease 100ms;
-	height: var(--thumb-height);
+  appearance: none;
+  transition: all ease 100ms;
+  height: var(--thumb-height);
 }
 
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-thumb,
 input[type="range"]::-moz-range-progress {
-	background: #fff0;
+  background: #fff0;
 }
 
 input[type="range"]::-moz-range-thumb {
-	background: currentColor;
-	border: 0;
-	width: var(--thumb-width, var(--thumb-height));
-	border-radius: var(--thumb-width, var(--thumb-height));
-	cursor: grab;
+  background: currentColor;
+  border: 0;
+  width: var(--thumb-width, var(--thumb-height));
+  border-radius: var(--thumb-width, var(--thumb-height));
+  cursor: grab;
 }
 
 input[type="range"]:active::-moz-range-thumb {
-	cursor: grabbing;
+  cursor: grabbing;
 }
 
 input[type="range"]::-moz-range-track {
-	width: 100%;
-	background: var(--track-color);
+  width: 100%;
+  background: var(--track-color);
 }
 
 input[type="range"]::-moz-range-progress {
-	appearance: none;
-	background: currentColor;
-	transition-delay: 30ms;
+  appearance: none;
+  background: currentColor;
+  transition-delay: 30ms;
 }
 
 input[type="range"]::-moz-range-track,
 input[type="range"]::-moz-range-progress {
-	height: calc(var(--track-height) + 1px);
-	border-radius: var(--track-height);
+  height: calc(var(--track-height) + 1px);
+  border-radius: var(--track-height);
 }
 
 input[type="range"]::-moz-range-thumb,
 input[type="range"]::-moz-range-progress {
-	filter: brightness(100%);
+  filter: brightness(100%);
 }
 
 input[type="range"]:hover::-moz-range-thumb,
 input[type="range"]:hover::-moz-range-progress {
-	filter: brightness(var(--brightness-hover));
+  filter: brightness(var(--brightness-hover));
 }
 
 input[type="range"]:active::-moz-range-thumb,
 input[type="range"]:active::-moz-range-progress {
-	filter: brightness(var(--brightness-down));
+  filter: brightness(var(--brightness-down));
 }
 
 input[type="range"]:disabled::-moz-range-thumb {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .avatar-preview {
@@ -903,50 +973,50 @@ input[type="range"]:disabled::-moz-range-thumb {
   top: $space-3;
   right: $space-3;
 
-  img{
+  img {
     right: $space-3;
     position: absolute;
     transition: 0.1s ease-in-out;
   }
 }
 
-.avatar-preview .clear-button{
+.avatar-preview .clear-button {
   top: $space-1;
   right: $space-1;
 
-  i{
+  i {
     background: $colors-gray8;
-    border-radius: $radii-round;  
+    border-radius: $radii-round;
     color: $colors-gray11;
     transition: 0.1s ease-in;
     font-size: 17px;
     font-weight: bold;
-    &:hover{
-      filter: brightness(93%)
+    &:hover {
+      filter: brightness(93%);
     }
   }
 }
 
-.hljs{
+.hljs {
   font-size: 15px;
 }
 
-.hljs-attribute{
+.hljs-attribute {
   color: #444;
   font-weight: 700;
-    font-size: 15px;
+  font-size: 15px;
 }
 
-.hljs-number{
+.hljs-number {
   color: $colors-violet9;
-    font-size: 15px;
+  font-size: 15px;
 }
 
-.form_field_med{
+.form_field_med {
   width: 100%;
-    height: 100px;
-    overflow-y: hidden;
-    font-size: 16px;
+  height: 100px;
+  overflow-y: hidden;
+  font-size: 16px;
 }
 
 .tweet-mention,
@@ -966,9 +1036,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
-
-

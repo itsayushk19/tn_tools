@@ -32,16 +32,16 @@
 }
 
 .tn_button_small{
-    padding: $space-2 $space-3;
+    padding: $space-2 $space-3 !important;
 }
 
 .tn_button_medium{
-    padding: $space-3 $space-5;
+    padding: $space-3 $space-5 !important;
 }
 
 .tn_button_primary{
     background: $colors-violet9;
-    color: white;
+    color: white !important;
     font-size: $fontSizes-3;
     font-weight: 500;
 }
@@ -51,7 +51,7 @@
 }
 
 .tn_button_long{
-    padding: $space-2 $space-6;
+    padding: $space-2 $space-6 !important;
 }
 
 .tn_button_default{

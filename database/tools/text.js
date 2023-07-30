@@ -9,6 +9,8 @@ const DynamicComponent = ({ id }) => {
     Component = dynamic(() => import('components/text/lorem-ipsum-generator.js'));
   } else if (id.includes('word-counter')) {
     Component = dynamic(() => import('components/text/word-counter.js'))
+  } else if (id.includes('whitespace-remover')){
+    Component = dynamic(() => import('components/text/whitespace-remover.js'))
   }
 
   return Component ? <Component id={id} /> : null;
