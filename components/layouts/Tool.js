@@ -40,10 +40,10 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
   const title = `${toolData.title} Online | Free WebTool By TechNeg`;
 
   const SEO = {
-    title: `${toolData.title} Online | Free WebTool By TechNeg`,
+    title: `${toolData.title} Online | WebTool By TechNeg`,
     description: `${toolData.description}`,
     openGraph: {
-      title: `${toolData.title} Online | Free WebTool By TechNeg`,
+      title: `${toolData.title} Online | WebTool By TechNeg`,
       description: `${toolData.description}`,
       type: "website",
       site_name: "Free WebTools By TechNeg",
@@ -96,7 +96,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
           <div className="tool__embed">
             <div className="pageMeta">
               <Image src={toolData.activeSVG} width={50} height={50} />
-              <h1 id="toolTitle">{toolData.title}</h1>
+              <h1 id="toolTitle">{toolData.id.replace(/-/g, ' ').toUpperCase()}</h1>
               <button
                 className="tn_button tn_button_small bug_button"
                 onClick={openPopup}

@@ -8,8 +8,8 @@ export default function CodingTool({ id }) {
   const [outputText, setOutputText] = useState("");
   const [borderColor, setBorderColor] = useState("");
   const ToolID = id.split("-");
-  const [firstColorFormat, setFirstColorFormat] = useState(`hex`);
-  const [lastColorFormat, setLastColorFormat] = useState(`rgb`);
+  const [firstColorFormat, setFirstColorFormat] = useState(`HEX`);
+  const [lastColorFormat, setLastColorFormat] = useState(`RGB`);
   const [colorCodes, setColorCodes] = useState({});
   const [isInputEmpty, setIsInputEmpty] = useState(true);
 
@@ -28,16 +28,11 @@ export default function CodingTool({ id }) {
     setIsInputEmpty(inputText.trim() === "");
   }, [inputText]);
 
-  const handleColorPickerOpen = () => {
-    if (inputRef.current) {
-      inputRef.current.click(); // Trigger the click event on the hidden input element
-    }
-  };
-
-  const handleColorPickerChange = (event) => {
-    const selectedColor = event.target.value;
-    setInputText(selectedColor);
-    setBorderColor(isValidColor(selectedColor) ? selectedColor : "");
+  const handleSwitchClick = () => {
+    // Swap the values of firstColorFormat and lastColorFormat
+    const tempFormat = firstColorFormat;
+    setFirstColorFormat(lastColorFormat);
+    setLastColorFormat(tempFormat);
   };
 
   const handleFirstColorFormatChange = (option) => {
@@ -71,7 +66,7 @@ export default function CodingTool({ id }) {
   };
 
   const handleInputChange = (event) => {
-    const color = event.target.value.trim();
+    const color = event.target.value.trim().toUpperCase();
 
     setInputText(color);
     setBorderColor(isValidColor(color) ? color : "");
@@ -119,8 +114,8 @@ export default function CodingTool({ id }) {
           setInputText(primaryColorData.dark);
           return;
         } else if (!lightOrDark) {
-          // If no light/dark specified, set the hex color
-          setInputText(primaryColorData.hex);
+          // If no light/dark specified, set the HEX color
+          setInputText(primaryColorData.HEX);
           return;
         }
       }
@@ -128,7 +123,7 @@ export default function CodingTool({ id }) {
 
     if (isValidColor(color)) {
       // Get the first color format that matches the entered color
-      const colorFormats = ["hex", "rgb", "rgba", "hsl", "hsla"];
+      const colorFormats = ["HEX", "RGB", "RGBA", "HSL", "HSLA"];
 
       for (const format of colorFormats) {
         if (color.toLowerCase().startsWith(format)) {
@@ -141,28 +136,28 @@ export default function CodingTool({ id }) {
       const formattedColor = "#" + color;
       setInputText(formattedColor);
       setBorderColor(formattedColor);
-      setFirstColorFormat("hex");
+      setFirstColorFormat("HEX");
     }
   };
 
   const isValidColor = (color) => {
-    // Hex color validation (e.g., #FFF, #FFFFFF)
+    // HEX color validation (e.g., #FFF, #FFFFFF)
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(color)) {
       return true;
     }
 
-    // RGB/RGBA color validation (e.g., rgb(255, 255, 255), rgba(255, 255, 255, 0.5))
+    // RGB/RGBA color validation (e.g., RGB(255, 255, 255), RGBA(255, 255, 255, 0.5))
     if (
-      /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*\d+(\.\d+)?)?\s*\)$/.test(
+      /^RGBA?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(,\s*\d+(\.\d+)?)?\s*\)$/.test(
         color
       )
     ) {
       return true;
     }
 
-    // HSL/HSLA color validation (e.g., hsl(0, 100%, 50%), hsla(0, 100%, 50%, 0.5))
+    // HSL/HSLA color validation (e.g., hsl(0, 100%, 50%), HSLA(0, 100%, 50%, 0.5))
     if (
-      /^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*\d+(\.\d+)?)?\s*\)$/.test(
+      /^HSLA?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*(,\s*\d+(\.\d+)?)?\s*\)$/.test(
         color
       )
     ) {
@@ -176,19 +171,61 @@ export default function CodingTool({ id }) {
     // Remove whitespace and convert to lowercase
     const trimmedColor = color.trim().toLowerCase();
 
+    // Function to convert RGB to HEX
+    const RGBToHEX = (red, green, blue) => {
+      const HEXRed = red.toString(16).padStart(2, "0");
+      const HEXGreen = green.toString(16).padStart(2, "0");
+      const HEXBlue = blue.toString(16).padStart(2, "0");
+      return `#${HEXRed}${HEXGreen}${HEXBlue}`;
+    };
+
+    // Function to convert RGB to HSL
+    const RGBToHSL = (red, green, blue) => {
+      const normalizedRed = red / 255;
+      const normalizedGreen = green / 255;
+      const normalizedBlue = blue / 255;
+      const max = Math.max(normalizedRed, normalizedGreen, normalizedBlue);
+      const min = Math.min(normalizedRed, normalizedGreen, normalizedBlue);
+      let hue, saturation, lightness;
+      const delta = max - min;
+      lightness = (max + min) / 2;
+
+      if (delta === 0) {
+        hue = 0;
+        saturation = 0;
+      } else {
+        if (max === normalizedRed) {
+          hue = ((normalizedGreen - normalizedBlue) / delta) % 6;
+        } else if (max === normalizedGreen) {
+          hue = (normalizedBlue - normalizedRed) / delta + 2;
+        } else {
+          hue = (normalizedRed - normalizedGreen) / delta + 4;
+        }
+
+        saturation = delta / (1 - Math.abs(2 * lightness - 1));
+      }
+
+      hue = Math.round(hue * 60);
+      saturation = Math.round(saturation * 100);
+      lightness = Math.round(lightness * 100);
+
+      return { hue, saturation, lightness };
+    };
+
+    // CMYK color
     if (
-      /^cmyk\(\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/.test(
-        color
+      /^CMYK\(\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/i.test(
+        trimmedColor
       )
     ) {
-      const cmykMatch = color.match(
-        /cmyk\(\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)/i
+      const CMYKMatch = trimmedColor.match(
+        /^CMYK\(\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/i
       );
 
-      const cyan = parseInt(cmykMatch[1], 10);
-      const magenta = parseInt(cmykMatch[2], 10);
-      const yellow = parseInt(cmykMatch[3], 10);
-      const black = parseInt(cmykMatch[4], 10);
+      const cyan = parseInt(CMYKMatch[1], 10);
+      const magenta = parseInt(CMYKMatch[2], 10);
+      const yellow = parseInt(CMYKMatch[3], 10);
+      const black = parseInt(CMYKMatch[4], 10);
 
       // Convert CMYK to RGB
       const normalizedCyan = cyan / 100;
@@ -206,236 +243,169 @@ export default function CodingTool({ id }) {
         255 * (1 - normalizedYellow) * (1 - normalizedBlack)
       );
 
-      const rgb = `rgb(${red}, ${green}, ${blue})`;
-      const rgba = `rgba(${red}, ${green}, ${blue}, 1)`;
+      const HEX = RGBToHEX(red, green, blue);
+      const RGB = `RGB(${red}, ${green}, ${blue})`;
+      const RGBA = `RGBA(${red}, ${green}, ${blue}, 1)`;
+      const HSL = `HSL(${RGBToHSL(red, green, blue).hue}, ${
+        RGBToHSL(red, green, blue).saturation
+      }%, ${RGBToHSL(red, green, blue).lightness}%)`;
+      const HSLA = `HSLA(${RGBToHSL(red, green, blue).hue}, ${
+        RGBToHSL(red, green, blue).saturation
+      }%, ${RGBToHSL(red, green, blue).lightness}%, 1)`;
 
-      // Convert RGB to HSL
+      return { HEX, RGB, RGBA, HSL, HSLA, CMYK: color };
+    }
+
+    // HEX color
+    else if (trimmedColor.startsWith("#")) {
+      const HEX = trimmedColor.replace("#", "");
+      if (!/^[0-9A-Fa-f]{6}$/.test(HEX)) {
+        // Invalid HEX color format
+        return { error: "Invalid HEX color format" };
+      }
+
+      const red = parseInt(HEX.substr(0, 2), 16);
+      const green = parseInt(HEX.substr(2, 2), 16);
+      const blue = parseInt(HEX.substr(4, 2), 16);
+
+      // Convert HEX to CMYK
       const normalizedRed = red / 255;
       const normalizedGreen = green / 255;
       const normalizedBlue = blue / 255;
-
-      const max = Math.max(normalizedRed, normalizedGreen, normalizedBlue);
-      const min = Math.min(normalizedRed, normalizedGreen, normalizedBlue);
-      let hue, saturation, lightness;
-
-      const delta = max - min;
-      lightness = (max + min) / 2;
-
-      if (delta === 0) {
-        hue = 0;
-        saturation = 0;
-      } else {
-        if (max === normalizedRed) {
-          hue = ((normalizedGreen - normalizedBlue) / delta) % 6;
-        } else if (max === normalizedGreen) {
-          hue = (normalizedBlue - normalizedRed) / delta + 2;
-        } else {
-          hue = (normalizedRed - normalizedGreen) / delta + 4;
-        }
-
-        saturation = delta / (1 - Math.abs(2 * lightness - 1));
-      }
-
-      hue = Math.round(hue * 60);
-      saturation = Math.round(saturation * 100);
-      lightness = Math.round(lightness * 100);
-
-      const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-      const hsla = `hsla(${hue}, ${saturation}%, ${lightness}%, 1)`;
-
-      return {
-        hex,
-        rgb,
-        rgba,
-        hsl,
-        hsla,
-        cmyk: color,
-      };
-    } else if (trimmedColor.startsWith("#")) {
-      // Hex color
-      const hex = trimmedColor.replace("#", "");
-      const red = parseInt(hex.substr(0, 2), 16);
-      const green = parseInt(hex.substr(2, 2), 16);
-      const blue = parseInt(hex.substr(4, 2), 16);
-
-      const rgb = `rgb(${red}, ${green}, ${blue})`;
-      const rgba = `rgba(${red}, ${green}, ${blue}, 1)`;
-
-      // Convert hex to HSL
-      const normalizedRed = red / 255;
-      const normalizedGreen = green / 255;
-      const normalizedBlue = blue / 255;
-
-      const max = Math.max(normalizedRed, normalizedGreen, normalizedBlue);
-      const min = Math.min(normalizedRed, normalizedGreen, normalizedBlue);
-      let hue, saturation, lightness;
-
-      const delta = max - min;
-      lightness = (max + min) / 2;
-
-      if (delta === 0) {
-        hue = 0;
-        saturation = 0;
-      } else {
-        if (max === normalizedRed) {
-          hue = ((normalizedGreen - normalizedBlue) / delta) % 6;
-        } else if (max === normalizedGreen) {
-          hue = (normalizedBlue - normalizedRed) / delta + 2;
-        } else {
-          hue = (normalizedRed - normalizedGreen) / delta + 4;
-        }
-
-        saturation = delta / (1 - Math.abs(2 * lightness - 1));
-      }
-
-      hue = Math.round(hue * 60);
-      saturation = Math.round(saturation * 100);
-      lightness = Math.round(lightness * 100);
-
-      const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-      const hsla = `hsla(${hue}, ${saturation}%, ${lightness}%, 1)`;
-
-      return {
-        hex,
-        rgb,
-        rgba,
-        hsl,
-        hsla,
-      };
-    } else if (trimmedColor.startsWith("rgb")) {
-      // RGB color
-      const rgbMatch = trimmedColor.match(
-        /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i
+      const black = Math.min(
+        1 - normalizedRed,
+        1 - normalizedGreen,
+        1 - normalizedBlue
       );
-      if (rgbMatch) {
-        const red = parseInt(rgbMatch[1], 10);
-        const green = parseInt(rgbMatch[2], 10);
-        const blue = parseInt(rgbMatch[3], 10);
+      const cyan = (1 - normalizedRed - black) / (1 - black);
+      const magenta = (1 - normalizedGreen - black) / (1 - black);
+      const yellow = (1 - normalizedBlue - black) / (1 - black);
 
-        const hexRed = red.toString(16).padStart(2, "0");
-        const hexGreen = green.toString(16).padStart(2, "0");
-        const hexBlue = blue.toString(16).padStart(2, "0");
+      const CMYK = `CMYK(${Math.round(cyan * 100)}%, ${Math.round(
+        magenta * 100
+      )}%, ${Math.round(yellow * 100)}%, ${Math.round(black * 100)}%)`;
 
-        const hex = `#${hexRed}${hexGreen}${hexBlue}`;
-        const rgba = `rgba(${red}, ${green}, ${blue}, 1)`;
+      const RGB = `RGB(${red}, ${green}, ${blue})`;
+      const RGBA = `RGBA(${red}, ${green}, ${blue}, 1)`;
+      const HSL = `HSL(${RGBToHSL(red, green, blue).hue}, ${
+        RGBToHSL(red, green, blue).saturation
+      }%, ${RGBToHSL(red, green, blue).lightness}%)`;
+      const HSLA = `HSLA(${RGBToHSL(red, green, blue).hue}, ${
+        RGBToHSL(red, green, blue).saturation
+      }%, ${RGBToHSL(red, green, blue).lightness}%, 1)`;
 
-        // Convert RGB to HSL
+      return { HEX, RGB, RGBA, HSL, HSLA, CMYK };
+    }
+
+    // RGB color
+    else if (trimmedColor.startsWith("RGB")) {
+      const RGBMatch = trimmedColor.match(
+        /RGB\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i
+      );
+      if (!RGBMatch) {
+        // Invalid RGB color format
+        return { error: "Invalid RGB color format" };
+      }
+      const red = parseInt(RGBMatch[1], 10);
+      const green = parseInt(RGBMatch[2], 10);
+      const blue = parseInt(RGBMatch[3], 10);
+
+      const RGBToCMYK = (red, green, blue) => {
         const normalizedRed = red / 255;
         const normalizedGreen = green / 255;
         const normalizedBlue = blue / 255;
+        const black = Math.min(
+          1 - normalizedRed,
+          1 - normalizedGreen,
+          1 - normalizedBlue
+        );
+        const cyan = (1 - normalizedRed - black) / (1 - black);
+        const magenta = (1 - normalizedGreen - black) / (1 - black);
+        const yellow = (1 - normalizedBlue - black) / (1 - black);
 
-        const max = Math.max(normalizedRed, normalizedGreen, normalizedBlue);
-        const min = Math.min(normalizedRed, normalizedGreen, normalizedBlue);
-        let hue, saturation, lightness;
+        return `CMYK(${Math.round(cyan * 100)}%, ${Math.round(
+          magenta * 100
+        )}%, ${Math.round(yellow * 100)}%, ${Math.round(black * 100)}%)`;
+      };
 
-        const delta = max - min;
-        lightness = (max + min) / 2;
+      const HEX = RGBToHEX(red, green, blue);
+      const HSL = RGBToHSL(red, green, blue); // Removed conversion to HSL string here
+      const RGBA = `RGBA(${red}, ${green}, ${blue}, 1)`;
+      const HSLA = `HSLA(${HSL.hue}, ${HSL.saturation}%, ${HSL.lightness}%, 1)`;
+      const CMYK = RGBToCMYK(red, green, blue); // Added CMYK conversion function here
 
-        if (delta === 0) {
-          hue = 0;
-          saturation = 0;
-        } else {
-          if (max === normalizedRed) {
-            hue = ((normalizedGreen - normalizedBlue) / delta) % 6;
-          } else if (max === normalizedGreen) {
-            hue = (normalizedBlue - normalizedRed) / delta + 2;
-          } else {
-            hue = (normalizedRed - normalizedGreen) / delta + 4;
-          }
-
-          saturation = delta / (1 - Math.abs(2 * lightness - 1));
-        }
-
-        hue = Math.round(hue * 60);
-        saturation = Math.round(saturation * 100);
-        lightness = Math.round(lightness * 100);
-
-        const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-        const hsla = `hsla(${hue}, ${saturation}%, ${lightness}%, 1)`;
-
-        return {
-          hex,
-          hsl,
-          hsla,
-        };
-      }
-    } else if (trimmedColor.startsWith("hsl")) {
-      // HSL color
-      const hslMatch = trimmedColor.match(
-        /hsl\(\s*(\d+)\s*,\s*(\d+)\%\s*,\s*(\d+)\%\s*\)/i
-      );
-      if (hslMatch) {
-        const hue = parseInt(hslMatch[1], 10);
-        const saturation = parseInt(hslMatch[2], 10);
-        const lightness = parseInt(hslMatch[3], 10);
-
-        // Convert HSL to RGB
-        const normalizedHue = hue / 360;
-        const normalizedSaturation = saturation / 100;
-        const normalizedLightness = lightness / 100;
-
-        if (normalizedSaturation === 0) {
-          const rgbValue = Math.round(normalizedLightness * 255);
-          const rgb = `rgb(${rgbValue}, ${rgbValue}, ${rgbValue})`;
-          const rgba = `rgba(${rgbValue}, ${rgbValue}, ${rgbValue}, 1)`;
-
-          const hexRed = rgbValue.toString(16).padStart(2, "0");
-          const hexGreen = rgbValue.toString(16).padStart(2, "0");
-          const hexBlue = rgbValue.toString(16).padStart(2, "0");
-          const hex = `#${hexRed}${hexGreen}${hexBlue}`;
-
-          return {
-            hex,
-            rgb,
-            rgba,
-            hsl,
-            hsla,
-          };
-        } else {
-          const q =
-            normalizedLightness < 0.5
-              ? normalizedLightness * (1 + normalizedSaturation)
-              : normalizedLightness +
-                normalizedSaturation -
-                normalizedLightness * normalizedSaturation;
-          const p = 2 * normalizedLightness - q;
-
-          const hueToRGB = (t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-          };
-
-          const red = Math.round(hueToRGB(normalizedHue + 1 / 3) * 255);
-          const green = Math.round(hueToRGB(normalizedHue) * 255);
-          const blue = Math.round(hueToRGB(normalizedHue - 1 / 3) * 255);
-
-          const rgb = `rgb(${red}, ${green}, ${blue})`;
-          const rgba = `rgba(${red}, ${green}, ${blue}, 1)`;
-
-          const hexRed = red.toString(16).padStart(2, "0");
-          const hexGreen = green.toString(16).padStart(2, "0");
-          const hexBlue = blue.toString(16).padStart(2, "0");
-          const hex = `#${hexRed}${hexGreen}${hexBlue}`;
-
-          return {
-            hex,
-            rgb,
-            rgba,
-            hsl,
-            hsla,
-          };
-        }
-      }
+      return { HEX, RGB, RGBA, HSL, HSLA, CMYK };
     }
 
-    // If the color cannot be detected or converted, return the input color itself
-    return {
-      original: color,
-    };
+    // HSL color
+    else if (trimmedColor.startsWith("HSL")) {
+      const HSLMatch = trimmedColor.match(
+        /HSL\(\s*(\d+)\s*,\s*(\d+)\%\s*,\s*(\d+)\%\s*\)/i
+      );
+      if (!HSLMatch) {
+        // Invalid HSL color format
+        return { error: "Invalid HSL color format" };
+      }
+
+      const hue = parseInt(HSLMatch[1], 10);
+      const saturation = parseInt(HSLMatch[2], 10);
+      const lightness = parseInt(HSLMatch[3], 10);
+
+      if (
+        hue < 0 ||
+        hue > 360 ||
+        saturation < 0 ||
+        saturation > 100 ||
+        lightness < 0 ||
+        lightness > 100
+      ) {
+        // Invalid HSL values
+        return { error: "Invalid HSL values" };
+      }
+
+      // Convert HSL to RGB
+      const normalizedHue = hue / 360;
+      const normalizedSaturation = saturation / 100;
+      const normalizedLightness = lightness / 100;
+
+      let red, green, blue;
+      if (normalizedSaturation === 0) {
+        const RGBValue = Math.round(normalizedLightness * 255);
+        red = RGBValue;
+        green = RGBValue;
+        blue = RGBValue;
+      } else {
+        const q =
+          normalizedLightness < 0.5
+            ? normalizedLightness * (1 + normalizedSaturation)
+            : normalizedLightness +
+              normalizedSaturation -
+              normalizedLightness * normalizedSaturation;
+        const p = 2 * normalizedLightness - q;
+
+        const hueToRGB = (t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1 / 6) return p + (q - p) * 6 * t;
+          if (t < 1 / 2) return q;
+          if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+          return p;
+        };
+
+        red = Math.round(hueToRGB(normalizedHue + 1 / 3) * 255);
+        green = Math.round(hueToRGB(normalizedHue) * 255);
+        blue = Math.round(hueToRGB(normalizedHue - 1 / 3) * 255);
+      }
+
+      const HEX = RGBToHEX(red, green, blue);
+      const RGB = `RGB(${red}, ${green}, ${blue})`;
+      const RGBA = `RGBA(${red}, ${green}, ${blue}, 1)`;
+
+      return { HEX, RGB, RGBA, HSL, HSLA };
+    }
+
+    // If the color cannot be detected or converted, return an error
+    return { error: "Invalid color format" };
   };
 
   const handleEncodeClick = () => {
@@ -445,12 +415,15 @@ export default function CodingTool({ id }) {
     }
 
     const convertedColor = convertColor(inputText);
-    const brightness = getColorBrightness(convertedColor.hex);
+    const brightness = getColorBrightness(convertedColor.HEX);
 
     setColorCodes({
-      hex: convertedColor.hex,
-      rgba: convertedColor.rgba,
-      hsla: convertedColor.hsla,
+      HEX: convertedColor.HEX,
+      RGB: convertedColor.RGB,
+      RGBA: convertedColor.RGBA,
+      HSL: convertedColor.HSL,
+      HSLA: convertedColor.HSLA,
+      CMYK: convertedColor.CMYK,
       brightness: brightness,
     });
 
@@ -487,18 +460,18 @@ export default function CodingTool({ id }) {
     }
   };
 
-  const getColorBrightness = (hexColor) => {
-    if (!hexColor) {
+  const getColorBrightness = (HEXColor) => {
+    if (!HEXColor) {
       return ""; // Return empty string if color code is not available
     }
 
-    // Remove '#' from the hex color
-    const hex = hexColor.substring(1);
+    // Remove '#' from the HEX color
+    const HEX = HEXColor.substring(1);
 
-    // Convert the hex color to RGB
-    const red = parseInt(hex.substring(0, 2), 16);
-    const green = parseInt(hex.substring(2, 4), 16);
-    const blue = parseInt(hex.substring(4, 6), 16);
+    // Convert the HEX color to RGB
+    const red = parseInt(HEX.substring(0, 2), 16);
+    const green = parseInt(HEX.substring(2, 4), 16);
+    const blue = parseInt(HEX.substring(4, 6), 16);
 
     // Calculate the brightness using the YIQ formula
     const brightness = (red * 299 + green * 587 + blue * 114) / 1000;
@@ -530,7 +503,7 @@ export default function CodingTool({ id }) {
           </div>
           <div id="firstColorDropdownForm" className="">
             <CustomDropdown
-              options={["HEX", "RGB", "HSL", "RGBA", "HSLA"]}
+              options={["HEX", "RGB", "HSL", "RGBA", "HSLA", "CMYK"]}
               onSelect={handleFirstColorFormatChange}
               size="slim"
               label="Label"
@@ -540,7 +513,7 @@ export default function CodingTool({ id }) {
         </div>
         <div className="flex flex-col justify-evenly content-center items-center">
           <button
-            className={`tn_button tn_button_medium tn_button_primary ripple ripple ${
+            className={`tn_button tn_button_medium tn_button_primary tn_button_round ripple ripple ${
               isInputEmpty ? "tn_button_disabled" : ""
             }`}
             onClick={handleEncodeClick}
@@ -551,6 +524,7 @@ export default function CodingTool({ id }) {
             </div>
             Convert
           </button>
+          <button onClick={handleSwitchClick} className="tn_button tn_button_medium tn_button_default tn_button_round">Switch</button>
         </div>
         <div className="tn_textarea_btn">
           <div className="form__group field">
@@ -567,7 +541,7 @@ export default function CodingTool({ id }) {
             </label>
             <div id="lastColorDropdownForm" className="">
               <CustomDropdown
-                options={["HEX", "RGB", "HSL", "RGBA", "HSLA"]}
+                options={["HEX", "RGB", "HSL", "RGBA", "HSLA", "CMYK"]}
                 onSelect={handleLastColorFormatChange}
                 size="slim"
                 label="Label"
@@ -588,21 +562,21 @@ export default function CodingTool({ id }) {
           <div
             className="colorPane"
             style={{
-              background: colorCodes.hex
-                ? colorCodes.hex.startsWith("#")
-                  ? colorCodes.hex
-                  : `#${colorCodes.hex}`
+              background: colorCodes.HEX
+                ? colorCodes.HEX.startsWith("#")
+                  ? colorCodes.HEX
+                  : `#${colorCodes.HEX}`
                 : undefined,
             }}
           >
-            {!colorCodes.hex && (
+            {!colorCodes.HEX && (
               <div className="colorNotExist">
                 <span>?</span>
               </div>
             )}
           </div>
           <div className="colorInfo">
-            {!colorCodes.hex ? (
+            {!colorCodes.HEX ? (
               <div>
                 {
                   <div className="grid-container empty">
@@ -616,31 +590,31 @@ export default function CodingTool({ id }) {
             ) : (
               <div className="grid-container">
                 <div>
-                  <strong className="colorMeta">Hex</strong>
+                  <strong className="colorMeta">HEX</strong>
                 </div>
                 <div
                   className="colorMetaValue"
-                  onClick={() => handleCopy(`#${colorCodes.hex}`)}
+                  onClick={() => handleCopy(`#${colorCodes.HEX}`)}
                 >
-                  {colorCodes.hex}
+                  {colorCodes.HEX}
                 </div>
                 <div>
                   <strong className="colorMeta">RGBA</strong>
                 </div>
                 <div
                   className="colorMetaValue"
-                  onClick={() => handleCopy(colorCodes.rgba)}
+                  onClick={() => handleCopy(colorCodes.RGBA)}
                 >
-                  {colorCodes.rgba}
+                  {colorCodes.RGBA}
                 </div>
                 <div>
                   <strong className="colorMeta">HSLA</strong>
                 </div>
                 <div
                   className="colorMetaValue"
-                  onClick={() => handleCopy(colorCodes.hsla)}
+                  onClick={() => handleCopy(colorCodes.HSLA)}
                 >
-                  {colorCodes.hsla}
+                  {colorCodes.HSLA}
                 </div>
                 <div>
                   <strong className="colorMeta">Type</strong>

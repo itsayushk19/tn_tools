@@ -8,7 +8,7 @@ export default function Sidebar({ categorizedTools }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [activeTool, setActiveTool] = useState(null);
-  
+
   const router = useRouter();
 
   const handleSearchChange = (event) => {
@@ -45,7 +45,6 @@ export default function Sidebar({ categorizedTools }) {
               tools.some(isCurrentTool) ? "category_active" : ""
             }`}
           >
-            
             {categoryName} Tools
           </summary>
           <div className="list_item_container">
@@ -87,8 +86,9 @@ export default function Sidebar({ categorizedTools }) {
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ? (
                       <span>
-                        {tool.title
+                        {tool.id
                           .toLowerCase()
+                          .replace(/-/g, " ") // Replace all occurrences of "-" with whitespace
                           .split(searchQuery.toLowerCase())
                           .reduce((prev, current, i) => {
                             if (!i) {
@@ -101,7 +101,7 @@ export default function Sidebar({ categorizedTools }) {
                           }, [])}
                       </span>
                     ) : (
-                      <span>{tool.title}</span>
+                      <span>{tool.ud}</span>
                     )}
                   </Link>
                 </div>

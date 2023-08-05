@@ -5,7 +5,8 @@ import { useState, useEffect, useRef } from "react";
 
 export default function PasswordGenerator() {
   const firstTextareaRef = useRef(null);
-  const [PasswordLength, setPasswordLength] = useState();
+  const [filteredBars, setFilteredBars] = useState(0);
+  const [PasswordLength, setPasswordLength] = useState(5);
   const [strengthScore, setStrengthScore] = useState(0);
   const [StrengthCode, setStrengthCode] = useState("")
   const [Color, setColor] = useState("");
@@ -37,6 +38,7 @@ export default function PasswordGenerator() {
         clearInterval(animationTimer);
         setIsAnimating(false);
         setPassword(shuffledPasswords[shuffledPasswords.length - 1]);
+        setFilteredBars(0); // Reset the filtered bars counter
       };
 
       animatePasswordShuffling();
@@ -179,34 +181,34 @@ export default function PasswordGenerator() {
           </label>
           <p className="strengthCode">{StrengthCode}</p>
           <div className="form__colorBar">
-            <div
-              className={`bar red`}
-              style={strengthScore >= 0 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar tangerine`}
-              style={strengthScore >= 20 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar orange`}
-              style={strengthScore >= 40 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar yellow`}
-              style={strengthScore >= 60 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar lgreen`}
-              style={strengthScore >= 70 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar mgreen`}
-              style={strengthScore >= 80 ? { filter: "none" } : {}}
-            />
-            <div
-              className={`bar green`}
-              style={strengthScore >= 100 ? { filter: "none" } : {}}
-            />
+          <div
+            className={`bar red`}
+            style={filteredBars >= 0 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar tangerine`}
+            style={filteredBars >= 1 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar orange`}
+            style={filteredBars >= 2 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar yellow`}
+            style={filteredBars >= 3 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar lgreen`}
+            style={filteredBars >= 4 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar mgreen`}
+            style={filteredBars >= 5 ? { filter: "none" } : {}}
+          />
+          <div
+            className={`bar green`}
+            style={filteredBars >= 6 ? { filter: "none" } : {}}
+          />
           </div>
         </div>
       </div>
@@ -235,7 +237,6 @@ export default function PasswordGenerator() {
             id="firstColor"
             required
             value={Password}
-            readOnly
           />
         </div>
         <button className="tn_button tn_button_primary tn_button_round tn_button_medium">

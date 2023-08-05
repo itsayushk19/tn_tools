@@ -213,17 +213,6 @@ export default function LoremIpsumGenerator() {
 
   return (
     <>
-      <div className="grid lg:grid-flow-col gap-5">
-        <CustomCheckbox options={options} orientation={"vertical"} />
-      </div>
-      <div className="grid lg:grid-flow-col gap-5">
-        <CustomDropdown
-          options={options}
-          onSelect={handleOptionSelect}
-          size="slim"
-          label="Label"
-        />
-      </div>
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="grid lg:grid-cols-1 pane">
           <div className="flex flex-col justify-between">
