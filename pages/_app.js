@@ -1,10 +1,9 @@
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'styles/globals.scss';
 import 'styles/Header.scss';
 import 'styles/pageLayout.scss';
 import 'styles/Archieve.scss';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google';
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 import { useState, useEffect } from 'react';

@@ -181,34 +181,34 @@ export default function PasswordGenerator() {
           </label>
           <p className="strengthCode">{StrengthCode}</p>
           <div className="form__colorBar">
-          <div
-            className={`bar red`}
-            style={filteredBars >= 0 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar tangerine`}
-            style={filteredBars >= 1 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar orange`}
-            style={filteredBars >= 2 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar yellow`}
-            style={filteredBars >= 3 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar lgreen`}
-            style={filteredBars >= 4 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar mgreen`}
-            style={filteredBars >= 5 ? { filter: "none" } : {}}
-          />
-          <div
-            className={`bar green`}
-            style={filteredBars >= 6 ? { filter: "none" } : {}}
-          />
+            <div
+              className={`bar red`}
+              style={strengthScore >= 0 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar tangerine`}
+              style={strengthScore >= 20 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar orange`}
+              style={strengthScore >= 40 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar yellow`}
+              style={strengthScore >= 60 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar lgreen`}
+              style={strengthScore >= 70 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar mgreen`}
+              style={strengthScore >= 80 ? { filter: "none" } : {}}
+            />
+            <div
+              className={`bar green`}
+              style={strengthScore >= 100 ? { filter: "none" } : {}}
+            />
           </div>
         </div>
       </div>
@@ -221,6 +221,18 @@ export default function PasswordGenerator() {
             onCheckboxChange={handleCheckboxChange} // Pass the update function to CustomCheckbox
           />
         </div>
+        <div className="pane">
+        <div className="form__group h-full field">
+          <textarea
+            className="form__field h-full w-full form_field_color highlightText"
+            placeholder=" "
+            name="firstColor"
+            id="firstColor"
+            required
+            value={Password}
+          />
+        </div>
+        </div>
       </div>
       <div className="flex items-center flex-row gap-10">
         <button
@@ -229,16 +241,7 @@ export default function PasswordGenerator() {
         >
           Generate Password
         </button>
-        <div className="form__group field">
-          <input
-            className="form__field form_field_slim form_field_color highlightText"
-            placeholder=" "
-            name="firstColor"
-            id="firstColor"
-            required
-            value={Password}
-          />
-        </div>
+
         <button className="tn_button tn_button_primary tn_button_round tn_button_medium">
           Copy
         </button>

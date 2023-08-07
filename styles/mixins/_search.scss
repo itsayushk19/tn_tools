@@ -3,18 +3,27 @@
 @mixin search($width, $open-width, $bg, $border) {
     z-index: $zIndices-1;
     .search_inner {
-        width: $width;
+        width: 30px;
         display: flex;
         align-items: center;
+        cursor: pointer;;
+        font-size: $fontSizes-2;
         border: 1px solid $border;
         border-radius: $radii-pill;
         padding: 0em calc((($width) / 100) * 5);
-        transition: width 0.05s ease-in-out, padding 0.05s ease-in-out;
+        transition: width 0.2s ease-in-out, padding 0.05s ease-in-out;
         position: relative;
+
+        &:hover{
+            width: $open-width / 4.3;
+            font-size: $fontSizes-1;
+            border: 2px solid $colors-violet9;
+        }
 
         &:focus-within{
             width: $open-width;
             border: 2px solid $colors-violet9;
+            font-size: $fontSizes-1;
         }
 
         .search_field {

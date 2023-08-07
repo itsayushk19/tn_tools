@@ -5,6 +5,8 @@ const DynamicComponent = ({ id }) => {
 
   if (id.includes('simple')) {
     Component = dynamic(() => import('components/calculators/simple.js'));
+  } else if (id.includes('bar-graph')){
+    Component = dynamic(() => import('components/calculators/bar-graph.js'))
   }
 
   return Component ? <Component id={id} /> : null;

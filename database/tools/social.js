@@ -9,6 +9,8 @@ const DynamicComponent = ({ id }) => {
     Component = dynamic(() => import('components/social/youtube-thumbnail-downloader.js'))
   } else if (id.includes('twitter-profile-picture-grabber')) {
     Component = dynamic(() => import('components/social/twitter-profile-picture-grabber.js'))
+  } else if (id.includes('youtube-embed')){
+    Component = dynamic(() => import('components/social/youtube-embed.js'))
   }
 
   return Component ? <Component id={id} /> : null;

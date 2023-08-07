@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import colorDictionary from "./colors.json";
 import Highlight from "react-highlight";
-import CustomDropdown from "../elemental/dropDownSelection";
-import CustomCheckbox from "../elemental/checkBox";
-
-const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+import ColorModal from "../elemental/colorModal";
 
 export default function LoremIpsumGenerator() {
   const defaultSettings = {
@@ -68,16 +65,31 @@ export default function LoremIpsumGenerator() {
     setInset(defaultSettings.inset);
   };
 
-  useEffect(() => {
+  const generateCSS = () => {
     // Build the box-shadow CSS string
     const boxShadow = `${HorizOff}px ${VertOff}px ${Blur}px ${Spread}px ${thirdColor}`;
-
-    // Build the full CSS string with all vendor prefixes for box shadow
-    const outputCSS = `
+    if (inset) {
+      const outputCSS = `
       -webkit-box-shadow: inset ${boxShadow};
       -moz-box-shadow: inset ${boxShadow};
       box-shadow: inset ${boxShadow};
     `;
+
+      return outputCSS;
+    } else if (!inset) {
+      const outputCSS = `
+      -webkit-box-shadow: ${boxShadow};
+      -moz-box-shadow: ${boxShadow};
+      box-shadow: ${boxShadow};
+      `;
+
+      return outputCSS;
+    }
+  };
+
+  useEffect(() => {
+    // Build the full CSS string with all vendor prefixes for box shadow
+    const outputCSS = generateCSS();
 
     // Update the state variable
     setOutputCSS(outputCSS);
@@ -213,6 +225,7 @@ export default function LoremIpsumGenerator() {
 
   return (
     <>
+      <div className="grid lg:grid-cols-3 gap-5"></div>
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="grid lg:grid-cols-1 pane">
           <div className="flex flex-col justify-between">
