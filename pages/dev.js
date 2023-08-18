@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import style from "../styles/Dev.module.scss";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dev = () => {
   const [newVersion, setNewVersion] = useState("");
@@ -212,6 +214,7 @@ const Dev = () => {
           )}
         </button>
       </div>
+      <ToastContainer />
     </>
   );
 };
