@@ -24,42 +24,42 @@ const Dev = () => {
   }
 
   const handleVersionUpdate = async () => {
-            setIsLoading(true);
-            setApiError(null);
-        
-            try {
-              // Assuming you have an API endpoint for version updates
-              const response = await fetch("/api/duh", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  newVersion,
-                  releaseLabel,
-                  additions,
-                  errorFixes,
-                  upgrades,
-                }),
-              });
-        
-              if (response.ok) {
-                toast.success("Version update successful!");
-                setNewVersion("");
-                setReleaseLabel("");
-                setAdditions([]);
-                setErrorFixes([]);
-                setUpgrades([]);
-              } else {
-                toast.error("Version update failed. Please try again later.");
-              }
-            } catch (error) {
-              console.error("Error updating version:", error);
-              toast.error("An error occurred while updating the version.");
-            } finally {
-              setIsLoading(false);
-            }
-          };
+    setIsLoading(true);
+    setApiError(null);
+
+    try {
+      // Assuming you have an API endpoint for version updates
+      const response = await fetch("/api/dev", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          newVersion,
+          releaseLabel,
+          additions,
+          errorFixes,
+          upgrades,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Version update successful!");
+        setNewVersion("");
+        setReleaseLabel("");
+        setAdditions([]);
+        setErrorFixes([]);
+        setUpgrades([]);
+      } else {
+        toast.error("Version update failed. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error updating version:", error);
+      toast.error("An error occurred while updating the version.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleAdditionChange = (index, value) => {
     const newAdditions = [...additions];
@@ -101,7 +101,8 @@ const Dev = () => {
               <textarea
                 className="form__field form_field_slim"
                 placeholder=""
-                name="version"
+                value={newVersion} // Bind the value to the state variable
+                onChange={(e) => setNewVersion(e.target.value)} // Update the state variable
                 required
               />
               <label htmlor="input" className="form__label txt-upper">
@@ -112,7 +113,8 @@ const Dev = () => {
               <textarea
                 className="form__field form_field_slim"
                 placeholder=""
-                name="label"
+                value={releaseLabel} // Bind the value to the state variable
+                onChange={(e) => setReleaseLabel(e.target.value)} // Update the state variable
                 required
               />
               <label htmlor="input" className="form__label txt-upper">
@@ -139,7 +141,11 @@ const Dev = () => {
                   </label>
                 </div>
               ))}
-              <button className="tn_button tn_button_default" type="button" onClick={handleAdditionAdd}>
+              <button
+                className="tn_button tn_button_default"
+                type="button"
+                onClick={handleAdditionAdd}
+              >
                 Add Addition
               </button>
             </div>
@@ -161,7 +167,11 @@ const Dev = () => {
                   </label>
                 </div>
               ))}
-              <button className="tn_button tn_button_default" type="button" onClick={handleErrorFixAdd}>
+              <button
+                className="tn_button tn_button_default"
+                type="button"
+                onClick={handleErrorFixAdd}
+              >
                 Add Error Fix
               </button>
             </div>
@@ -181,19 +191,26 @@ const Dev = () => {
                   </label>
                 </div>
               ))}
-              <button className="tn_button tn_button_default" type="button" onClick={handleUpgradeAdd}>
+              <button
+                className="tn_button tn_button_default"
+                type="button"
+                onClick={handleUpgradeAdd}
+              >
                 Add Upgrade
               </button>
             </div>
           </div>
         </div>
-        <button className="tn_button tn_button_long tn_button_primary my-5" onClick={handleVersionUpdate}>
-        {isLoading ? (
-          <BeatLoader color={"#fff"} size={10} margin={2} />
-        ) : (
-          "Push"
-        )}
-      </button>
+        <button
+          className="tn_button tn_button_long tn_button_primary my-5"
+          onClick={handleVersionUpdate}
+        >
+          {isLoading ? (
+            <BeatLoader color={"#fff"} size={10} margin={2} />
+          ) : (
+            "Push"
+          )}
+        </button>
       </div>
     </>
   );
