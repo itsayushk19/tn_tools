@@ -85,7 +85,7 @@ export async function getAllToolsCategorized() {
   const toolData = {};
 
   for (const { category, tool } of toolIds) {
-    const filePath = `${directoryPath}/${tool}.md`;
+    const filePath = path.join(directoryPath, `${tool}.md`);
     const content = fs.readFileSync(filePath, "utf-8");
     const metaInfo = parseFrontMatter(content);
     const [defaultSVG, activeSVG] = getToolSVGs(tool);
@@ -104,6 +104,37 @@ export async function getAllToolsCategorized() {
 
   return toolData;
 }
+
+export function getVersion() {
+  const changelogPath = path.join(process.cwd(), "database", "CHANGELOG.md");
+
+  try {
+    const changelogContent = fs.readFileSync(changelogPath, "utf-8");
+    const versionRegex = /## \[(\d+\.\d+)\s+-\s+([^\]]+)\]/g;
+    const matches = Array.from(changelogContent.matchAll(versionRegex));
+
+    if (matches && matches.length > 0) {
+      const lastMatch = matches[matches.length - 1];
+      const version = lastMatch[1];
+      const label = lastMatch[2];
+
+      return {
+        version: version,
+        label: label,
+      };
+    }
+  } catch (error) {
+    console.error("Error reading CHANGELOG.md:", error);
+  }
+
+  return {
+    version: "Unknown",
+    label: "Unknown",
+  };
+}
+
+
+
 
 export function getToolSVGs(id) {
   const defaultSVG = `/icons/tools/${id}/default.svg`;

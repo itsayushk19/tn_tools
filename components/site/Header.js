@@ -5,6 +5,7 @@ import Link from "next/link";
 import TopLogo from "public/favicons/android-chrome-512x512.png";
 
 export default function Header({ categorizedTools }) {
+  console.log(categorizedTools);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownTimeoutRef = useRef(null); // Create a ref for the timeout
 
