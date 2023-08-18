@@ -44,7 +44,7 @@ const Dev = () => {
       });
 
       if (response.ok) {
-        toast.success("Version update successful!");
+        toast.success(`Version Successfuly Updated`, { autoClose: 500 });
         setNewVersion("");
         setReleaseLabel("");
         setAdditions([]);
