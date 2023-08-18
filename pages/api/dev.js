@@ -33,20 +33,28 @@ async function addChangelogEntry(newVersion, releaseLabel, additions, errorFixes
       newVersion = latestVersionParts.join(".");
     }
 
-    // Add the new changelog entry
     changelogContent = changelogEntry + changelogContent;
 
     // Write the updated changelog content back to the file
     await fs.writeFile(changelogPath, changelogContent);
 
+    // Promisify the exec function to work with async/await
+    const execute = (command) => {
+      return new Promise((resolve, reject) => {
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            console.error("Error executing Git commands:", error);
+            reject(error);
+          } else {
+            console.log("Git commands executed successfully:", stdout);
+            resolve();
+          }
+        });
+      });
+    };
+
     // Run Git commands
-    exec("git add . && git commit -m \"" + releaseLabel + "\" && git push origin master", (error, stdout, stderr) => {
-      if (error) {
-        console.error("Error executing Git commands:", error);
-      } else {
-        console.log("Git commands executed successfully:", stdout);
-      }
-    });
+    await execute("git add . && git commit -m \"" + releaseLabel + "\" && git push origin master");
   } catch (error) {
     console.error("Error updating version:", error);
     throw error;
