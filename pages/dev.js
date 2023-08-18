@@ -1,6 +1,7 @@
 // pages/localhost-version-control.js
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import style from "../styles/Dev.module.scss";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -17,13 +18,12 @@ const Dev = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  if (
-    typeof window !== "undefined" &&
-    window.location.hostname !== "localhost"
-  ) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    const isLocalhost = window.location.hostname === "localhost" || /^127(?:\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)){3}$/.test(window.location.hostname);
+    if (!isLocalhost) {
+      router.push("/");
+    }
+  }, []);
 
   const handleVersionUpdate = async () => {
     setIsLoading(true);
