@@ -13,6 +13,7 @@ async function addChangelogEntry(newVersion, releaseLabel, additions, errorFixes
     const projectDir = process.cwd();
     const changelogPath = path.join(projectDir, "database", "CHANGELOG.md");
 
+    // Create the directory if it doesn't exist
     await fs.mkdir(path.dirname(changelogPath), { recursive: true });
 
     // Read the current changelog content
@@ -42,22 +43,22 @@ async function addChangelogEntry(newVersion, releaseLabel, additions, errorFixes
     exec("git add . && git commit -m \"" + releaseLabel + "\" && git push origin master", (error, stdout, stderr) => {
       if (error) {
         console.error("Error executing Git commands:", error);
-        res.status(500).json({ message: "Error updating version and pushing to Git." });
       } else {
         console.log("Git commands executed successfully:", stdout);
-        res.status(200).json({ message: "Version updated and pushed to Git successfully." });
       }
     });
   } catch (error) {
     console.error("Error updating version:", error);
-    res.status(500).json({ message: "Error updating version." });
+    throw error;
   }
 }
+
 
 export default async function handler(req, res) {
   try {
     const { newVersion, releaseLabel, additions, errorFixes, upgrades } = req.body;
     await addChangelogEntry(newVersion, releaseLabel, additions, errorFixes, upgrades);
+    res.status(200).json({ message: "Version updated and pushed to Git successfully." });
   } catch (error) {
     console.error("Error updating version:", error);
     res.status(500).json({ message: "Error updating version." });
