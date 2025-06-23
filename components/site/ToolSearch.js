@@ -113,21 +113,21 @@ function SearchBar({ categorizedTools }) {
               <React.Fragment key={category}>
                 {filteredTools[category].map((tool) => (
                   <Link
-                    href={`/tools/${tool.category.toLowerCase()}/${tool.id}`}
+                    href={`/tools/${tool.category.toLowerCase()}/${tool.name}`}
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    key={`${category}-${tool.id}`} // Use a more stable and unique key
+                    key={`${category}-${tool.name}`} // Use a more stable and unique key
                   >
                     <div
                       className="search_item"
-                      onMouseEnter={() => handleMouseEnter(tool.id)}
+                      onMouseEnter={() => handleMouseEnter(tool.name)}
                       onMouseLeave={handleMouseLeave}
                     >
                       <div className="search_toolIcon">
                         <Image
                           src={
-                            hoveredToolId === tool.id
+                            hoveredToolId === tool.name
                               ? tool.activeSVG
                               : tool.defaultSVG
                           }
@@ -137,11 +137,11 @@ function SearchBar({ categorizedTools }) {
                       </div>
                       <div className="search_toolInner">
                         <div className="search_toolName">
-                          {tool.id
+                          {tool.name
                             .replace(/-/g, " ")
                             .toLowerCase()
                             .includes(searchQuery.toLowerCase())
-                            ? tool.id
+                            ? tool.name
                                 .replace(/-/g, " ")
                                 .split(new RegExp(`(${searchQuery})`, "gi"))
                                 .map((part, index) =>
@@ -152,7 +152,7 @@ function SearchBar({ categorizedTools }) {
                                     <span key={index}>{part}</span>
                                   )
                                 )
-                            : tool.id.replace(/-/g, " ")}
+                            : tool.name.replace(/-/g, " ")}
                         </div>
                         <Link
                           href={`/tools/${tool.category.toLowerCase()}`}

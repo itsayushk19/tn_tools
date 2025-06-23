@@ -10,9 +10,9 @@ import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 import Image from "next/image";
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
-  
+
   const ToolEmbedd = dynamic(
-    () => import(`/database/tools/${toolData.category}.js`),
+    () => import(`/components/tools/${toolData.category}.js`),
     {
       loading: () => <p>Loading...</p>,
     }
@@ -74,7 +74,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
       "@type": "ListItem",
       position: 3,
       name: toolData.title,
-      item: `https://webtools.techneg.co.in/${toolData.category}/${toolData.id}`,
+      item: `https://webtools.techneg.co.in/${toolData.category}/${toolData.name}`,
     },
   ];
 
@@ -95,8 +95,15 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
         <main className="pageBody">
           <div className="tool__embed">
             <div className="pageMeta">
-              <Image src={toolData.activeSVG} width={50} height={50} />
-              <h1 id="toolTitle">{toolData.id.replace(/-/g, ' ').toUpperCase()}</h1>
+              <div className="metaInfo">
+                <Image src={toolData.defaultSVG} width={35} height={35} />
+                <div className="verticalDivider"></div>
+                <h1 id="toolTitle">
+                  {toolData?.name?.replace(/-/g, ' ').toUpperCase() ?? "Unknown Tool"}
+                </h1>
+
+
+              </div>
               <button
                 className="tn_button tn_button_small bug_button"
                 onClick={openPopup}
@@ -105,7 +112,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
               </button>
             </div>
             <div className="tool__container">
-              <ToolEmbedd id={toolData.id} />
+              <ToolEmbedd id={toolData.name} />
             </div>
             <div
               className="pageContent"

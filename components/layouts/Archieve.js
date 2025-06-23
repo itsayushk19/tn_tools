@@ -135,9 +135,9 @@ export default function ArchieveLayout({
           <div className="collection_container">
             {displayedTools.map((tool) => (
               <Link
-                href={`/tools/${tool.category}/${tool.id}`}
+                href={`/tools/${tool.category}/${tool.name}`}
                 className="collection_tool"
-                key={tool.id}
+                key={tool.name}
                 onMouseEnter={() => setHoveredTool(tool)}
                 onMouseLeave={() => setHoveredTool(null)}
               >

@@ -1,112 +1,83 @@
-import fs from "fs-extra";
 import path from "path";
-import remarkHtml from "remark-html";
+import fs from "fs-extra";
 import { remark } from "remark";
+import remarkHtml from "remark-html";
+import { getDBConnection } from "./db.js";
 
-const directoryPath = path.join(process.cwd(), "database", "tools");
+// Markdown files (for content only)
+const contentDir = path.join(process.cwd(), "content");
 
-function parseFrontMatter(fileContents) {
-  const regex = /---([\s\S]*?)---/;
-  const matches = regex.exec(fileContents);
-  const frontMatter = matches[0];
-  const data = frontMatter.split("\n").reduce((acc, line) => {
-    const [key, value] = line.split(":");
-    if (key && value) {
-      const trimmedKey = key.trim();
-      const trimmedValue = value.trim();
-      if (trimmedKey.toLowerCase() === "categories") {
-        // Convert both "Text" and "text" to lowercase for comparison
-        const categoryKey = trimmedKey.toLowerCase();
-        const categoryValue = trimmedValue.toLowerCase();
-        if (!acc[categoryKey]) {
-          acc[categoryKey] = [];
-        }
-        acc[categoryKey].push(categoryValue);
-      } else {
-        acc[trimmedKey] = trimmedValue;
-      }
-    }
-    return acc;
-  }, {});
-  return data;
+function getToolSVGs(id) {
+  const defaultSVG = `/icons/tools/${id}/default.svg`;
+  const activeSVG = `/icons/tools/${id}/active.svg`;
+  return [defaultSVG, activeSVG];
 }
 
-async function getContent(fileContents) {
-  const regex = /---([\s\S]*?)---([\s\S]*)/;
-  const matches = regex.exec(fileContents);
-  const content = matches[2];
-  const processedContent = await remark().use(remarkHtml).process(content);
-  return processedContent.toString();
+export async function getAllToolIds() {
+  const db = await getDBConnection();
+  const tools = await db.all("SELECT name AS tool, category FROM tools");
+  await db.close();
+  return tools;
 }
 
-export function getAllToolIds() {
-  const fileNames = fs.readdirSync(directoryPath);
-
-  const toolFiles = fileNames
-    .filter((fileName) => path.extname(fileName) === ".md")
-    .map((fileName) => {
-      const filePath = path.join(directoryPath, fileName);
-      const fileContents = fs.readFileSync(filePath, "utf-8");
-      const frontMatter = parseFrontMatter(fileContents);
-
-      return {
-        category: frontMatter.category,
-        tool: path.parse(fileName).name,
-      };
-    });
-  return toolFiles;
+async function getContent(toolName) {
+  const filePath = path.join(contentDir, `${toolName}.md`);
+  const fileContents = await fs.readFile(filePath, "utf-8");
+  const match = fileContents.match(/---[\s\S]*?---([\s\S]*)/);
+  const content = match ? match[1] : "";
+  const processed = await remark().use(remarkHtml).process(content);
+  return processed.toString();
 }
 
 export async function getToolData(toolName) {
-  const filePath = path.join(
-    process.cwd(),
-    "database",
-    "tools",
-    `${toolName}.md`
+  const db = await getDBConnection();
+  const tool = await db.get(
+    "SELECT * FROM tools WHERE name = ?",
+    toolName
   );
-  const fileContents = await fs.promises.readFile(filePath, "utf-8");
-  const frontMatter = parseFrontMatter(fileContents);
-  const content = await getContent(fileContents);
+  await db.close();
+
+  if (!tool) return null;
+
+  const content = await getContent(toolName);
   const [defaultSVG, activeSVG] = getToolSVGs(toolName);
 
-  const toolData = {
+  return {
     id: toolName,
-    ...frontMatter,
+    ...tool,
     content,
-    defaultSVG: defaultSVG,
-    activeSVG: activeSVG,
+    defaultSVG,
+    activeSVG,
   };
-
-  return toolData;
 }
 
 export async function getAllToolsCategorized() {
-  const toolIds = getAllToolIds();
-  const toolData = {};
+  const db = await getDBConnection();
+  const rows = await db.all("SELECT * FROM tools");
+  await db.close();
 
-  for (const { category, tool } of toolIds) {
-    const filePath = path.join(directoryPath, `${tool}.md`);
-    const content = fs.readFileSync(filePath, "utf-8");
-    const metaInfo = parseFrontMatter(content);
-    const [defaultSVG, activeSVG] = getToolSVGs(tool);
+  const categorized = {};
 
-    if (!toolData[category]) {
-      toolData[category] = [];
+  for (const tool of rows) {
+    const [defaultSVG, activeSVG] = getToolSVGs(tool.name);
+
+    if (!categorized[tool.category]) {
+      categorized[tool.category] = [];
     }
 
-    toolData[category].push({
-      id: tool,
-      ...metaInfo,
+    categorized[tool.category].push({
+      id: tool.name,
+      ...tool,
       defaultSVG,
       activeSVG,
     });
   }
 
-  return toolData;
+  return categorized;
 }
 
 export function getVersion() {
-  const changelogPath = path.join(process.cwd(), "database", "CHANGELOG.md");
+  const changelogPath = path.join(process.cwd(), "content", "CHANGELOG.md");
 
   try {
     const changelogContent = fs.readFileSync(changelogPath, "utf-8");
@@ -117,11 +88,7 @@ export function getVersion() {
       const lastMatch = matches[matches.length - 1];
       const version = lastMatch[1];
       const label = lastMatch[2];
-
-      return {
-        version: version,
-        label: label,
-      };
+      return { version, label };
     }
   } catch (error) {
     console.error("Error reading CHANGELOG.md:", error);
@@ -133,28 +100,17 @@ export function getVersion() {
   };
 }
 
-
-
-
-export function getToolSVGs(id) {
-  const defaultSVG = `/icons/tools/${id}/default.svg`;
-  const activeSVG = `/icons/tools/${id}/active.svg`;
-
-  return [defaultSVG, activeSVG];
-}
-
 export async function getCategory(category) {
-  const categories = require("database/tools/categories.json");
+  const categories = require("content/categories.json");
+
   if (category === "categoryShowAll") {
-    const allCategories = Object.entries(categories).map(
-      ([category, categoryData]) => ({
-        category,
-        description: categoryData,
-        svgIconPath: `/icons/tools/category/${category}.svg`,
-      })
-    );
-    return allCategories;
+    return Object.entries(categories).map(([cat, desc]) => ({
+      category: cat,
+      description: desc,
+      svgIconPath: `/icons/tools/category/${cat}.svg`,
+    }));
   }
+
   const { short, long } = categories[category];
   return {
     category: [

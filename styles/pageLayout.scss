@@ -8,7 +8,9 @@
   grid-gap: $space-5;
 }
 .main__container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 17% 83%;
+  
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: #f8f9fb;
@@ -25,10 +27,15 @@
     overflow-x: hidden;
     .sideNav_container {
       box-sizing: border-box;
+      background-color: $colors-panel;
+      details{
+        padding: 0 $space-3;
+        
+      }
       .sideNav_title {
         box-sizing: border-box;
-        padding: 0 $space-6;
-        font-weight: 500;
+        border-radius: $radii-4;
+        font-weight: 800;
         text-transform: uppercase;
         font-size: $fontSizes-3;
         color: $colors-violet11;
@@ -54,29 +61,32 @@
           color: $colors-slate11;
         }
         .list_category_title {
-          background-color: $colors-panel;
-          font-weight: 500;
+          
+          font-weight: 700;
           color: $colors-text;
-          font-size: $fontSizes-3;
+          font-size: $fontSizes-2;
           box-sizing: border-box;
-          padding: $space-4 $space-6;
-          border-bottom: 1px solid $colors-gray4;
+          padding: $space-3 $space-3;
           cursor: pointer;
           text-transform: uppercase;
+
+          &:hover{
+            background-color: $colors-slate2;
+            border-radius: $radii-4;
+          }
         }
         .category_active {
           color: $colors-violet11;
         }
         .list_item_container {
-          padding: $space-2 0;
+          padding: $sizes-2;
           box-sizing: border-box;
           background-color: rgba($color: #ffffff, $alpha: 0.8);
           box-sizing: border-box;
-          box-shadow: $colors-violet4 0 4px 8px inset,
-            $colors-violet4 0 -4px 8px inset;
           .list_item_title {
-            padding: $space-2 $space-7;
+            padding: $space-2;
             text-transform: capitalize;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             flex-direction: row;
@@ -86,7 +96,7 @@
             &::before {
               content: "";
               position: absolute;
-              left: $space-5;
+              left: 0 ;
               top: 0;
               height: 100%;
               width: 0.5px;
@@ -108,7 +118,7 @@
             &::before {
               content: "";
               position: absolute;
-              left: $space-5;
+              left: 0;
               top: 0;
               height: 100%;
               width: 1px;
@@ -139,19 +149,32 @@
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
-      justify-content: flex-start;
+      justify-content: space-between;
       gap: 1rem;
+      padding: 0 $sizes-9;
       .pageMeta {
         display: flex;
         width: 100%;
         flex-direction: row;
         align-content: center;
         align-items: center;
+        gap: $sizes-4;
         justify-content: space-between;
-        background: white;
-        border: 1px solid #e2e2e2;
+        align-items: center;
+
         border-radius: 6px;
         padding: 0rem $space-5;
+
+        .metaInfo{
+          display: flex;
+          flex-direction: row;
+          gap: $sizes-5;
+          align-items: center;
+        }
+        
+        #toolTitle{
+          font-size: $fontSizes-6;
+        }
         .toolIcon {
           margin-right: $space-5;
         }
@@ -162,6 +185,13 @@
 .SideBar_toggle{
   display: none;
 }
+
+.verticalDivider {
+  width: 1px;
+  height: 25px;
+  background-color: #ccc; // or use your theme's gray color
+}
+
 @media (max-width: 768px) {
 
   .container {

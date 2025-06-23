@@ -3,7 +3,7 @@ import 'styles/globals.scss';
 import 'styles/Header.scss';
 import 'styles/pageLayout.scss';
 import 'styles/Archieve.scss';
-import { Space_Grotesk, PT_Mono, Manrope } from 'next/font/google';
+import { Space_Grotesk, PT_Mono, Manrope, Overpass } from 'next/font/google';
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 import { useState, useEffect } from 'react';
@@ -17,6 +17,7 @@ import { Analytics } from '@vercel/analytics/react';
 const space = Space_Grotesk({ subsets: ['latin'] });
 const manrope = Manrope({ subsets: ['latin'] });
 const pt_mono = PT_Mono({ subsets: ['latin'], weight: ['400'] });
+const overpass = Overpass({ subsets: ['latin'] });
 
 export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
@@ -65,32 +66,32 @@ export default function App({ Component, pageProps }) {
       />
        <style jsx global>{`
         html, a, span, div, input, textarea, button, p, details, summary, h1, h2, h3, h4, h5, h6 {
-          font-family: ${manrope.style.fontFamily};
+          font-family: ${overpass.style.fontFamily};
         }
 
         .tn_text, .table tr th, .table tr td{
-          font-family: ${manrope.style.fontFamily}
+          font-family: ${overpass.style.fontFamily}
         }
 
         h1, h2, h3, h4, h5, h6{
-          font-family: ${space.style.fontFamily};
+          font-family: ${overpass.style.fontFamily};
           margin: 21px 0px;
         }
 
         .tn_textarea_code{
-          font-family: ${pt_mono.style.fontFamily};
+          font-family: ${overpass.style.fontFamily};
         }
         .list_category_title{
-          font-family: ${space.style.fontFamily};
+          font-family: ${overpass.style.fontFamily};
         }
         .list_item_title a{
-          font-family: ${manrope.style.fontFamily};
+          font-family: ${overpass.style.fontFamily};
         }
         textarea.code{
-          font-family: ${pt_mono.style.fontFamily}
+          font-family: ${overpass.style.fontFamily}
         }
         strong.colorMeta{
-          font-family: ${space.style.fontFamily}
+          font-family: ${overpass.style.fontFamily}
         }
       `}</style>
       <Component {...pageProps} />

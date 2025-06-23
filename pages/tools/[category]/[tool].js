@@ -9,7 +9,7 @@ import ToolLayout from "/components/layouts/Tool"
 
 // This function runs at build time and specifies which paths should be pre-rendered
 export async function getStaticPaths() {
-  const toolFiles = getAllToolIds()
+  const toolFiles = await getAllToolIds()
 
   const paths = toolFiles.map(({ category, tool }) => ({
     params: { category: category.toLowerCase(), tool: tool.toLowerCase() },
@@ -22,19 +22,28 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const categorizedTools = await getAllToolsCategorized()
-  const { tool } = params
+  const categorizedTools = await getAllToolsCategorized();
+  const { tool } = params;
 
-  // Fetch data based on the tool name
-  const toolData = await getToolData(tool)
+  const toolData = await getToolData(tool);
+
+  if (!toolData) {
+    return {
+      notFound: true, // This tells Next.js to show the 404 page
+    };
+  }
+
+  console.log("toolData from getStaticProps:", toolData);
+
 
   return {
     props: {
       toolData,
       categorizedTools,
     },
-  }
+  };
 }
+
 
 export default function ToolPage({ toolData, categorizedTools }) {
 

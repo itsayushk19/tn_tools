@@ -29,22 +29,22 @@ export default function Sidebar({ categorizedTools }) {
   };
 
   const isCurrentTool = (tool) => {
-    return slugify(tool.id) === getCurrentToolId();
+    return slugify(tool.name) === getCurrentToolId();
   };
 
   return (
     <div className="sideNav_container">
-      <h4 className="sideNav_title">Tool Categories</h4>
+
       {Object.entries(categorizedTools).map(([categoryName, tools]) => (
         <details
           key={`category-${categoryName}`}
           open={tools.some(isCurrentTool)}
         >
           <summary
-            className={`list_category_title ${
-              tools.some(isCurrentTool) ? "category_active" : ""
-            }`}
+            className={`list_category_title ${tools.some(isCurrentTool) ? "category_active" : ""
+              }`}
           >
+            
             {categoryName} Tools
           </summary>
           <div className="list_item_container">
@@ -54,16 +54,15 @@ export default function Sidebar({ categorizedTools }) {
               )
               .map((tool) => (
                 <div
-                  className={`list_item_title ${
-                    isCurrentTool(tool) ? "openNow" : ""
-                  }`}
-                  key={`tool-${categoryName}-${tool.id}`}
+                  className={`list_item_title ${isCurrentTool(tool) ? "openNow" : ""
+                    }`}
+                  key={`tool-${categoryName}-${tool.name}`}
                   onMouseEnter={() => handleToolHover(tool)}
                   onMouseLeave={() => setActiveTool(null)}
                   onClick={() =>
-                    (window.location.href = `/tools/${slugify(
-                      tool.category
-                    )}/${slugify(tool.id)}`)
+                  (window.location.href = `/tools/${slugify(
+                    tool.category
+                  )}/${slugify(tool.name)}`)
                   }
                 >
                   <Image
@@ -73,20 +72,19 @@ export default function Sidebar({ categorizedTools }) {
                     alt={tool.title}
                   />
                   <Link
-                    className={` ${
-                      currentPath === `/tools/${slugify(tool.id)}`
+                    className={` ${currentPath === `/tools/${slugify(tool.name)}`
                         ? `${Sidebar.active}`
                         : ""
-                    }`}
+                      }`}
                     href={`/tools/${slugify(tool.category)}/${slugify(
-                      tool.id
+                      tool.name
                     )}`}
                   >
                     {tool.title
                       .toLowerCase()
                       .includes(searchQuery.toLowerCase()) ? (
                       <span>
-                        {tool.id
+                        {tool.name
                           .toLowerCase()
                           .replace(/-/g, " ") // Replace all occurrences of "-" with whitespace
                           .split(searchQuery.toLowerCase())
