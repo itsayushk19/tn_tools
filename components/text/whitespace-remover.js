@@ -32,23 +32,31 @@ export default function WhiteSpaceRemover() {
     return textWithWhitespaceAfterPunctuation;
   };
 
-  const handleRemoveWhitespaceClick = () => {
-    // Apply all selected case conversions before removing whitespace
-    let convertedText = inputText;
-    for (const option in conversionOptions) {
-      if (conversionOptions[option]) {
-        convertedText = handleCaseConversion(option, convertedText);
-      }
-    }
-
-    // Remove whitespace
-    const cleanedText = removeExtraWhitespace(convertedText);
-    setInputText(cleanedText);
-
-    toast.success("Whitespace removed successfully!", {
-      position: "top-center",
+const handleRemoveWhitespaceClick = async () => {
+  try {
+    const res = await fetch("/api/remove-whitespace", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: inputText, options: conversionOptions }),
     });
-  };
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setInputText(data.cleanedText);
+      toast.success("Whitespace removed successfully!", {
+        position: "top-center",
+      });
+    } else {
+      toast.error(data.error || "Failed to clean text.");
+    }
+  } catch (error) {
+    console.error("API error:", error);
+    toast.error("Something went wrong.");
+  }
+};
 
   const handleCaseConversion = (conversionType, text) => {
     let convertedText = "";

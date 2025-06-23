@@ -1,130 +1,61 @@
-  import { useState } from "react";
-  import { toast } from "react-toastify";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
-  export default function LoremIpsumGenerator() {
-    const [paragraphCount, setParagraphCount] = useState(1);
-    const [avgWordsPerSentence, setAvgWordsPerSentence] = useState(10);
-    const [avgSentencesPerParagraph, setAvgSentencesPerParagraph] = useState(5);
-    const [outputText, setOutputText] = useState("Lorem ipsum dolor sit amet. aute laboris aute exercitation reprehenderit pariatur aute. mollit culpa qui do nisi quis quis consequat. adipisicing ex aliqua amet ex magna voluptate. voluptate aliqua exercitation et ea magna ex do mollit et. id labore deserunt dolor sit non adipisicing elit pariatur sit exercitation.");
+export default function LoremIpsumGenerator() {
+  const [paragraphCount, setParagraphCount] = useState(1);
+  const [avgWordsPerSentence, setAvgWordsPerSentence] = useState(10);
+  const [avgSentencesPerParagraph, setAvgSentencesPerParagraph] = useState(5);
+  const [outputText, setOutputText] = useState(
+    "Lorem ipsum dolor sit amet. aute laboris aute exercitation reprehenderit pariatur aute. mollit culpa qui do nisi quis quis consequat. adipisicing ex aliqua amet ex magna voluptate. voluptate aliqua exercitation et ea magna ex do mollit et. id labore deserunt dolor sit non adipisicing elit pariatur sit exercitation."
+  );
 
-    const handleParagraphCountChange = (event) => {
-      const value = parseInt(event.target.value);
-      setParagraphCount(value);
-    };
+  const handleGenerate = async () => {
+    try {
+      const res = await fetch("/api/generate-lorem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          paragraphCount,
+          avgWordsPerSentence,
+          avgSentencesPerParagraph,
+        }),
+      });
 
-    const handleAvgWordsPerSentenceChange = (event) => {
-      const value = parseInt(event.target.value);
-      setAvgWordsPerSentence(value);
-    };
+      if (!res.ok) throw new Error("Failed to generate text");
 
-    const handleAvgSentencesPerParagraphChange = (event) => {
-      const value = parseInt(event.target.value);
-      setAvgSentencesPerParagraph(value);
-    };
-
-    const handleCopy = (event) => {
-      if (!outputText) {
-        toast.warn("Output field is empty!", { autoClose: 1000 });
-      } else {
-        navigator.clipboard.writeText(outputText);
-        toast.success(`Your Text Successfully Copied!`, { autoClose: 500 });
-      }
+      const data = await res.json();
+      setOutputText(data.text);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to generate text");
     }
+  };
 
-    const handleReset = (event) => {
-      setOutputText("")
+  const handleCopy = () => {
+    if (!outputText) {
+      toast.warn("Output field is empty!", { autoClose: 1000 });
+    } else {
+      navigator.clipboard.writeText(outputText);
+      toast.success(`Your Text Successfully Copied!`, { autoClose: 500 });
     }
+  };
 
-    const generateLoremIpsum = () => {
-      let loremIpsum = "Lorem ipsum dolor sit amet";
-      const words = [
-        "ad",
-        "adipisicing",
-        "aliqua",
-        "aliquip",
-        "amet",
-        "anim",
-        "aute",
-        "cillum",
-        "commodo",
-        "consectetur",
-        "consequat",
-        "culpa",
-        "cupidatat",
-        "deserunt",
-        "do",
-        "dolor",
-        "dolore",
-        "duis",
-        "ea",
-        "eiusmod",
-        "elit",
-        "enim",
-        "esse",
-        "est",
-        "et",
-        "eu",
-        "ex",
-        "excepteur",
-        "exercitation",
-        "fugiat",
-        "id",
-        "in",
-        "incididunt",
-        "ipsum",
-        "irure",
-        "labore",
-        "laboris",
-        "laborum",
-        "Lorem",
-        "magna",
-        "minim",
-        "mollit",
-        "nisi",
-        "non",
-        "nostrud",
-        "nulla",
-        "occaecat",
-        "officia",
-        "pariatur",
-        "proident",
-        "qui",
-        "quis",
-        "reprehenderit",
-        "sint",
-        "sit",
-        "sunt",
-        "tempor",
-        "ullamco",
-        "ut",
-        "velit",
-        "veniam",
-        "voluptate",
-      ];
+  const handleReset = () => {
+    setOutputText("");
+  };
 
-      for (let i = 0; i < paragraphCount; i++) {
-        const sentences = [];
-        for (let j = 0; j < avgSentencesPerParagraph; j++) {
-          const wordsCount = Math.floor(
-            Math.random() * (avgWordsPerSentence + 1) + avgWordsPerSentence / 2
-          );
-          const sentence = [];
-          for (let k = 0; k < wordsCount; k++) {
-            const randomIndex = Math.floor(Math.random() * words.length);
-            sentence.push(words[randomIndex]);
-          }
-          sentences.push(sentence.join(" "));
-        }
-        loremIpsum += ". " + sentences.join(". ") + ".";
-      }
+  const handleParagraphCountChange = (e) => {
+    setParagraphCount(parseInt(e.target.value));
+  };
+  const handleAvgWordsPerSentenceChange = (e) => {
+    setAvgWordsPerSentence(parseInt(e.target.value));
+  };
+  const handleAvgSentencesPerParagraphChange = (e) => {
+    setAvgSentencesPerParagraph(parseInt(e.target.value));
+  };
 
-      return loremIpsum.trim();
-    };
-
-    const handleGenerate = () => {
-      const lorem = generateLoremIpsum();
-      setOutputText(lorem);
-    };
 
     return (
       <>

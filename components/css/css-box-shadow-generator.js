@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import colorDictionary from "./colors.json";
 import Highlight from "react-highlight";
 import ColorModal from "../elemental/colorModal";
+
 
 export default function LoremIpsumGenerator() {
   const defaultSettings = {
@@ -40,6 +41,8 @@ export default function LoremIpsumGenerator() {
   );
   const [inset, setInset] = useState(defaultSettings.inset);
   const [outputCSS, setOutputCSS] = useState("");
+  const debounceTimeout = useRef(null);
+
 
   const handleCopy = () => {
     // Copy the CSS code to the clipboard
@@ -88,12 +91,44 @@ export default function LoremIpsumGenerator() {
   };
 
   useEffect(() => {
-    // Build the full CSS string with all vendor prefixes for box shadow
-    const outputCSS = generateCSS();
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
 
-    // Update the state variable
-    setOutputCSS(outputCSS);
+    debounceTimeout.current = setTimeout(() => {
+      const fetchCSS = async () => {
+        try {
+          const response = await fetch("/api/generate-box-shadow", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              HorizOff,
+              VertOff,
+              Blur,
+              Spread,
+              thirdColor,
+              inset,
+            }),
+          });
+
+          if (!response.ok) throw new Error("API call failed");
+
+          const data = await response.json();
+          setOutputCSS(data.css);
+        } catch (err) {
+          toast.error("Error generating CSS");
+        }
+      };
+
+      fetchCSS();
+    }, 400); // 400ms debounce
+
+    return () => clearTimeout(debounceTimeout.current);
   }, [HorizOff, VertOff, Blur, Spread, thirdColor, inset]);
+
+
 
   const handleInsetToggle = () => {
     setInset(!inset);
@@ -323,9 +358,8 @@ export default function LoremIpsumGenerator() {
             <div className="vertiCal">
               <button
                 onClick={handleInsetToggle}
-                className={`tn_button tn_button_small tn_button_round ${
-                  inset ? "tn_button_primary" : ""
-                }`}
+                className={`tn_button tn_button_small tn_button_round ${inset ? "tn_button_primary" : ""
+                  }`}
               >
                 {inset ? "Disable Inset" : "Enable Inset"}
               </button>

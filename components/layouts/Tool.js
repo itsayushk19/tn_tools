@@ -8,13 +8,14 @@ import { useState, useEffect } from "react";
 import BugPopup from "../site/BugPopup";
 import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 import Image from "next/image";
+import ToolSkeleton from "../../components/shared/loader";
 
 export default function ToolLayout({ children, toolData, categorizedTools }) {
-
   const ToolEmbedd = dynamic(
     () => import(`/components/tools/${toolData.category}.js`),
     {
-      loading: () => <p>Loading...</p>,
+      loading: () => <ToolSkeleton />,
+      ssr: false,
     }
   );
 
@@ -27,7 +28,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
   useEffect(() => {
     const handleEscClose = (e) => {
       if (e.keyCode === 27) {
-        setPopupVisible();
+        setPopupVisible(false);
       }
     };
     document.addEventListener("keydown", handleEscClose);
@@ -35,7 +36,6 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, []);
-
 
   const title = `${toolData.title} Online | Free WebTool By TechNeg`;
 
@@ -47,14 +47,12 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
       description: `${toolData.description}`,
       type: "website",
       site_name: "Free WebTools By TechNeg",
-      // Add your breadcrumb data here
       article: {
         publishedTime: `${toolData.date}`,
         section: `${toolData.category}`,
         tags: `${toolData.category}`,
       },
     },
-    // Add other SEO configurations here
   };
 
   const breadcrumbItems = [
@@ -96,13 +94,11 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
           <div className="tool__embed">
             <div className="pageMeta">
               <div className="metaInfo">
-                <Image src={toolData.defaultSVG} width={35} height={35} />
+                <Image src={toolData.defaultSVG} width={35} height={35} alt={toolData.title} />
                 <div className="verticalDivider"></div>
                 <h1 id="toolTitle">
-                  {toolData?.name?.replace(/-/g, ' ').toUpperCase() ?? "Unknown Tool"}
+                  {toolData?.name?.replace(/-/g, " ").toUpperCase() ?? "Unknown Tool"}
                 </h1>
-
-
               </div>
               <button
                 className="tn_button tn_button_small bug_button"

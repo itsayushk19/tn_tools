@@ -139,19 +139,32 @@ const TweetGenerator = () => {
     setTime(date);
   };
 
-  const handleExportImage = () => {
-    html2canvas(tweetCardRef.current).then((canvas) => {
-      const image = canvas.toDataURL("image/png");
+const handleExportImage = async () => {
+  const tweetHTML = tweetCardRef.current.outerHTML;
 
-      // Create a link element and set the image data as its href
-      const link = document.createElement("a");
-      link.href = image;
-      link.download = "tweet-preview.png";
+  const response = await fetch("/api/tweet-generator", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      html: `<div id="tweet-image">${tweetHTML}</div>`,
+    }),
+  });
 
-      // Simulate a click on the link to trigger the download
-      link.click();
-    });
-  };
+  if (!response.ok) {
+    return alert("Failed to generate image");
+  }
+
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "tweet-preview.png";
+  link.click();
+};
+
 
   return (
     <>

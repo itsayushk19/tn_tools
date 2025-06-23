@@ -1,6 +1,5 @@
 import CustomDropdown from "components/elemental/dropDownSelection.js";
 import CustomCheckbox from "../elemental/checkBox";
-import { randomBytes } from "crypto";
 import { useState, useEffect, useRef } from "react";
 
 export default function PasswordGenerator() {
@@ -8,7 +7,7 @@ export default function PasswordGenerator() {
   const [filteredBars, setFilteredBars] = useState(0);
   const [PasswordLength, setPasswordLength] = useState(5);
   const [strengthScore, setStrengthScore] = useState(0);
-  const [StrengthCode, setStrengthCode] = useState("")
+  const [StrengthCode, setStrengthCode] = useState("");
   const [Color, setColor] = useState("");
   const [Password, setPassword] = useState("");
   const [shuffledPasswords, setShuffledPasswords] = useState([]);
@@ -20,25 +19,50 @@ export default function PasswordGenerator() {
     symbols: false,
   });
 
+  // 🔁 API: Generate a password
+  const generatePasswordAPI = async () => {
+    const res = await fetch("/api/generate-password  ", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ length: PasswordLength, options: Options }),
+    });
+    const data = await res.json();
+    return data.password;
+  };
+
+  // 🔁 API: Calculate password strength
+  const scorePasswordAPI = async () => {
+    const res = await fetch("/api/password-score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ length: PasswordLength, options: Options }),
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  // 🌀 Animate password shuffling via API
   useEffect(() => {
     if (isAnimating) {
       let animationTimer;
-      const animationDuration = 1000; // 1 seconds
-      const intervalTime = 50; // 0.1 seconds
+      const animationDuration = 1000;
+      const intervalTime = 50;
 
-      const animatePasswordShuffling = () => {
-        const newShuffledPasswords = [];
-        for (let i = 0; i < 7 + Math.floor(Math.random() * 4); i++) {
-          newShuffledPasswords.push(generateRandomPassword());
+      const animatePasswordShuffling = async () => {
+        const passwords = [];
+        const count = 7 + Math.floor(Math.random() * 4);
+        for (let i = 0; i < count; i++) {
+          const pwd = await generatePasswordAPI();
+          passwords.push(pwd);
         }
-        setShuffledPasswords(newShuffledPasswords);
+        setShuffledPasswords(passwords);
       };
 
       const stopAnimation = () => {
         clearInterval(animationTimer);
         setIsAnimating(false);
         setPassword(shuffledPasswords[shuffledPasswords.length - 1]);
-        setFilteredBars(0); // Reset the filtered bars counter
+        setFilteredBars(0);
       };
 
       animatePasswordShuffling();
@@ -49,102 +73,23 @@ export default function PasswordGenerator() {
     }
   }, [isAnimating]);
 
-  const handlePasswordLength = (PasswordLength) => {
-    setPasswordLength(PasswordLength);
+  const handlePasswordLength = (val) => {
+    setPasswordLength(val);
   };
 
-  const handleCheckboxChange = (Option) => {
-    setOptions({
-      ...Options,
-      [Option]: !Options[Option],
-    });
-  };
-  const generateRandomPassword = () => {
-    const strength = PasswordLength || 8;
-    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numberChars = "0123456789";
-    const symbolChars = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-    let validChars = "";
-    let generatedPassword = "";
-
-    if (Options.lowercase) validChars += lowercaseChars;
-    if (Options.uppercase) validChars += uppercaseChars;
-    if (Options.numbers) validChars += numberChars;
-    if (Options.symbols) validChars += symbolChars;
-
-    const validCharsLength = validChars.length;
-
-    for (let i = 0; i < strength; i++) {
-      const randomIndex = randomBytes(1)[0] % validCharsLength;
-      generatedPassword += validChars[randomIndex];
-    }
-
-    setPassword(generatedPassword);
+  const handleCheckboxChange = (key) => {
+    setOptions((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
-  const handleGeneratePassword = () => {
+  const handleGeneratePassword = async () => {
     setIsAnimating(true);
-    passwordScore();
-  };
-
-  const countCheckedItems = (options) => {
-    let count = 0;
-    for (const option of Object.values(options)) {
-      if (option === true) {
-        count++;
-      }
-    }
-    return count;
-  };
-
-  const getColorFromStrengthScore = (score) => {
-    const colorRanges = [
-      { score: 0, strength: "V. Weak", color: "red" },
-      { score: 20, strength: "Weak", color: "tangerine" },
-      { score: 40, strength: "Weak", color: "orange" },
-      { score: 60, strength: "Normal", color: "yellow" },
-      { score: 70, strength: "Strong", color: "light green" },
-      { score: 80, strength: "Strong", color: "green" },
-      { score: 100, strength: "V. Strong", color: "very green" },
-    ];
-
-    let strength = "very weak";
-    let color = "red"; // Default color
-
-    for (const range of colorRanges) {
-      if (score <= range.score) {
-        strength = range.strength;
-        color = range.color;
-        break;
-      }
-    }
-
-    return { strength, color };
-  };
-
-  const passwordScore = () => {
-    const lengthReplacements = {
-      256: 129,
-      512: 130,
-      1024: 131,
-      2048: 132,
-    };
-    const replacedLength = lengthReplacements[PasswordLength] || PasswordLength;
-    const lengthScore = 70 / 132;
-    const finalLengthScore = replacedLength * lengthScore;
-
-    const optionScore = 30 / 4;
-    const checkedItemCount = countCheckedItems(Options);
-    const finalOptionScore = checkedItemCount * optionScore;
-
-    const PasswordScore = finalLengthScore + finalOptionScore;
-    const {color, strength} = getColorFromStrengthScore(PasswordScore);
-
-    setColor(color);
-    setStrengthScore(PasswordScore);
-    setStrengthCode(strength);
+    const score = await scorePasswordAPI();
+    setStrengthScore(score.score);
+    setStrengthCode(score.strength);
+    setColor(score.color);
   };
 
   return (
