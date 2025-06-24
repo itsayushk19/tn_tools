@@ -122,3 +122,14 @@ export async function getCategory(category) {
     ],
   };
 }
+
+export async function getAllToolLabels () {
+  const db = await getDBConnection()
+  const rows = await db.all("SELECT name, category, tag FROM tools")
+  await db.close()
+
+  console.log('function called')
+
+
+return rows.map(({ name, category, tag }) => ({ name, category, tag }));
+}

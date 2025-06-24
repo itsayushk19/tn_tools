@@ -10,7 +10,7 @@ import { NextSeo, BreadcrumbJsonLd } from "next-seo";
 import Image from "next/image";
 import ToolSkeleton from "../../components/shared/loader";
 
-export default function ToolLayout({ children, toolData, categorizedTools }) {
+export default function ToolLayout({ children, toolData, categorizedTools, toolLabels }) {
   const ToolEmbedd = dynamic(
     () => import(`/components/tools/${toolData.category}.js`),
     {
@@ -85,7 +85,7 @@ export default function ToolLayout({ children, toolData, categorizedTools }) {
         <meta name="description" content={toolData.description} />
         <meta name="keywords" content={toolData.category} />
       </Head>
-      <Header categorizedTools={categorizedTools} />
+      <Header categorizedTools={categorizedTools} toolLabels={toolLabels} />
       <div className="main__container">
         <aside className="sideNav">
           <Sidebar categorizedTools={categorizedTools} />

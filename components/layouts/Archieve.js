@@ -11,6 +11,7 @@ export default function ArchieveLayout({
   categorizedTools,
   category,
   categoryObject,
+  toolLabels
 }) {
   const [hoveredTool, setHoveredTool] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +40,7 @@ export default function ArchieveLayout({
 
   return (
     <>
-      <Header categorizedTools={categorizedTools} />
+      <Header categorizedTools={categorizedTools} toolLabels={toolLabels} />
       <main className="archieve_container">
         <div className="archieve_hero hero_1">
           <div className="hero_inner">

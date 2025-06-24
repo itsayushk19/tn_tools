@@ -1,5 +1,5 @@
 import ArchieveLayout from "components/layouts/Archieve";
-import {getCategory, getAllToolsCategorized, getVersion } from "/utils/tools";
+import {getCategory, getAllToolsCategorized, getVersion, getAllToolLabels } from "/utils/tools";
 
 import Header from "components/site/Header";
 import Footer from "../../components/site/Footer";
@@ -13,7 +13,8 @@ export default function AllCategories({
   children,
   categoryObject,
   categorizedTools,
-  version
+  version,
+  toolLabels
 }) {
   const [hoveredTool, setHoveredTool] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,7 +46,7 @@ export default function AllCategories({
       <title>Free WebTools By TechNeg | Coding, Hashing & Encryption, Converters & More!</title>
       <meta name="description" content="Discover a collection of free web tools that can simplify your development workflow. From code minifiers and validators to image compressors and color pickers, our website offers a variety of handy tools to enhance your web development experience." />
     </Head>
-      <Header categorizedTools={categorizedTools} version={version}  />
+      <Header categorizedTools={categorizedTools} version={version} toolLabels={toolLabels}  />
       <main className="archieve_container">
         <div className="archieve_hero hero_1">
           <div className="hero_inner">
@@ -179,12 +180,14 @@ export async function getStaticProps() {
   const category = 'categoryShowAll';
   const categoryObject = await getCategory(category);
   const categorizedTools = await getAllToolsCategorized();
+  const toolLabels = await getAllToolLabels()
 
   return {
     props: {
       categoryObject,
       categorizedTools,
-      version
+      version,
+      toolLabels
     },
   };
 }
